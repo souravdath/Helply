@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Your Application | Helply</title>
+  <!-- Link to your external stylesheet -->
+  <link rel="stylesheet" href="styles.css"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">HELPLY</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#">Jobs</a>
+        <a href="#">Post a Job</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Job Request Form -->
+  <div class="job-request-container">
+    <!-- Static job title -->
+    <h2>Apply for: Campus Ambassador</h2>
+    
+    <!-- User confirmation section with static placeholder data -->
+    <div class="user-info">
+      <p>You are applying as:</p>
+      <p><strong>Full Name:</strong> John Doe</p>
+      <p><strong>Email:</strong> john.doe@email.com</p>
+      <p><small>Not you? <a href="#">Log out</a> or <a href="#">edit your profile</a>.</small></p>
+    </div>
+
+    <form id="jobRequestForm" enctype="multipart/form-data">
+      <label for="resume">Upload a new Resume (Optional)</label>
+      <p>
+        If you don't upload a new one, the resume from your profile will be used.
+      </p>
+      <input type="file" id="resume" name="resume">
+
+      <label for="message">Cover Letter / Message</label>
+      <textarea id="message" name="message" rows="6" placeholder="Why are you a great fit for this role?"></textarea>
+
+      <button type="submit">Confirm and Submit Application</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Helply. All rights reserved.</p>
+  </footer>
+
+  <!-- Client-side script for form confirmation -->
+  <script>
+    document.getElementById('jobRequestForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // A better confirmation than a simple alert
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Application Submitted!';
+      btn.style.backgroundColor = '#28a745'; // Green color for success
+      // Reset the button after a delay
+      setTimeout(() => {
+        this.reset();
+        btn.textContent = 'Confirm and Submit Application';
+        btn.style.backgroundColor = '#0073e6';
+      }, 3000);
+    });
+  </script>
+
+</body>
+</html>
