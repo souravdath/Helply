@@ -47,11 +47,9 @@ app.get('/profile', (req, res) => {
 
 // Define the port on which the server will listen
 // It will use the port specified in environment variables (e.g., for deployment) or default to 3000
-const PORT = process.env.PORT || 3000;
+
 
 // Start the server and listen for incoming requests on the specified port
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    console.log(`Open your browser to: http://localhost:${PORT}`);
-    console.log(`Access the profile page at: http://localhost:${PORT}/profile`);
+app.listen(3000, () => {
+    console.log("port 8080 is listenning");
 });
