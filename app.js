@@ -51,5 +51,5 @@ app.get('/profile', (req, res) => {
 
 // Start the server and listen for incoming requests on the specified port
 app.listen(3000, () => {
-    console.log("port 8080 is listenning");
+    console.log("port 3000 is listenning");
 });
