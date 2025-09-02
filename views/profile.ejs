@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helply - User Profile</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- Google Fonts - Inter for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="profile-container">
+        <header class="profile-header">
+            <h1>Your Profile</h1>
+            <p>Manage your personal information and preferences.</p>
+        </header>
+
+        <main class="profile-main">
+            <div class="profile-card">
+                <div class="profile-avatar-section">
+                    <!-- Dummy Profile Picture (replace with dynamic image later) -->
+                    <img src="https://placehold.co/120x120/A78BFA/FFFFFF?text=JD" alt="Profile Avatar" class="profile-avatar">
+                    <!-- Dummy Name (replace with <%= user.name %>) -->
+                    <h2 class="profile-name">John Doe</h2>
+                    <!-- Dummy Role (replace with <%= user.role %>) -->
+                    <p class="profile-role">Volunteer</p>
+                </div>
+
+                <div class="profile-details-section">
+                    <h3>Personal Information</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span>
+                        <!-- Dummy Email (replace with <%= user.email %>) -->
+                        <span class="detail-value">john.doe@example.com</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Phone:</span>
+                        <!-- Dummy Phone (replace with <%= user.phone %>) -->
+                        <span class="detail-value">+1 (555) 123-4567</span>
+                    </div>
+                    <!-- You can add more dummy details here like Address, Date of Birth etc. -->
+                    <!-- Example:
+                    <div class="detail-item">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value">123 Main St, Anytown, USA</span>
+                    </div>
+                    -->
+                </div>
+
+                <div class="profile-actions-section">
+                    <h3>Account Actions</h3>
+                    <button class="action-button primary">Edit Profile</button>
+                    <button class="action-button secondary">Change Password</button>
+                    <button class="action-button danger">Delete Account</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="profile-footer">
+            <p>&copy; 2023 Helply. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
