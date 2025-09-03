@@ -54,7 +54,7 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: #0077cc; }
 .testimonial { display: none; font-style: italic; padding: 1.5rem; background: #eef6fb; border-radius: 10px; margin: 2rem 20rem; }
 
 /* CTA */
-.cta { background: #191a1a; color: #fff; padding: 2rem ; border-radius: 10px; margin: 2rem 35rem; }
+.cta { background: #191a1a; color: #fff; padding: 2rem ; border-radius: 10px; margin: 2rem 25rem; }
 .cta h3 { margin-bottom: 1rem; }
 .cta button { background: #ff9800; padding: 0.7rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background 0.3s; margin: 0 0.5rem; }
 .cta button:hover { background: #e68900; }
