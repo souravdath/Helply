@@ -17,7 +17,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #2d89ef;
+  background: #A27B5C;
   padding: 15px 30px;
   color: #fff;
 }
@@ -92,7 +92,7 @@ body {
 }
 
 .job-card h3 {
-  color: #2d89ef;
+  color: #483519;
   margin-bottom: 10px;
 }
 
@@ -105,7 +105,7 @@ body {
   margin-top: 10px;
   padding: 10px 15px;
   border: none;
-  background: #2d89ef;
+  background: #e68900;
   color: #fff;
   border-radius: 8px;
   cursor: pointer;
