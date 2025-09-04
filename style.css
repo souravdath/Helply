@@ -30,7 +30,7 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: #0077cc; }
 .step:hover { transform: translateY(-5px); }
 
 /* Categories */
-.cat{background-color: #2C3639; padding: 5rem;}
+.cat{background-image: url('360_F_200686969_GJ7zbz2qaNIE4dyHSbZkQXvNPzRuwlr3.jpg'); padding: 5rem;}
 .categories {  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
 .category { padding: 1.5rem; background: #eef6fb; border-radius: 10px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
 .category:hover { background: #0077cc; color: #fff; transform: scale(1.05); }
@@ -43,13 +43,13 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: #0077cc; }
 .card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
 /* Reasons */
-.whychoose{background-color: #DCD7C9; padding: 5rem;}
+.whychoose{background-image: url('elegant-beige-geometric-pattern-subtle-off-white-lines-create-a-repeating-hexagonal-design-ideal-for-website-backgrounds-stationery-or-textile-prints-vector.jpg');padding: 5rem;}
 .reasons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
 .reason { flex: 1 1 200px; background: #f1f1f1; padding: 1.5rem; border-radius: 10px; transition: transform 0.3s; }
 .reason:hover { transform: translateY(-5px); }
 
 /* Testimonials */
-.testimonialss{background-color: #2C3639;}
+.testimonialss{background-image: url('360_F_200686969_GJ7zbz2qaNIE4dyHSbZkQXvNPzRuwlr3.jpg');}
 .testimonials { position: relative; height: 100px; }
 .testimonial { display: none; font-style: italic; padding: 1.5rem; background: #eef6fb; border-radius: 10px; margin: 2rem 20rem; }
 
