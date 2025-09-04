@@ -21,5 +21,8 @@ function searchService() {
   }
 }
 
-// Initialize
+// Initialize first testimonial
 showTestimonial(currentIndex);
+
+// Auto change every 4 seconds
+setInterval(nextTestimonial, 4000);

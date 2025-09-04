@@ -18,6 +18,24 @@ header nav a:hover { color: #ff9800; }
 .search-bar input { padding: 0.7rem; width: 300px; border: none; border-radius: 5px 0 0 5px; }
 .search-bar button { padding: 0.7rem 1rem; border: none; background: #ff9800; color: #fff; border-radius: 0 5px 5px 0; cursor: pointer; transition: background 0.3s; }
 .search-bar button:hover { background: #e68900; }
+/* Hero buttons */
+.hero-buttons {
+  margin-top: 1.5rem;
+}
+.hero-buttons button {
+  background: #ff9800;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+  margin: 0 0.5rem;
+  color: #fff;
+}
+.hero-buttons button:hover {
+  background: #e68900;
+}
 
 /* Sections */
 section { padding: 3rem 2rem; text-align: center; }
