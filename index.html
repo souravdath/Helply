@@ -2,90 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Campus Jobs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helply - Find Daily Help</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Header Section -->
-  <header class="header">
-    <div class="container header-container">
-      <h1 class="logo">HELPLY</h1>
-      <nav class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Jobs</a>
-        <a href="#">Post a Job</a>
-        <a href="#">Contact</a>
-      </nav>
-    </div>
+  <!-- Navbar -->
+  <header>
+    <div class="logo"><h2 style="color: rgb(255, 255, 255); font-family: papyrus ;">helply</h2></div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#how">How it Works</a>
+      <a href="#categories">Browse Jobs</a>
+      <a href="#workers">Become a Worker</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="btn">Login / Sign Up</a>
+    </nav>
   </header>
 
-  <!-- Filter Section -->
-  <section class="filter-section">
-    <form class="filter-form">
-      <input type="text" placeholder="Search job title..." class="filter-input">
-      
-      <select class="filter-input">
-        <option>Job Type</option>
-        <option>Part-Time</option>
-        <option>Remote</option>
-        <option>Internship</option>
-      </select>
+<!-- Hero -->
+<section class="hero">
+  <h1 style="font-family: papyrus;">find trusted help for your daily tasks</h1>
+  <p>Connect with local workers for babysitting, cleaning, tutoring, and more.</p>
 
-      <select class="filter-input">
-        <option>Location</option>
-        <option>On-Campus</option>
-        <option>Online</option>
-        <option>Nearby City</option>
-      </select>
+  <!-- Added buttons inside hero -->
+  <div class="hero-buttons">
+    <button>Start Hiring</button>
+    <button>Find Work</button>
+  </div>
+</section>
 
-      <button type="submit" class="filter-button">Search</button>
-    </form>
+  <!-- How it works -->
+  <section id="how" class="howw">
+    <h2 style="color: #111111;">How It Works</h2>
+    <div class="steps">
+      <div class="step"><h3>1. Post a Job</h3><p>Employers describe the task.</p></div>
+      <div class="step"><h3>2. Connect</h3><p>Browse workers or get applications.</p></div>
+      <div class="step"><h3>3. Get Work Done</h3><p>Quick, reliable, and secure.</p></div>
+    </div>
   </section>
 
-  <!-- Job Listings Section -->
-  <section class="job-listings">
-    <div class="job-card">
-      <h2 class="job-title">Campus Ambassador</h2>
-      <p class="job-meta">Work from Campus • ₹5,000/month</p>
-      <p class="job-desc">Promote our product in your college and earn rewards and bonuses.</p>
-      <button class="apply-btn">Apply Now</button>
+  <!-- Categories -->
+  <section id="categories" class="cat">
+    <h2 style="color: #ffffff;">Browse Categories</h2>
+    <div class="categories">
+      <div class="category">👶 Babysitting</div>
+      <div class="category">📚 Tutoring</div>
+      <div class="category">🧹 Cleaning</div>
+      <div class="category">💡 Electrical</div>
+      <div class="category">🌱 Gardening</div>
+      <div class="category">🚚 Delivery</div>
+      <div class="category">➕ Others</div>
     </div>
-
-    <div class="job-card">
-      <h2 class="job-title">Content Writing Intern</h2>
-      <p class="job-meta">Remote • ₹3,000/month</p>
-      <p class="job-desc">Write articles for our blog and gain exposure and experience.</p>
-      <button class="apply-btn">Apply Now</button>
-    </div>
-
-    <div class="job-card">
-      <h2 class="job-title">Social Media Manager</h2>
-      <p class="job-meta">Remote • ₹4,000/month</p>
-      <p class="job-desc">Manage Instagram and Twitter handles for a startup.</p>
-      <button class="apply-btn">Apply Now</button>
-    </div>
-    <div class="job-card">
-      <h2 class="job-title">Content Writing Intern</h2>
-      <p class="job-meta">Remote • ₹4,000/month</p>
-      <p class="job-desc">Write articles for our blog and gain exposure and experience.</p>
-      <button class="apply-btn">Apply Now</button>
-    </div>
-    <div class="job-card">
-      <h2 class="job-title">Catering Worker</h2>
-      <p class="job-meta">Remote • ₹4,000/month</p>
-      <p class="job-desc">Cook and serve food to customers.</p>
-      <button class="apply-btn">Apply Now</button>
-    </div>
-
   </section>
+
+  <!-- Featured -->
+  <section id="workers" class="workerss">
+    <h2 style="color: #111111;">Featured Workers</h2>
+    <div class="cards">
+      <div class="card"><img src="https://randomuser.me/api/portraits/women/1.jpg" alt="worker"><h3>Anita</h3><p>Tutor | ⭐⭐⭐⭐☆</p></div>
+      <div class="card"><img src="https://randomuser.me/api/portraits/men/2.jpg" alt="worker"><h3>Sunil</h3><p>Electrician | ⭐⭐⭐⭐⭐</p></div>
+      <div class="card"><img src="https://randomuser.me/api/portraits/women/3.jpg" alt="worker"><h3>Ritu</h3><p>Babysitter | ⭐⭐⭐⭐☆</p></div>
+    </div>
+  </section>
+
+  <!-- Why choose -->
+  <section class="whychoose">
+    <h2 style="color: #000000;">Why Choose Helply?</h2>
+    <div class="reasons">
+      <div class="reason"><h3>🔒 Trust & Safety</h3><p>Verified profiles and reviews.</p></div>
+      <div class="reason"><h3>💰 Affordable</h3><p>Hire within your budget and community.</p></div>
+      <div class="reason"><h3>⚡ Fast</h3><p>Find help quickly, anytime.</p></div>
+    </div>
+  </section>
+
+<!-- Testimonials -->
+<section class="testimonialss">
+  <h2 style="color: #cdeaeb;">What People Say</h2>
+  <div class="testimonials" id="testimonial-container">
+    <div class="testimonial">“I found a reliable tutor for my son within minutes!”</div>
+    <div class="testimonial">“Helply helped me earn extra income by offering my electrician services.”</div>
+    <div class="testimonial">“Great platform for connecting with local workers.”</div>
+  </div>
+  <!-- Removed the Next button -->
+</section>
+
 
   <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2025 Campus Jobs. All rights reserved.</p>
-    <p>Helping students earn & grow. Contact: jobs@campusjobs.com</p>
+  <footer id="contact">
+    <p>&copy; 2025 Helply | <a href="#">Privacy</a> | <a href="#">Terms</a></p>
+    <p>Follow us: <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">LinkedIn</a></p>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
