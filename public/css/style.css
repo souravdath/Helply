@@ -11,7 +11,7 @@ header nav a:hover { color: #ff9800; }
 .btn:hover { background: #e68900; }
 
 /* Hero */
-.hero { background: url('https://source.unsplash.com/1600x600/?community,people') center/cover no-repeat;background-image: url('Beige Aged Paper Texture.png') ;  color: #000000; text-align: center ; padding: 5rem 2rem; }
+.hero { background: url('https://source.unsplash.com/1600x600/?community,people') center/cover no-repeat;background-image: url('images/Beige Aged Paper Texture.png') ;  color: #000000; text-align: center ; padding: 5rem 2rem; }
 .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
 .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
 .search-bar { display: flex; justify-content: center;}
@@ -48,7 +48,7 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: #0077cc; }
 .step:hover { transform: translateY(-5px); }
 
 /* Categories */
-.cat{background-image: url('360_F_200686969_GJ7zbz2qaNIE4dyHSbZkQXvNPzRuwlr3.jpg'); padding: 5rem;}
+.cat{background-image: url('images/360_F_200686969_GJ7zbz2qaNIE4dyHSbZkQXvNPzRuwlr3.jpg'); padding: 5rem;}
 .categories {  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
 .category { padding: 1.5rem; background: #eef6fb; border-radius: 10px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
 .category:hover { background: #0077cc; color: #fff; transform: scale(1.05); }
@@ -61,13 +61,13 @@ section h2 { margin-bottom: 2rem; font-size: 2rem; color: #0077cc; }
 .card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
 /* Reasons */
-.whychoose{background-image: url('elegant-beige-geometric-pattern-subtle-off-white-lines-create-a-repeating-hexagonal-design-ideal-for-website-backgrounds-stationery-or-textile-prints-vector.jpg');padding: 5rem;}
+.whychoose{background-image: url('images/elegant-beige-geometric-pattern-subtle-off-white-lines-create-a-repeating-hexagonal-design-ideal-for-website-backgrounds-stationery-or-textile-prints-vector.jpg');padding: 5rem;}
 .reasons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
 .reason { flex: 1 1 200px; background: #f1f1f1; padding: 1.5rem; border-radius: 10px; transition: transform 0.3s; }
 .reason:hover { transform: translateY(-5px); }
 
 /* Testimonials */
-.testimonialss{background-image: url('360_F_200686969_GJ7zbz2qaNIE4dyHSbZkQXvNPzRuwlr3.jpg');}
+.testimonialss{background-image: url('image/360_F_200686969_GJ7zbz2qaNIE4dyHSbZkQXvNPzRuwlr3.jpg');}
 .testimonials { position: relative; height: 100px; }
 .testimonial { display: none; font-style: italic; padding: 1.5rem; background: #eef6fb; border-radius: 10px; margin: 2rem 20rem; }
 
