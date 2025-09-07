@@ -1,68 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helply - User Profile</title>
-    <link rel="stylesheet" href="/public/css/styleprofile.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="profile-container">
-        <header class="profile-header">
-            <div class="header-content">
-                <h1>Your Profile</h1>
-            </div>
-        </header> 
-
-        <main class="profile-main">
-            <div class="profile-card">
-                <!-- LEFT SIDE -->
-                <div class="profile-avatar-section">
-                    <img src="https://placehold.co/120x120/A78BFA/FFFFFF?text=JD" alt="Profile Avatar" class="profile-avatar">
-                    <h2 class="profile-name">John Doe</h2>
-                    
-                    <div class="profile-bio">
-  
-  <p></p>
-</div>
-
-
-                    <!-- ✅ Moved button here -->
-                    <a href="#" class="edit-profile-link">Edit Profile</a>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Helply - User Profile</title><!-- Ensure the stylesheet link is correct for your new folder structure -->
+        <link rel="stylesheet" href="/css/styleprofile.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="profile-container">
+            <header class="profile-header">
+                <div class="header-content">
+                    <h1>Your Profile</h1>
+                </div>
+            </header>    
+    <main class="profile-main">
+        <div class="profile-card">
+            <!-- LEFT SIDE -->
+            <div class="profile-avatar-section">
+                <img src="https://placehold.co/120x120/A78BFA/FFFFFF?text=JD" alt="Profile Avatar" class="profile-avatar">
+                
+                <!-- DYNAMIC DATA: This now displays the name from the database -->
+                <h2 class="profile-name"><%= user.Name %></h2>
+                
+                <div class="profile-bio">
+                    <p></p>
                 </div>
 
-                <!-- RIGHT SIDE -->
-                <div class="profile-details-section">
-                    <h3>Personal Information</h3>
-                    <div class="detail-item">
-                        <span class="detail-label">Email:</span>
-                        <span class="detail-value">john.doe@example.com</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Phone:</span>
-                        <span class="detail-value">+1 (555) 123-4567</span>
-                    </div>
-                    <div class="detail-item">
-  <span class="detail-label">Location:</span>
-  <span class="detail-value">New York, USA</span>
-</div>
-<div class="profile-actions">
-  <a href="/jobs" class="btn-primary">View Job Listings</a>
-  <a href="/apply" class="btn-primary">Apply to Jobs</a>
-  <a href="/post-job" class="btn-secondary">Post a Job</a>
-  <a href="/workers" class="btn-secondary">Browse Workers</a>
-</div>
-
-
-
-                </div>             
+                <a href="#" class="edit-profile-link">Edit Profile</a>
             </div>
-        </main>
 
-        <footer class="profile-footer">
-            <p>&copy; 2023 Helply. All rights reserved.</p>
-        </footer>
-    </div>
+            <!-- RIGHT SIDE -->
+            <div class="profile-details-section">
+                <h3>Personal Information</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Email:</span>
+                    <!-- DYNAMIC DATA: This now displays the email from the database -->
+                    <span class="detail-value"><%= user.email %></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Phone:</span>
+                    <!-- DYNAMIC DATA: This now displays the phone from the database -->
+                    <span class="detail-value"><%= user.phone %></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Location:</span>
+                    <!-- This is still static for now, as it's not in the database user table -->
+                    <span class="detail-value">New York, USA</span>
+                </div>
+                <div class="profile-actions">
+                    <a href="#" class="btn-primary">View Job Listings</a>
+                    <a href="#" class="btn-primary">Apply to Jobs</a>
+                    <a href="#" class="btn-secondary">Post a Job</a>
+                    <a href="#" class="btn-secondary">Browse Workers</a>
+                </div>
+            </div>             
+        </div>
+    </main>
+
+    <footer class="profile-footer">
+        <p>&copy; 2025 Helply. All rights reserved.</p>
+    </footer>
+</div>
 </body>
 </html>
