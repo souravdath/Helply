@@ -1,5 +1,3 @@
-// findwork.js
-
 // Dummy job data
 const jobs = [
   {
@@ -39,6 +37,7 @@ const categoryFilter = document.getElementById("categoryFilter");
 const locationFilter = document.getElementById("locationFilter");
 const jobModal = document.getElementById("jobModal");
 const closeModal = document.querySelector(".close");
+const applyBtn = document.getElementById("applyBtn");
 
 // Render jobs
 function renderJobs(filteredJobs) {
@@ -54,11 +53,11 @@ function renderJobs(filteredJobs) {
     jobCard.classList.add("job-card");
     jobCard.innerHTML = `
       <h3>${job.title}</h3>
-      <p>${job.description.substring(0, 60)}...</p>
+      <p>${job.description.length > 80 ? job.description.slice(0, 80) + "..." : job.description}</p>
       <p><strong>Category:</strong> ${job.category}</p>
       <p><strong>Location:</strong> ${job.location}</p>
       <p><strong>Pay:</strong> ₹${job.pay}</p>
-      <button onclick="openJobModal(${index})">View Details</button>
+      <button onclick="openJobModal(${index})" aria-label="View details for ${job.title}">View Details</button>
     `;
     jobsContainer.appendChild(jobCard);
   });
@@ -83,6 +82,12 @@ window.onclick = (event) => {
   if (event.target === jobModal) {
     jobModal.style.display = "none";
   }
+};
+
+// Apply button action
+applyBtn.onclick = () => {
+  alert("Your application has been submitted!");
+  jobModal.style.display = "none";
 };
 
 // Filtering logic

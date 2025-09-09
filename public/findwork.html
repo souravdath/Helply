@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Work | Helply</title>
-  <link rel="stylesheet" href="public\css\findwork.css">
+  <link rel="stylesheet" href="public/css/findwork.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -20,15 +20,15 @@
 
   <!-- Search & Filters -->
   <section class="filters">
-    <input type="text" id="searchInput" placeholder="Search jobs...">
-    <select id="categoryFilter">
+    <input type="text" id="searchInput" placeholder="Search jobs..." aria-label="Search jobs">
+    <select id="categoryFilter" aria-label="Filter by category">
       <option value="">All Categories</option>
       <option value="Babysitting">Babysitting</option>
       <option value="Tuition">Tuition</option>
       <option value="Cleaning">Cleaning</option>
       <option value="Electrical">Electrical</option>
     </select>
-    <select id="locationFilter">
+    <select id="locationFilter" aria-label="Filter by location">
       <option value="">All Locations</option>
       <option value="Delhi">Delhi</option>
       <option value="Mumbai">Mumbai</option>
@@ -55,6 +55,6 @@
     </div>
   </div>
 
-  <script src="public\js\findwork.js" defer></script>
+  <script src="public/js/findwork.js" defer></script>
 </body>
 </html>
