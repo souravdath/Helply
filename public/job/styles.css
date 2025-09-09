@@ -156,3 +156,43 @@ body {
   padding: 20px;
   margin-top: 60px;
 }
+
+/* Profile Action Buttons */
+.profile-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;   /* allows wrapping on smaller screens */
+  gap: 12px;         /* space between buttons */
+}
+
+.profile-actions a {
+  text-align: center;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+/* Primary Buttons */
+.btn-primary {
+  background-color: #6c63ff;
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #5848e0;
+}
+
+/* Secondary Buttons */
+.btn-secondary {
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+}

@@ -1,4 +1,4 @@
-// Import necessary modules
+
 const express = require('express');
 const path = require('path'); // Node.js built-in module for working with file paths
 
@@ -16,6 +16,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (like CSS, JavaScript, images) from the 'public' directory
 // When a browser requests a file like '/style.css', Express will look for it in 'helply/public/style.css'
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // --- Routes ---
 
@@ -43,6 +46,24 @@ app.get('/profile', (req, res) => {
     res.render('profile', { user: dummyUser });
 });
 
+// --- Sign In Route ---
+app.get('/signin', (req, res) => {
+    res.render('signIn'); // This will render views/signIn.ejs
+});
+
+// Show the Sign Up page
+app.get('/signup', (req, res) => {
+  res.render('signUp');
+});
+
+// Handle Sign Up form submission
+app.post('/signup', (req, res) => {
+  // Later, we'll save data to the database
+  console.log(req.body); // Temporary: log form data to terminal
+  res.send('Sign Up form submitted successfully!');
+});
+
+
 // --- Server Start ---
 
 // Define the port on which the server will listen
@@ -51,5 +72,5 @@ app.get('/profile', (req, res) => {
 
 // Start the server and listen for incoming requests on the specified port
 app.listen(3000, () => {
-    console.log("port 8080 is listenning");
+    console.log("port 3000 is listenning");
 });
