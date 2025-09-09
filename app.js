@@ -16,6 +16,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (like CSS, JavaScript, images) from the 'public' directory
 // When a browser requests a file like '/style.css', Express will look for it in 'helply/public/style.css'
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // --- Routes ---
 
@@ -47,6 +50,19 @@ app.get('/profile', (req, res) => {
 app.get('/signin', (req, res) => {
     res.render('signIn'); // This will render views/signIn.ejs
 });
+
+// Show the Sign Up page
+app.get('/signup', (req, res) => {
+  res.render('signUp');
+});
+
+// Handle Sign Up form submission
+app.post('/signup', (req, res) => {
+  // Later, we'll save data to the database
+  console.log(req.body); // Temporary: log form data to terminal
+  res.send('Sign Up form submitted successfully!');
+});
+
 
 // --- Server Start ---
 
