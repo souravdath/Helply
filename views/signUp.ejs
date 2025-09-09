@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helply - Sign Up</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      background: url('/images/sign-up-background-image.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(245, 245, 220, 0.7); /* Beige transparent overlay */
+      z-index: 0;
+    }
+
+    .signup-container {
+      position: relative;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      z-index: 1;
+    }
+
+    .signup-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .signup-container input[type="text"],
+    .signup-container input[type="email"],
+    .signup-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .signup-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #d2b48c;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .signup-container button:hover {
+      background-color: #c0a880;
+    }
+
+    .signup-container p {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .signup-container a {
+      color: #6b4226;
+      text-decoration: none;
+    }
+
+    .signup-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="signup-container">
+    <h2>Create an Account</h2>
+    <form action="/signup" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="text" name="location" placeholder="Location" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Create Account</button>
+    </form>
+    <p>Already have an account? <a href="/signin">Sign In</a></p>
+  </div>
+</body>
+</html>
