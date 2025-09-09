@@ -1,39 +1,27 @@
-// Testimonials data
-const testimonials = [
-  {
-    text: "Helply helped me find a reliable babysitter within hours. The process was super easy!",
-    author: "Neha Kapoor, Delhi"
-  },
-  {
-    text: "As a tutor, I quickly found students near my home. This platform is a game-changer!",
-    author: "Rohit Sharma, Mumbai"
-  },
-  {
-    text: "I posted a cleaning job and got responses instantly. Very smooth experience.",
-    author: "Anjali Singh, Bangalore"
-  }
-];
+const form = document.getElementById("jobForm");
+const previewSection = document.getElementById("previewSection");
 
-let currentTestimonial = 0;
-const container = document.getElementById("testimonialContainer");
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
 
-// Function to render testimonial
-function showTestimonial(index) {
-  container.style.opacity = 0;
-  setTimeout(() => {
-    container.innerHTML = `
-      <p class="testimonial">"${testimonials[index].text}"</p>
-      <p class="testimonial-author">- ${testimonials[index].author}</p>
-    `;
-    container.style.opacity = 1;
-  }, 500);
-}
+  // Collect form data
+  const title = document.getElementById("jobTitle").value;
+  const category = document.getElementById("jobCategory").value;
+  const location = document.getElementById("jobLocation").value;
+  const pay = document.getElementById("jobPay").value;
+  const description = document.getElementById("jobDescription").value;
+  const contact = document.getElementById("contactInfo").value;
 
-// Auto-rotate every 4 seconds
-setInterval(() => {
-  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-  showTestimonial(currentTestimonial);
-}, 4000);
+  // Show preview
+  document.getElementById("previewTitle").innerText = title;
+  document.getElementById("previewCategory").innerText = category;
+  document.getElementById("previewLocation").innerText = location;
+  document.getElementById("previewPay").innerText = pay;
+  document.getElementById("previewDescription").innerText = description;
+  document.getElementById("previewContact").innerText = contact;
 
-// Initial load
-showTestimonial(currentTestimonial);
+  previewSection.style.display = "block";
+
+  // Reset form
+  form.reset();
+});
