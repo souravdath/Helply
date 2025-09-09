@@ -55,6 +55,10 @@ app.get('/signin', (req, res) => {
 app.get('/signup', (req, res) => {
   res.render('signUp');
 });
+// show the index page
+app.get('/index', (req, res) => {
+  res.render('index');
+});
 
 // Handle Sign Up form submission
 app.post('/signup', (req, res) => {
