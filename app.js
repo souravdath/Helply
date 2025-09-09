@@ -1,4 +1,4 @@
-// Import necessary modules
+
 const express = require('express');
 const path = require('path'); // Node.js built-in module for working with file paths
 
@@ -41,6 +41,11 @@ app.get('/profile', (req, res) => {
     // Render the 'profile.ejs' template and pass the 'dummyUser' data to it
     // The EJS template can then access this data using variables like <%= user.name %>
     res.render('profile', { user: dummyUser });
+});
+
+// --- Sign In Route ---
+app.get('/signin', (req, res) => {
+    res.render('signIn'); // This will render views/signIn.ejs
 });
 
 // --- Server Start ---
