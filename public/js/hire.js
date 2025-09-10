@@ -1,27 +1,39 @@
 const form = document.getElementById("jobForm");
-const previewSection = document.getElementById("previewSection");
 
 form.addEventListener("submit", function(e) {
   e.preventDefault();
 
-  // Collect form data
-  const title = document.getElementById("jobTitle").value;
-  const category = document.getElementById("jobCategory").value;
-  const location = document.getElementById("jobLocation").value;
-  const pay = document.getElementById("jobPay").value;
-  const description = document.getElementById("jobDescription").value;
-  const contact = document.getElementById("contactInfo").value;
+  // Collect form data into an object
+  const jobData = {
+    title: document.getElementById("jobTitle").value,
+    category: document.getElementById("jobCategory").value,
+    location: document.getElementById("jobLocation").value,
+    pay: document.getElementById("jobPay").value,
+    description: document.getElementById("jobDescription").value,
+    contactInfo: document.getElementById("contactInfo").value,
+  };
 
-  // Show preview
-  document.getElementById("previewTitle").innerText = title;
-  document.getElementById("previewCategory").innerText = category;
-  document.getElementById("previewLocation").innerText = location;
-  document.getElementById("previewPay").innerText = pay;
-  document.getElementById("previewDescription").innerText = description;
-  document.getElementById("previewContact").innerText = contact;
-
-  previewSection.style.display = "block";
-
-  // Reset form
-  form.reset();
+  // Send the data to the backend API endpoint
+  fetch('/api/jobs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jobData)
+  })
+  .then(response => {
+      if (!response.ok) {
+          // If server responds with an error, throw it to the catch block
+          return response.json().then(err => { throw new Error(err.error || 'Server error') });
+      }
+      return response.json();
+  })
+  .then(data => {
+      alert('Job posted successfully!');
+      form.reset(); // Clear the form
+  })
+  .catch(error => {
+      console.error('Error posting job:', error);
+      alert(`Failed to post job: ${error.message}`);
+  });
 });
