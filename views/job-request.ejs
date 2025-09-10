@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Your Application | Helply</title>
+  <link rel="stylesheet" href="/job/styles.css"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">HELPLY</div>
+      <nav class="nav-links">
+        <a href="/index">Home</a>
+        <a href="/findwork">Jobs</a>
+        <a href="/hire">Post a Job</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Job Request Form -->
+  <div class="job-request-container">
+    <h2>Apply for: Campus Ambassador</h2>
+    
+    <div class="user-info">
+      <p>You are applying as:</p>
+      <p><strong>Full Name:</strong> Jessica Doe</p>
+      <p><strong>Email:</strong> jessica.doe@email.com</p>
+      <p><small>Not you? <a href="/signin">Log in with a different account</a>.</small></p>
+    </div>
+
+    <form id="jobRequestForm" enctype="multipart/form-data">
+      <label for="resume">Upload Resume (Optional)</label>
+      <p>Your resume from your profile will be used if you don't upload a new one.</p>
+      <input type="file" id="resume" name="resume">
+
+      <label for="message">Cover Letter / Message</label>
+      <textarea id="message" name="message" rows="6" placeholder="Why are you a great fit for this role?" required></textarea>
+
+      <button type="submit">Confirm and Submit Application</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Helply. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('jobRequestForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // This is where you would add a fetch() call to POST the application to the backend
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Application Submitted!';
+      btn.style.backgroundColor = '#28a745';
+      setTimeout(() => {
+        alert("Your application has been sent!");
+        window.location.href = '/findwork'; // Redirect back to jobs list
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>

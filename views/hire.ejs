@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Hiring | Helply</title>
+  <link rel="stylesheet" href="/css/hire.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Helply</div>
+    <ul class="nav-links">
+      <li><a href="/index">Home</a></li>
+      <li><a href="/findwork">Find Work</a></li>
+      <li><a href="/hire" class="active">Start Hiring</a></li>
+      <li><a href="/signin">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Start Hiring Form -->
+  <section class="hiring-form">
+    <h2>Post a Job</h2>
+    <form id="jobForm">
+      <label for="jobTitle">Job Title</label>
+      <input type="text" id="jobTitle" placeholder="e.g. Babysitter Needed" required>
+
+      <label for="jobCategory">Category</label>
+      <select id="jobCategory" required>
+        <option value="">Select Category</option>
+        <option value="Babysitting">Babysitting</option>
+        <option value="Tuition">Tuition</option>
+        <option value="Cleaning">Cleaning</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Cooking">Cooking</option>
+        <option value="Gardening">Gardening</option>
+      </select>
+
+      <label for="jobLocation">Location</label>
+      <select id="jobLocation" required>
+        <option value="">Select Location</option>
+        <option value="Kochi">Kochi</option>
+        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+        <option value="Kozhikode">Kozhikode</option>
+        <option value="Thrissur">Thrissur</option>
+      </select>
+
+      <label for="jobPay">Pay (₹)</label>
+      <input type="number" id="jobPay" placeholder="e.g. 500" required>
+
+      <label for="jobDescription">Job Description</label>
+      <textarea id="jobDescription" rows="4" placeholder="Describe the job in detail..." required></textarea>
+
+      <label for="contactInfo">Contact Info</label>
+      <input type="text" id="contactInfo" placeholder="Your Phone or Email" required>
+
+      <button type="submit" class="btn">Post Job</button>
+    </form>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 Helply. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/hire.js" defer></script>
+</body>
+</html>
