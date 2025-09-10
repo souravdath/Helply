@@ -65,7 +65,14 @@ app.get('/job-details', (req, res) => {
 app.get('/job-request', (req, res) => {
     res.render('job-request');
 });
-
+// route for the workerdasboard
+app.get('/worker_dashboard', (req, res) => {
+    res.render('worker_dashboard');
+});
+//route for the employerdashboard
+app.get('/employer_dash', (req, res) => {
+    res.render('employer_dash');
+});
 
 // --- API Endpoints ---
 
