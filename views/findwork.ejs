@@ -4,23 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Work | Helply</title>
-  <link rel="stylesheet" href="/css/findwork.css">
+  <link rel="stylesheet" href="css/findwork.css">
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo" style="font-family: papyrus;">helply</div>
     <ul class="nav-links">
-      <li><a href="/index">Home</a></li>
-      <li><a href="/findwork" class="active">Find Work</a></li>
-      <li><a href="/hire">Post a Job</a></li>
-      <li><a href="/signin">Login</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="findwork.html" class="active">Find Work</a></li>
+      <li><a href="post-job.html">Post a Job</a></li>
+      <li><a href="login.html">Login</a></li>
     </ul>
   </nav>
 
   <!-- Search & Filters -->
   <section class="filters">
-    <input type="text" id="searchInput" placeholder="Search by job title..." aria-label="Search jobs">
+    <input type="text" id="searchInput" placeholder="Search jobs..." aria-label="Search jobs">
     <select id="categoryFilter" aria-label="Filter by category">
       <option value="">All Categories</option>
       <option value="Babysitting">Babysitting</option>
@@ -29,18 +29,17 @@
       <option value="Electrical">Electrical</option>
     </select>
     <select id="locationFilter" aria-label="Filter by location">
-        <option value="">All Locations</option>
-        <option value="Kochi">Kochi</option>
-        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-        <option value="Kozhikode">Kozhikode</option>
-        <option value="Thrissur">Thrissur</option>
+      <option value="">All Locations</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Bangalore">Bangalore</option>
+      <option value="Chennai">Chennai</option>
     </select>
   </section>
 
   <!-- Job Listings -->
   <section class="jobs-container" id="jobsContainer">
     <!-- Jobs will be injected by JavaScript -->
-    <p>Loading jobs...</p>
   </section>
 
   <!-- Job Details Modal -->
@@ -56,6 +55,6 @@
     </div>
   </div>
 
-  <script src="/js/findwork.js" defer></script>
+  <script src="js/findwork.js" defer></script>
 </body>
 </html>
