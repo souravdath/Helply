@@ -1,6 +1,5 @@
--- This script creates the database and tables for the Helply application.
--- It is based on the ER diagram provided in the project documentation.
--- This version removes the explicit 'role' column from the user table.
+-- This database schema is designed to work with the provided app.js backend logic.
+-- It includes all necessary tables and columns for user authentication, job postings, and applications.
 
 -- Create the database if it doesn't already exist.
 CREATE DATABASE IF NOT EXISTS helply_db;
@@ -10,17 +9,21 @@ USE helply_db;
 
 --
 -- Table structure for table `user`
+-- Corresponds to the data collected in the `/signup` route and used in `/signin` and `/profile`.
 --
 CREATE TABLE `user` (
   `User_ID` INT PRIMARY KEY AUTO_INCREMENT,
   `Name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL UNIQUE,
+  `username` VARCHAR(100) NOT NULL UNIQUE,
   `phone` VARCHAR(20),
-  `password` VARCHAR(255) NOT NULL
+  `location` VARCHAR(255),
+  `password` VARCHAR(255) NOT NULL COMMENT 'Password is hashed by bcrypt in app.js'
 );
 
 --
 -- Table structure for table `service_category`
+-- Used to categorize jobs. Can be used to dynamically populate the 'Category' dropdown on hire.ejs.
 --
 CREATE TABLE `service_category` (
   `Service_ID` INT PRIMARY KEY AUTO_INCREMENT,
@@ -30,6 +33,7 @@ CREATE TABLE `service_category` (
 
 --
 -- Table structure for table `job`
+-- Corresponds to the data handled by the `/api/jobs` GET and POST endpoints.
 --
 CREATE TABLE `job` (
   `Job_ID` INT PRIMARY KEY AUTO_INCREMENT,
@@ -37,9 +41,11 @@ CREATE TABLE `job` (
   `Description` TEXT NOT NULL,
   `Location` VARCHAR(255),
   `Salary` DECIMAL(10, 2),
-  `Type` VARCHAR(100) COMMENT 'e.g., One-time, Part-time',
+  `Type` VARCHAR(100) COMMENT 'This is used as the "category" in app.js',
   `Requirements` TEXT,
-  `User_id_FK` INT,
+  `ContactInfo` VARCHAR(255) NOT NULL COMMENT 'Collected from the hire.ejs form',
+  `JobStatus` VARCHAR(50) NOT NULL DEFAULT 'Open' COMMENT 'Used to filter jobs in the GET /api/jobs route',
+  `User_id_FK` INT COMMENT 'The ID of the user who posted the job, from session data',
   `Service_id_FK` INT,
   FOREIGN KEY (`User_id_FK`) REFERENCES `user`(`User_ID`) ON DELETE CASCADE,
   FOREIGN KEY (`Service_id_FK`) REFERENCES `service_category`(`Service_ID`) ON DELETE SET NULL
@@ -47,20 +53,23 @@ CREATE TABLE `job` (
 
 --
 -- Table structure for table `application`
+-- Corresponds to the data handled by the POST /api/applications endpoint.
 --
 CREATE TABLE `application` (
   `Application_ID` INT PRIMARY KEY AUTO_INCREMENT,
   `applied_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `resume_letter` TEXT,
-  `Cover_letter` TEXT,
-  `user_id_FK` INT,
-  `job_id_FK` INT,
+  `Cover_letter` TEXT COMMENT 'Collected from the job-request form',
+  `Status` VARCHAR(50) NOT NULL DEFAULT 'Pending' COMMENT 'e.g., Pending, Accepted, Rejected',
+  `user_id_FK` INT COMMENT 'The ID of the applicant, from session data',
+  `job_id_FK` INT COMMENT 'The ID of the job being applied for',
   FOREIGN KEY (`user_id_FK`) REFERENCES `user`(`User_ID`) ON DELETE CASCADE,
   FOREIGN KEY (`job_id_FK`) REFERENCES `job`(`Job_ID`) ON DELETE CASCADE
 );
 
 --
 -- Table structure for table `review`
+-- (For future use, not directly implemented in the current app.js)
 --
 CREATE TABLE `review` (
   `Review_ID` INT PRIMARY KEY AUTO_INCREMENT,
@@ -75,6 +84,7 @@ CREATE TABLE `review` (
 
 --
 -- Table structure for table `payment`
+-- (For future use, not directly implemented in the current app.js)
 --
 CREATE TABLE `payment` (
   `Payment_ID` INT PRIMARY KEY AUTO_INCREMENT,
@@ -88,18 +98,4 @@ CREATE TABLE `payment` (
   FOREIGN KEY (`Receiver_id`) REFERENCES `user`(`User_ID`) ON DELETE SET NULL,
   FOREIGN KEY (`Job_id_FK`) REFERENCES `job`(`Job_ID`) ON DELETE SET NULL
 );
-
-
--- --- Sample Data Insertion ---
--- You can use this section to insert some initial data for testing.
-
-INSERT INTO `user` (`Name`, `email`, `phone`, `password`) VALUES
-('John Doe', 'john.doe@example.com', '+1 (555) 123-4567', 'password123'),
-('Jane Smith', 'jane.smith@example.com', '+1 (555) 987-6543', 'password456');
-
-INSERT INTO `service_category` (`Name`, `Description`) VALUES
-('Babysitting', 'Child care services'),
-('Tuition', 'Educational tutoring services'),
-('Cleaning', 'Home and office cleaning services'),
-('Electrical', 'Electrical repair and installation services');
 
