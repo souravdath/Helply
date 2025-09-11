@@ -8,6 +8,11 @@ const FileStore = require('session-file-store')(session);
 const app = express();
 const saltRounds = 10; // For password hashing
 
+// --- Template Engine Setup ---
+// Set EJS as the view engine and specify the views directory
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // --- Middleware Setup ---
 // Serve static files (CSS, images, client-side JS) from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,15 +67,18 @@ app.get('/signup', (req, res) => {
   res.render('signUp');
 });
 
-// Dynamic route for job application page
+// Other page rendering routes
+app.get('/findwork', (req, res) => res.render('findwork'));
+app.get('/hire', (req, res) => res.render('hire'));
+app.get('/job-details', (req, res) => res.render('job-details'));
 app.get('/job-request/:jobId', (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/signin');
     }
+
     const jobId = req.params.jobId;
     const userId = req.session.userId;
 
-    // Fetch both job and user data
     const jobQuery = 'SELECT Job_ID, Title FROM job WHERE Job_ID = ?';
     const userQuery = 'SELECT Name, email FROM user WHERE User_ID = ?';
 
@@ -80,7 +88,7 @@ app.get('/job-request/:jobId', (req, res) => {
         }
         pool.query(userQuery, [userId], (err, userResults) => {
             if (err || userResults.length === 0) {
-                return res.status(500).send('Error fetching user data.');
+                return res.status(500).send('Could not fetch user details.');
             }
             res.render('job-request', {
                 job: jobResults[0],
@@ -89,12 +97,6 @@ app.get('/job-request/:jobId', (req, res) => {
         });
     });
 });
-
-
-// Other page rendering routes
-app.get('/findwork', (req, res) => res.render('findwork'));
-app.get('/hire', (req, res) => res.render('hire'));
-app.get('/job-details', (req, res) => res.render('job-details'));
 app.get('/worker_dashboard', (req, res) => res.render('worker_dashboard'));
 app.get('/employer_dash', (req, res) => res.render('employer_dash'));
 
@@ -192,7 +194,6 @@ app.post('/api/jobs', (req, res) => {
 
 // API to handle a new job application
 app.post('/api/applications', (req, res) => {
-    // Check if user is logged in
     if (!req.session.userId) {
         return res.status(403).json({ error: 'You must be logged in to apply for a job.' });
     }
@@ -200,14 +201,14 @@ app.post('/api/applications', (req, res) => {
     const { jobId, coverLetter } = req.body;
     const userId = req.session.userId;
 
-    const query = 'INSERT INTO application (job_id_FK, user_id_FK, Cover_letter) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO application (Cover_letter, user_id_FK, job_id_FK) VALUES (?, ?, ?)';
 
-    pool.query(query, [jobId, userId, coverLetter], (error, results) => {
+    pool.query(query, [coverLetter, userId, jobId], (error, results) => {
         if (error) {
             console.error("Database insert error:", error);
             return res.status(500).json({ error: 'Failed to submit application.' });
         }
-        res.status(201).json({ message: 'Application submitted successfully!', applicationId: results.insertId });
+        res.status(201).json({ message: 'Application submitted successfully!' });
     });
 });
 
@@ -217,3 +218,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
