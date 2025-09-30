@@ -4,9 +4,9 @@ body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; scroll-beh
 a { text-decoration: none; color: inherit; }
 
 /* Navbar */
-header { background: #A27B5C; color: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+header { background: #A27B5C; color: #fff; padding:1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
 header nav { display: flex; flex-wrap: wrap; gap: 1rem; }
-header nav a { margin: 0 1rem; color: #fff; font-weight: bold; transition: color 0.3s; }
+header nav a { margin: 0 1rem; color: #fff; font-weight: bold; transition: color 0.3s; padding-top: 0.6rem;}
 header nav a:hover { color: #ff9800; }
 .btn { background: #DCD7C9; color: #fff; padding: 0.5rem 1rem; border-radius: 5px; transition: background 0.3s; }
 .btn:hover { background: #e68900; }
@@ -72,34 +72,55 @@ footer a:hover { color: #fff; }
 /* 📱 Responsive Rules  */
 /* ==================== */
 /* Hide extra nav links on mobile, keep only logo + button */
-@media (max-width: 1000px) {
+/* Hide menu toggle on desktop */
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
   header {
-    flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: center;
+  }
+
+  /* Hide nav by default on mobile */
+  header nav {
+    display: none;
+    flex-direction: column;
+    background: #A27B5C;
+    position: absolute;
+    top: 70px;   /* below navbar */
+    right: 20px;
+    width: 200px;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
   }
 
   header nav a {
-    display: none; /* hide all links */
+    margin: 0.5rem 0;
+    display: block;
+    color: #fff;
   }
 
   header nav .btn {
-    display: inline-block; /* keep Login/Signup visible */
-    margin-left: auto;
+    margin-top: 1rem;
+    text-align: center;
+    display: block;
+  }
+
+  /* Show menu toggle */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* When nav is active (toggled) */
+  header nav.active {
+    display: flex;
   }
 }
-
-@media (max-width: 480px) {
-  header {
-    padding: 1rem;
-  }
-  .logo h2 {
-    font-size: 1.4rem;
-  }
-  header nav .btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-}
-
-
