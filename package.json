@@ -17,7 +17,7 @@
     "url": "https://github.com/souravdath/Helply/issues"
   },
   "homepage": "https://github.com/souravdath/Helply#readme",
-  "description": "",
+  "description": "Helply is a web-based platform designed to connect individuals who require \r assistance with everyday chores—such as babysitting, tuition, cleaning, and electrical \r work—with people willing to offer these services. It acts as a bridge between job \r seekers and job providers, offering a simple and accessible solution for both parties. \r The system supports two main user roles: employers, who can post specific job \r requirements, and workers, who can browse through available tasks based on their \r skills and preferences. Employers can select the service they need and view a list of \r available workers with their details and contact information. Workers, in turn, can \r view job listings, explore the job descriptions, and reach out to employers for \r opportunities. \r Helply addresses a real-world need for flexible job connections and provides a \r reliable environment for users to find or offer essential services within their \r communities.",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^17.2.2",
