@@ -8,6 +8,7 @@
 </head>
 <body>
   <!-- Navbar -->
+<<<<<<< HEAD
 <header>
   <div class="logo">
     <h2 style="color: rgb(255, 255, 255); font-family: papyrus;">helply</h2>
@@ -26,6 +27,27 @@
   <div class="menu-toggle">☰</div>
 </header>
 
+=======
+  <header>
+    <div class="logo"><h2 style="color: rgb(255, 255, 255); font-family: papyrus ;">helply</h2></div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="#how">How it Works</a>
+      <a href="#categories">Browse Jobs</a>
+      <a href="#workers">Become a Worker</a>
+      <a href="#contact">Contact</a>
+
+  <% if (!user) { %>
+      <a href="/signin" class="btn">Login / Sign Up</a>
+    <% } else { %>
+      <a href="/profile" class="btn">Profile</a>
+      <a href="/logout" class="btn">Logout</a>
+    <% } %>
+
+
+    </nav>
+  </header>
+>>>>>>> 592debd5473e835de4a89efe60856308efd0ea9c
 
 <!-- Hero -->
 <section class="hero">
@@ -34,8 +56,15 @@
 
   <!-- Added buttons inside hero -->
   <div class="hero-buttons">
-    <button>Start Hiring</button>
-    <button>Find Work</button>
+    <!-- <button>Start Hiring</button>
+    <button>Find Work</button> -->
+      <% if (!user) { %>
+    <a href="/signin"><button>Start Hiring</button></a>
+    <a href="/signin"><button>Find Work</button></a>
+  <% } else { %>
+    <a href="/hire"><button>Start Hiring</button></a>
+    <a href="/findwork"><button>Find Work</button></a>
+  <% } %>
   </div>
 </section>
 

@@ -38,10 +38,10 @@ app.use(session({
 
 // Route for the main landing page
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', { user: req.session.userId ? req.session : null });
 });
 app.get('/index', (req, res) => {
-    res.render('index');
+    es.render('index', { user: req.session.userId ? req.session : null });
 });
 
 // Route for the user profile page
@@ -211,6 +211,16 @@ app.post('/api/applications', (req, res) => {
         res.status(201).json({ message: 'Application submitted successfully!' });
     });
 });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send("Logout error.");
+        }
+        res.redirect('/');
+    });
+});
+
 
 
 // --- Server Initialization ---
