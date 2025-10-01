@@ -1,29 +1,330 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employer Dashboard | Helply</title>
-  <link rel="stylesheet" href="/css/employer-dashboard.css">
+  
+  <style>
+    /* ======================================================
+    EMPLOYER DASHBOARD PAGE THEME
+    ------------------------------------------------------
+    Primary (Teal): #567c8d (Accent, Active Links, Apply Button)
+    Secondary (Navy): #2f4156 (Navbar, Headings, Stat Numbers)
+    Light Background: Beige #f5efeb (Body Background)
+    Base Background: White #ffffff (Card Background)
+    ======================================================
+    */
+
+    :root {
+        --primary: #567c8d;           /* Teal (Accent, CTA) */
+        --primary-dark: #2f4156;      /* Navy (Navbar, Headings, Stats) */
+        --light: #f5efeb;             /* Beige (Body BG) */
+        --white: #ffffff;             /* Pure White (Card BG) */
+        --dark: #212529;              /* Near Black (General Text) */
+        --gray: #666;                 /* Darker gray for subtle text */
+        
+        /* Status Colors - Retained/Themed */
+        --status-pending: #ffb703;    /* Amber/Orange */
+        --status-accepted: #2a9d8f;   /* Themed Success Green */
+        --status-rejected: #e63946;   /* Red (Danger) */
+
+        --border-radius: 12px;
+        --box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        --transition: 0.3s;
+    }
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--light); /* Beige Background */
+      color: var(--dark);
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-dark); /* Navy Navbar */
+      padding: 1rem 2rem;
+      color: var(--white);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary); /* Teal Logo Accent */
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 500;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary); /* Teal Hover/Active Link */
+      border-color: var(--primary);
+    }
+
+    /* Dashboard */
+    .dashboard {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dashboard h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--primary-dark); /* Navy Heading */
+    }
+
+    /* Stats Section */
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 180px;
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      text-align: center;
+      border-top: 5px solid var(--primary); /* Teal Accent */
+    }
+
+    .stat-card h2 {
+      font-size: 2rem;
+      color: var(--primary-dark); /* Navy Stat Number */
+    }
+
+    .stat-card p {
+      margin-top: 0.5rem;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    /* Section Headers */
+    .section {
+      margin-top: 2rem;
+    }
+
+    .section h2 {
+      margin-bottom: 1rem;
+      color: var(--primary); /* Teal Section Title */
+      border-bottom: 2px solid var(--primary-dark);
+      padding-bottom: 5px;
+    }
+
+    /* Cards */
+    .jobs, .applications {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--white);
+      padding: 1.2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      border: 1px solid var(--light);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: var(--primary-dark); /* Navy Card Title */
+      margin-bottom: 0.5rem;
+    }
+
+    .status {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .status.pending { color: var(--status-pending); }
+    .status.accepted { color: var(--status-accepted); }
+    .status.rejected { color: var(--status-rejected); }
+    
+    .card button {
+        padding: 0.5rem 1rem;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+        background: var(--primary); /* Teal Button */
+        color: var(--white);
+    }
+    
+    .card button:hover {
+        background: var(--primary-dark);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 80px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: var(--white);
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.3s ease;
+    }
+    
+    .modal-content h2 {
+        color: var(--primary-dark); /* Navy Modal Heading */
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--light);
+    }
+    .modal-content p strong {
+        color: var(--primary); /* Teal Detail Labels */
+    }
+
+    .close {
+      color: var(--gray);
+      float: right;
+      font-size: 1.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .close:hover {
+      color: var(--primary-dark);
+    }
+
+    .actions {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .actions button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+      color: var(--white);
+    }
+
+    #acceptBtn {
+      background: var(--primary); /* Teal (Primary Action) */
+    }
+
+    #rejectBtn {
+      background: var(--primary-dark); /* Navy (Secondary/Reject Action) */
+    }
+
+    #acceptBtn:hover {
+      background: #466779; /* Slightly darker Teal */
+    }
+
+    #rejectBtn:hover {
+      background: #1e3146; /* Slightly darker Navy */
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 600px) {
+        .navbar {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .nav-links {
+            justify-content: center;
+        }
+        .dashboard {
+            padding: 1rem;
+        }
+        .stats {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .jobs, .applications {
+            grid-template-columns: 1fr;
+        }
+    }
+
+  </style>
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">Helply</div>
     <ul class="nav-links">
-      <li><a href="employer-dashboard.html" class="active">Dashboard</a></li>
-      <li><a href="starthiring.html">Post a Job</a></li>
-      <li><a href="myjobs.html">My Jobs</a></li>
-      <li><a href="employer-profile.html">Profile</a></li>
-      <li><a href="index.html">Logout</a></li>
+      <li><a href="/employer_dash" class="active">Dashboard</a></li>
+      <li><a href="/hire">Post a Job</a></li>
+      <li><a href="/myjobs">My Jobs</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
     </ul>
   </nav>
 
   <!-- Dashboard Content -->
   <section class="dashboard">
-    <h1>Welcome back, <span id="employerName">Ananya</span> 👋</h1>
+    <!-- EJS: Assuming 'user' is passed to render the name -->
+    <h1>Welcome back, <span id="employerName"><%= user.username %></span> 👋</h1> 
 
-    <!-- Stats Section -->
+    <!-- Stats Section - Populated by JS -->
     <div class="stats">
       <div class="stat-card">
         <h2 id="jobsPosted">3</h2>
@@ -39,24 +340,24 @@
       </div>
     </div>
 
-    <!-- Recent Job Postings -->
+    <!-- Recent Job Postings - Populated by JS -->
     <div class="section">
       <h2>Recent Job Postings</h2>
       <div class="jobs" id="jobList">
-        <!-- Injected by JS -->
+        <!-- Placeholder: Jobs will be dynamically loaded via JS -->
       </div>
     </div>
 
-    <!-- Applications Received -->
+    <!-- Applications Received - Populated by JS -->
     <div class="section">
       <h2>Applications Received</h2>
       <div class="applications" id="applicationsList">
-        <!-- Injected by JS -->
+        <!-- Placeholder: Applications will be dynamically loaded via JS -->
       </div>
     </div>
   </section>
 
-  <!-- Job Details Modal -->
+  <!-- Job Details Modal - Controlled by public/js/employer-dashboard.js -->
   <div id="jobModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -67,7 +368,7 @@
     </div>
   </div>
 
-  <!-- Manage Application Modal -->
+  <!-- Manage Application Modal - Controlled by public/js/employer-dashboard.js -->
   <div id="manageModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -82,6 +383,7 @@
     </div>
   </div>
 
-  <script src="../js/employer-dashboard.js" defer></script>
+  <!-- Ensure your JS path is correct -->
+  <script src="/js/employer-dashboard.js" defer></script>
 </body>
 </html>
