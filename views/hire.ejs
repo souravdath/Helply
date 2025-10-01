@@ -1,67 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Start Hiring | Helply</title>
-  <link rel="stylesheet" href="/css/hire.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Hiring | Helply</title>
+  
+  <style>
+    /* ======================================================
+    START HIRING / POST JOB PAGE THEME
+    ------------------------------------------------------
+    Primary (Teal): #567c8d (Buttons, Active Link)
+    Secondary (Navy): #2f4156 (Navbar, Footer, Headings)
+    Light Background: Beige #f5efeb (Body Background)
+    Base Background: White #ffffff (Form Background)
+    Accent: Sky Blue #c8d9e6 (Input Borders/Highlights)
+    ======================================================
+    */
+
+    :root {
+        --primary: #567c8d;           /* Teal */
+        --primary-dark: #2f4156;      /* Navy */
+        --accent-light: #c8d9e6;      /* Sky Blue */
+        --light: #f5efeb;             /* Beige (Body BG) */
+        --white: #ffffff;             /* Pure White (Form BG) */
+        --dark: #212529;              /* Near Black (General Text) */
+        --transition: 0.3s;
+        --border-radius: 8px;
+    }
+
+    /* General */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: var(--light); /* Beige Background */
+        color: var(--dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Navbar (Conversion) */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--primary-dark); /* Navy Navbar */
+        padding: 15px 30px;
+        color: var(--white);
+    }
+
+    .navbar .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary); /* Teal Logo Accent */
+    }
+
+    .navbar .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar .nav-links a {
+        color: var(--white);
+        text-decoration: none;
+        transition: var(--transition);
+        border-bottom: 2px solid transparent;
+        padding-bottom: 2px;
+    }
+
+    .navbar .nav-links a.active,
+    .navbar .nav-links a:hover {
+        color: var(--primary); /* Teal Active/Hover Link */
+        border-color: var(--primary);
+        text-decoration: none;
+    }
+
+    /* Hiring Form (Conversion) */
+    .hiring-form {
+        max-width: 600px;
+        margin: 40px auto;
+        background: var(--white); /* White Form Background */
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        flex-grow: 1; /* Allow section to grow */
+    }
+
+    .hiring-form h2 {
+        text-align: center;
+        color: var(--primary-dark); /* Navy Heading */
+        margin-bottom: 20px;
+        border-bottom: 2px solid var(--primary); /* Teal Accent Line */
+        padding-bottom: 5px;
+    }
+
+    .hiring-form form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hiring-form label {
+        margin: 10px 0 5px;
+        font-weight: bold;
+        color: var(--primary-dark); /* Navy Label Text */
+    }
+
+    .hiring-form input,
+    .hiring-form select,
+    .hiring-form textarea {
+        padding: 10px;
+        border: 1px solid var(--accent-light); /* Sky Blue Border */
+        background: var(--light); /* Beige Input Background */
+        border-radius: 6px;
+        font-size: 1rem;
+        color: var(--dark);
+        transition: border-color 0.2s;
+    }
+    
+    .hiring-form input:focus,
+    .hiring-form select:focus,
+    .hiring-form textarea:focus {
+        border-color: var(--primary); /* Teal Focus Border */
+        outline: none;
+    }
+
+    .hiring-form .btn {
+        margin-top: 20px;
+        padding: 12px;
+        background: var(--primary); /* Teal Button */
+        color: var(--white);
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition: var(--transition);
+    }
+
+    .hiring-form .btn:hover {
+        background: var(--primary-dark); /* Navy Hover */
+    }
+
+    /* Preview (Conversion) */
+    .preview {
+        max-width: 600px;
+        margin: 40px auto;
+        text-align: center;
+    }
+
+    .job-card {
+        background: var(--white);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        text-align: left;
+    }
+
+    .job-card h3 {
+        margin-bottom: 10px;
+        color: var(--primary); /* Teal Job Card Title */
+    }
+
+    /* Footer (Conversion) */
+    .footer {
+        text-align: center;
+        background: var(--primary-dark); /* Navy Footer */
+        color: var(--accent-light); /* Sky Blue Footer Text */
+        padding: 15px;
+        margin-top: 40px;
+        width: 100%;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        .navbar {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .navbar .nav-links {
+            padding: 0;
+        }
+        
+        .hiring-form {
+            margin: 20px auto;
+        }
+    }
+  </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">Helply</div>
-    <ul class="nav-links">
-      <li><a href="/index">Home</a></li>
-      <li><a href="/findwork">Find Work</a></li>
-      <li><a href="/hire" class="active">Start Hiring</a></li>
-      <li><a href="/signin">Login</a></li>
-    </ul>
-  </nav>
+    <nav class="navbar">
+    <div class="logo">Helply</div>
+    <ul class="nav-links">
+      <li><a href="/index">Home</a></li>
+      <li><a href="/findwork">Find Work</a></li>
+      <li><a href="/hire" class="active">Start Hiring</a></li>
+      <li><a href="/signin">Login</a></li>
+    </ul>
+  </nav>
 
-  <!-- Start Hiring Form -->
-  <section class="hiring-form">
-    <h2>Post a Job</h2>
-    <form id="jobForm">
-      <label for="jobTitle">Job Title</label>
-      <input type="text" id="jobTitle" placeholder="e.g. Babysitter Needed" required>
+    <section class="hiring-form">
+    <h2>Post a Job</h2>
+    <form id="jobForm">
+      <label for="jobTitle">Job Title</label>
+      <input type="text" id="jobTitle" placeholder="e.g. Babysitter Needed" required>
 
-      <label for="jobCategory">Category</label>
-      <select id="jobCategory" required>
-        <option value="">Select Category</option>
-        <option value="Babysitting">Babysitting</option>
-        <option value="Tuition">Tuition</option>
-        <option value="Cleaning">Cleaning</option>
-        <option value="Electrical">Electrical</option>
-        <option value="Cooking">Cooking</option>
-        <option value="Gardening">Gardening</option>
-      </select>
+      <label for="jobCategory">Category</label>
+      <select id="jobCategory" required>
+        <option value="">Select Category</option>
+        <option value="Babysitting">Babysitting</option>
+        <option value="Tuition">Tuition</option>
+        <option value="Cleaning">Cleaning</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Cooking">Cooking</option>
+        <option value="Gardening">Gardening</option>
+      </select>
 
-      <label for="jobLocation">Location</label>
-      <select id="jobLocation" required>
-        <option value="">Select Location</option>
-        <option value="Kochi">Kochi</option>
-        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-        <option value="Kozhikode">Kozhikode</option>
-        <option value="Thrissur">Thrissur</option>
-      </select>
+      <label for="jobLocation">Location</label>
+      <select id="jobLocation" required>
+        <option value="">Select Location</option>
+        <option value="Kochi">Kochi</option>
+        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+        <option value="Kozhikode">Kozhikode</option>
+        <option value="Thrissur">Thrissur</option>
+      </select>
 
-      <label for="jobPay">Pay (₹)</label>
-      <input type="number" id="jobPay" placeholder="e.g. 500" required>
+      <label for="jobPay">Pay (₹)</label>
+      <input type="number" id="jobPay" placeholder="e.g. 500" required>
 
-      <label for="jobDescription">Job Description</label>
-      <textarea id="jobDescription" rows="4" placeholder="Describe the job in detail..." required></textarea>
+      <label for="jobDescription">Job Description</label>
+      <textarea id="jobDescription" rows="4" placeholder="Describe the job in detail..." required></textarea>
 
-      <label for="contactInfo">Contact Info</label>
-      <input type="text" id="contactInfo" placeholder="Your Phone or Email" required>
+      <label for="contactInfo">Contact Info</label>
+      <input type="text" id="contactInfo" placeholder="Your Phone or Email" required>
 
-      <button type="submit" class="btn">Post Job</button>
-    </form>
-  </section>
+      <button type="submit" class="btn">Post Job</button>
+    </form>
+  </section>
 
-  <footer class="footer">
-    <p>© 2025 Helply. All rights reserved.</p>
-  </footer>
+  <footer class="footer">
+    <p>© 2025 Helply. All rights reserved.</p>
+  </footer>
 
-  <script src="/js/hire.js" defer></script>
+  <script src="/js/hire.js" defer></script>
 </body>
 </html>
