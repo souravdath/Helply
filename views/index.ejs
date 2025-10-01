@@ -14,39 +14,24 @@
   </div>
 
   <nav>
-    <a href="#">Home</a>
+    <a href="/">Home</a>
     <a href="#how">How it Works</a>
     <a href="#categories">Browse Jobs</a>
     <a href="#workers">Become a Worker</a>
     <a href="#contact">Contact</a>
-    <a href="#" class="btn">Login / Sign Up</a>
+
+    <% if (!user) { %>
+      <a href="/signin" class="btn">Login / Sign Up</a>
+    <% } else { %>
+      <a href="/profile" class="btn">Profile</a>
+      <a href="/logout" class="btn">Logout</a>
+    <% } %>
   </nav>
 
   <!-- Hamburger icon -->
   <div class="menu-toggle">☰</div>
 </header>
 
-=======
-  <header>
-    <div class="logo"><h2 style="color: rgb(255, 255, 255); font-family: papyrus ;">helply</h2></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="#how">How it Works</a>
-      <a href="#categories">Browse Jobs</a>
-      <a href="#workers">Become a Worker</a>
-      <a href="#contact">Contact</a>
-
-  <% if (!user) { %>
-      <a href="/signin" class="btn">Login / Sign Up</a>
-    <% } else { %>
-      <a href="/profile" class="btn">Profile</a>
-      <a href="/logout" class="btn">Logout</a>
-    <% } %>
-
-
-    </nav>
-  </header>
->>>>>>> 592debd5473e835de4a89efe60856308efd0ea9c
 
 <!-- Hero -->
 <section class="hero">
