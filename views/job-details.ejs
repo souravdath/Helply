@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Job Details | Helply</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Job Details | Helply</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <style>
+  <!-- Google Fonts for better typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
     /* ======================================================
-    JOB DETAILS PAGE THEME
+    JOB DETAILS PAGE THEME - ENHANCED
     ------------------------------------------------------
     Primary (Teal): #567c8d (Button, Key Accent)
     Secondary (Navy): #2f4156 (Header, Footer, Headings)
@@ -25,7 +31,9 @@
         --white: #ffffff;             /* Pure White (Content Card) */
         --dark: #212529;              /* Near Black (General Text) */
         --transition: 0.3s;
-        --border-radius: 8px;
+        --border-radius: 12px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
     
     /* General Reset */
@@ -37,8 +45,8 @@
     
     /* Body Styling */
     body {
-        font-family: Arial, sans-serif;
-        background-color: var(--light); /* Beige Background */
+        font-family: 'Inter', Arial, sans-serif;
+        background-color: var(--light);
         color: var(--dark);
         line-height: 1.6;
         min-height: 100vh;
@@ -46,12 +54,15 @@
         flex-direction: column;
     }
     
-    /* Header */
+    /* Header - Enhanced */
     .header {
-        background-color: var(--primary-dark); /* Navy Header */
+        background-color: var(--primary-dark);
         color: var(--white);
-        padding: 20px 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 18px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
     
     .header-container {
@@ -64,60 +75,134 @@
     }
     
     .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--primary); /* Teal Logo Accent */
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .logo-icon {
+        color: var(--primary);
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 25px;
     }
     
     .nav-links a {
         color: var(--white);
-        margin-left: 20px;
         text-decoration: none;
+        font-weight: 500;
         transition: var(--transition);
-        padding-bottom: 2px;
-        border-bottom: 2px solid transparent;
+        padding: 8px 0;
+        position: relative;
+    }
+    
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary);
+        transition: width 0.3s ease;
     }
     
     .nav-links a:hover {
-        color: var(--primary); /* Teal Hover */
-        border-color: var(--primary);
-        text-decoration: none;
+        color: var(--accent-light);
     }
     
-    /* Job Details Container */
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+    
+    /* Job Details Container - Enhanced */
     .job-request-container {
-        background-color: var(--white); /* White Content Card */
+        background-color: var(--white);
         width: 90%;
         max-width: 800px;
         margin: 40px auto;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 40px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
         flex-grow: 1;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .job-request-container:hover {
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-5px);
     }
     
     .job-request-container h2 {
-        color: var(--primary-dark); /* Navy Main Title */
-        font-size: 26px;
-        margin-bottom: 10px;
-        border-bottom: 2px solid var(--accent-light); /* Sky Blue accent line */
-        padding-bottom: 5px;
+        color: var(--primary-dark);
+        font-size: 28px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--primary);
+        position: relative;
+    }
+    
+    .job-request-container h2::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background-color: var(--accent-light);
+    }
+    
+    /* Job Meta Information */
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 25px;
+        padding: 15px;
+        background-color: rgba(200, 217, 230, 0.2);
+        border-radius: var(--border-radius);
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+    }
+    
+    .meta-icon {
+        color: var(--primary);
+        width: 18px;
+        text-align: center;
     }
     
     .job-request-container p {
         font-size: 16px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        color: #444;
     }
 
     .job-request-container strong {
-        color: var(--primary-dark); /* Navy bold text for details */
+        color: var(--primary-dark);
     }
     
     .job-request-container h3 {
-        color: var(--primary); /* Teal Sub-heading */
+        color: var(--primary);
+        font-size: 22px;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .job-request-container h3 i {
         font-size: 20px;
-        margin-top: 25px;
-        margin-bottom: 10px;
     }
     
     .job-request-container ul {
@@ -126,97 +211,185 @@
     }
     
     .job-request-container li {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+        position: relative;
+        padding-left: 10px;
     }
     
-    /* Apply Now Button */
-    .job-request-container button {
-        background-color: var(--primary); /* Teal Button */
+    .job-request-container li::before {
+        content: '•';
+        color: var(--primary);
+        font-weight: bold;
+        position: absolute;
+        left: -15px;
+    }
+    
+    /* Apply Now Button - Enhanced */
+    .apply-btn-container {
+        margin-top: 35px;
+        text-align: center;
+    }
+    
+    .job-request-container .apply-btn {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         color: white;
-        padding: 10px 20px;
-        font-size: 15px;
+        padding: 14px 32px;
+        font-size: 16px;
         font-weight: 600;
         border: none;
-        border-radius: 6px;
+        border-radius: var(--border-radius);
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(86, 124, 141, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
     }
     
-    .job-request-container button:hover {
-        background-color: var(--primary-dark); /* Navy Hover */
+    .job-request-container .apply-btn:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(86, 124, 141, 0.4);
     }
     
-    /* Footer */
+    .job-request-container .apply-btn:active {
+        transform: translateY(0);
+    }
+    
+    /* Footer - Enhanced */
     .footer {
-        background-color: var(--primary-dark); /* Navy Footer */
-        color: var(--accent-light); /* Sky Blue Footer Text */
+        background-color: var(--primary-dark);
+        color: var(--accent-light);
         text-align: center;
-        padding: 20px;
-        margin-top: auto; /* Push footer to the bottom */
+        padding: 25px;
+        margin-top: auto;
+    }
+    
+    .footer p {
+        font-size: 15px;
+    }
+
+    /* Back to Jobs Link */
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        margin-bottom: 20px;
+        transition: var(--transition);
+    }
+    
+    .back-link:hover {
+        color: var(--primary-dark);
+        gap: 12px;
     }
 
     /* Mobile Responsiveness */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
         .header-container {
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
             text-align: center;
         }
 
         .nav-links {
-            display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 15px;
         }
 
         .job-request-container {
             margin: 20px auto;
-            padding: 20px;
+            padding: 25px;
+        }
+        
+        .job-meta {
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .job-request-container h2 {
+            font-size: 24px;
         }
     }
   </style>
 </head>
 <body>
 
-    <header class="header">
-    <div class="header-container">
-      <div class="logo">HELPLY</div>
-      <nav class="nav-links">
-        <a href="/index">Home</a>
-        <a href="/findwork">Jobs</a>
-        <a href="/hire">Post a Job</a>
-      </nav>
-    </div>
-  </header>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-hands-helping logo-icon"></i>
+                HELPLY
+            </div>
+            <nav class="nav-links">
+                <a href="/index">Home</a>
+                <a href="/findwork">Jobs</a>
+                <a href="/hire">Post a Job</a>
+            </nav>
+        </div>
+    </header>
 
-    <div class="job-request-container">
-    <h2>Campus Ambassador</h2>
-    <p><strong>Location:</strong> MEC Thrikkakara, Kochi</p>
-    <p><strong>Type:</strong> Internship</p>
-    <p><strong>Salary:</strong> ₹5,000/month</p>
+    <div class="job-request-container">
+        <a href="/findwork" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Jobs
+        </a>
+        
+        <h2>Campus Ambassador</h2>
+        
+        <div class="job-meta">
+            <div class="meta-item">
+                <i class="fas fa-map-marker-alt meta-icon"></i>
+                <strong>Location:</strong> MEC Thrikkakara, Kochi
+            </div>
+            <div class="meta-item">
+                <i class="fas fa-briefcase meta-icon"></i>
+                <strong>Type:</strong> Internship
+            </div>
+            <div class="meta-item">
+                <i class="fas fa-money-bill-wave meta-icon"></i>
+                <strong>Salary:</strong> ₹5,000/month
+            </div>
+        </div>
 
-    <h3>Job Description</h3>
-    <p>
-      We are looking for energetic campus ambassadors to promote Helply in your college.
-      Your responsibilities include organizing events, sharing Helply on social media,
-      and spreading awareness among students.
-    </p>
+        <h3><i class="fas fa-file-alt"></i> Job Description</h3>
+        <p>
+            We are looking for energetic campus ambassadors to promote Helply in your college.
+            Your responsibilities include organizing events, sharing Helply on social media,
+            and spreading awareness among students.
+        </p>
 
-    <h3>Skills / Requirements</h3>
-    <ul style="margin-left: 20px;">
-      <li>Currently enrolled in college</li>
-      <li>Good communication skills</li>
-      <li>Active on social media</li>
-    </ul>
+        <h3><i class="fas fa-tasks"></i> Skills / Requirements</h3>
+        <ul>
+            <li>Currently enrolled in college</li>
+            <li>Good communication skills</li>
+            <li>Active on social media</li>
+            <li>Leadership qualities and ability to work independently</li>
+            <li>Interest in marketing and community building</li>
+        </ul>
 
-    <a href="/job-request">
-      <button style="margin-top: 25px;">Apply Now</button>
-    </a>
-  </div>
+        <h3><i class="fas fa-award"></i> Benefits</h3>
+        <ul>
+            <li>Certificate of internship completion</li>
+            <li>Letter of recommendation for top performers</li>
+            <li>Networking opportunities with industry professionals</li>
+            <li>Potential for future employment with Helply</li>
+        </ul>
 
-    <footer class="footer">
-    <p>&copy; 2025 Helply. All rights reserved.</p>
-  </footer>
+        <div class="apply-btn-container">
+            <a href="/job-request">
+                <button class="apply-btn">
+                    <i class="fas fa-paper-plane"></i> Apply Now
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Helply. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>

@@ -1,446 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Helply - User Profile</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Details | Helply</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Google Fonts for better typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* ======================================================
+    JOB DETAILS PAGE THEME - ENHANCED
+    ------------------------------------------------------
+    Primary (Teal): #567c8d (Button, Key Accent)
+    Secondary (Navy): #2f4156 (Header, Footer, Headings)
+    Light Background: Beige #f5efeb (Body Background)
+    Base Background: White #ffffff (Content Card)
+    Accent: Sky Blue #c8d9e6 (Subtle Links/Highlights)
+    ======================================================
+    */
+
+    :root {
+        --primary: #567c8d;           /* Teal */
+        --primary-dark: #2f4156;      /* Navy */
+        --accent-light: #c8d9e6;      /* Sky Blue */
+        --light: #f5efeb;             /* Beige (Body BG) */
+        --white: #ffffff;             /* Pure White (Content Card) */
+        --dark: #212529;              /* Near Black (General Text) */
+        --transition: 0.3s;
+        --border-radius: 12px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    /* Body Styling */
+    body {
+        font-family: 'Inter', Arial, sans-serif;
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Header - Enhanced */
+    .header {
+        background-color: var(--primary-dark);
+        color: var(--white);
+        padding: 18px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .header-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .logo-icon {
+        color: var(--primary);
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 25px;
+    }
+    
+    .nav-links a {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        padding: 8px 0;
+        position: relative;
+    }
+    
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+        color: var(--accent-light);
+    }
+    
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+    
+    /* Job Details Container - Enhanced */
+    .job-request-container {
+        background-color: var(--white);
+        width: 90%;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 40px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        flex-grow: 1;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .job-request-container:hover {
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-5px);
+    }
+    
+    .job-request-container h2 {
+        color: var(--primary-dark);
+        font-size: 28px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--primary);
+        position: relative;
+    }
+    
+    .job-request-container h2::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background-color: var(--accent-light);
+    }
+    
+    /* Job Meta Information */
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 25px;
+        padding: 15px;
+        background-color: rgba(200, 217, 230, 0.2);
+        border-radius: var(--border-radius);
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+    }
+    
+    .meta-icon {
+        color: var(--primary);
+        width: 18px;
+        text-align: center;
+    }
+    
+    .job-request-container p {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #444;
+    }
+
+    .job-request-container strong {
+        color: var(--primary-dark);
+    }
+    
+    .job-request-container h3 {
+        color: var(--primary);
+        font-size: 22px;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .job-request-container h3 i {
+        font-size: 20px;
+    }
+    
+    .job-request-container ul {
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .job-request-container li {
+        margin-bottom: 10px;
+        position: relative;
+        padding-left: 10px;
+    }
+    
+    .job-request-container li::before {
+        content: '•';
+        color: var(--primary);
+        font-weight: bold;
+        position: absolute;
+        left: -15px;
+    }
+    
+    /* Apply Now Button - Enhanced */
+    .apply-btn-container {
+        margin-top: 35px;
+        text-align: center;
+    }
+    
+    .job-request-container .apply-btn {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 14px 32px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(86, 124, 141, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .job-request-container .apply-btn:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(86, 124, 141, 0.4);
+    }
+    
+    .job-request-container .apply-btn:active {
+        transform: translateY(0);
+    }
+    
+    /* Footer - Enhanced */
+    .footer {
+        background-color: var(--primary-dark);
+        color: var(--accent-light);
+        text-align: center;
+        padding: 25px;
+        margin-top: auto;
+    }
+    
+    .footer p {
+        font-size: 15px;
+    }
+
+    /* Back to Jobs Link */
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        margin-bottom: 20px;
+        transition: var(--transition);
+    }
+    
+    .back-link:hover {
+        color: var(--primary-dark);
+        gap: 12px;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .header-container {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .nav-links {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .job-request-container {
+            margin: 20px auto;
+            padding: 25px;
+        }
         
-        <style>
-            :root {
-                --primary: #567c8d;           /* Teal */
-                --primary-dark: #2f4156;      /* Navy */
-                --accent: #c8d9e6;            /* Sky Blue */
-                --light: #f5efeb;             /* Beige */
-                --white: #ffffff;             /* Pure White */
-                --dark: #212529;              /* Near Black */
-                --gray: #6c757d;
-                --border-radius: 12px;
-                --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-                --transition: all 0.2s ease;
-            }
+        .job-meta {
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .job-request-container h2 {
+            font-size: 24px;
+        }
+    }
+  </style>
+</head>
+<body>
 
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                font-family: 'Inter', sans-serif;
-                line-height: 1.6;
-                color: var(--dark);
-                background-color: var(--white);
-                min-height: 100vh;
-            }
-
-            .profile-container {
-                
-                margin: 0 auto;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-            }
-
-            /* Header */
-            .profile-header {
-                background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-                color: var(--white);
-                padding: 2rem 0;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .profile-header::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><path fill="white" d="M30,30 Q50,10 70,30 T90,50 Q70,70 50,90 T30,70 Q10,50 30,30 Z"/></svg>');
-                background-size: 200px;
-            }
-
-            .header-content {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 20px;
-                position: relative;
-                z-index: 1;
-            }
-
-            .profile-header h1 {
-                font-size: 2.5rem;
-                font-weight: 700;
-                color: var(--white);
-                text-align: center;
-                margin-bottom: 0.5rem;
-            }
-
-            .profile-subtitle {
-                text-align: center;
-                font-weight: 400;
-                color: var(--accent);
-                font-size: 1.1rem;
-            }
-
-            /* Main Content */
-            .profile-main {
-                flex-grow: 1;
-                padding: 3rem 20px;
-                background-color: var(--light);
-            }
-
-            .profile-card {
-                display: flex;
-                background: var(--white);
-                border-radius: var(--border-radius);
-                box-shadow: var(--box-shadow);
-                max-width: 1000px;
-                margin: 0 auto;
-                overflow: hidden;
-                position: relative;
-                z-index: 1;
-            }
-
-            .profile-card::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 4px;
-                background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-            }
-
-            /* Left Section */
-            .profile-avatar-section {
-                flex: 0 0 300px;
-                padding: 3rem 2rem;
-                background: var(--white);
-                color: var(--dark);
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                border-right: 1px solid var(--accent);
-            }
-
-            .profile-avatar {
-                width: 160px;
-                height: 160px;
-                border-radius: 50%;
-                object-fit: cover;
-                margin-bottom: 1.5rem;
-                border: 4px solid var(--primary);
-                background-color: var(--accent);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                transition: var(--transition);
-            }
-
-            .profile-avatar:hover {
-                transform: scale(1.03);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-            }
-
-            .profile-name {
-                font-size: 1.8rem;
-                font-weight: 700;
-                margin-bottom: 0.5rem;
-                color: var(--primary-dark);
-            }
-
-            .profile-role {
-                color: var(--primary);
-                font-weight: 500;
-                margin-bottom: 1rem;
-                font-size: 1.1rem;
-            }
-
-            .profile-stats {
-                display: flex;
-                justify-content: space-around;
-                width: 100%;
-                margin: 1.5rem 0;
-                padding: 1rem 0;
-                border-top: 1px solid var(--accent);
-                border-bottom: 1px solid var(--accent);
-            }
-
-            .stat {
-                text-align: center;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--primary-dark);
-            }
-
-            .stat-label {
-                font-size: 0.85rem;
-                color: var(--gray);
-            }
-
-            .edit-profile-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                padding: 0.7rem 1.5rem;
-                background: var(--primary);
-                color: var(--white);
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                text-decoration: none;
-                margin-top: 1.5rem;
-                transition: var(--transition);
-                cursor: pointer;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .edit-profile-btn:hover {
-                background: var(--primary-dark);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            /* Right Section */
-            .profile-details-section {
-                flex-grow: 1;
-                padding: 3rem;
-            }
-
-            .section-title {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                font-size: 1.5rem;
-                font-weight: 600;
-                margin-bottom: 1.5rem;
-                color: var(--primary-dark);
-                padding-bottom: 0.5rem;
-                border-bottom: 2px solid var(--accent);
-            }
-
-            .section-title i {
-                color: var(--primary);
-            }
-
-            .detail-item {
-                margin-bottom: 1.2rem;
-                display: flex;
-                font-size: 1.05rem;
-                padding: 0.5rem 0;
-                border-bottom: 1px solid rgba(200, 217, 230, 0.5);
-            }
-
-            .detail-label {
-                font-weight: 600;
-                color: var(--gray);
-                width: 120px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .detail-value {
-                color: var(--dark);
-                flex: 1;
-            }
-
-            /* Action Buttons */
-            .profile-actions {
-                margin-top: 2.5rem;
-                padding-top: 1.5rem;
-                border-top: 1px solid var(--accent);
-            }
-
-            .action-row {
-                display: flex;
-                gap: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .btn-primary, .btn-secondary {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 0.8rem 1.5rem;
-                border-radius: 6px;
-                font-weight: 600;
-                text-align: center;
-                transition: var(--transition);
-                border: none;
-                text-decoration: none;
-                cursor: pointer;
-                flex: 1;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .btn-primary {
-                background: var(--primary);
-                color: var(--white);
-            }
-
-            .btn-primary:hover {
-                background: var(--primary-dark);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            .btn-secondary {
-                background: var(--primary-dark);
-                color: var(--white);
-            }
-
-            .btn-secondary:hover {
-                background: var(--primary);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            /* Footer */
-            .profile-footer {
-                background: var(--primary-dark);
-                color: var(--accent);
-                padding: 1.5rem 20px;
-                text-align: center;
-                font-size: 0.9rem;
-            }
-
-            .footer-links {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                margin-top: 0.5rem;
-            }
-
-            .footer-links a {
-                color: var(--accent);
-                text-decoration: none;
-                transition: var(--transition);
-            }
-
-            .footer-links a:hover {
-                color: var(--white);
-            }
-
-            /* Responsive adjustments */
-            @media (max-width: 800px) {
-                .profile-card {
-                    flex-direction: column;
-                    max-width: 600px;
-                }
-
-                .profile-avatar-section {
-                    flex: auto;
-                    padding: 2rem;
-                    border-right: none;
-                    border-bottom: 1px solid var(--accent);
-                }
-
-                .profile-details-section {
-                    padding: 2rem;
-                }
-
-                .action-row {
-                    flex-direction: column;
-                }
-
-                .btn-primary, .btn-secondary {
-                    width: 100%;
-                    max-width: none;
-                }
-                
-                .footer-links {
-                    flex-direction: column;
-                    gap: 0.5rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="profile-container">
-            <header class="profile-header">
-                <div class="header-content">
-                    <h1>Your Profile</h1>
-                    <p class="profile-subtitle">Manage your account and professional information</p>
-                </div>
-            </header> 	
-            <main class="profile-main">
-                <div class="profile-card">
-                    <div class="profile-avatar-section">
-                        <img src="https://avatar.iran.liara.run/public" alt="Profile Avatar" class="profile-avatar">
-                        
-                        <h2 class="profile-name"><%= user.Name %></h2>
-                      
-                        
-                       
-
-                        <a href="#" class="edit-profile-btn">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </a>
-                    </div>
-
-                    <div class="profile-details-section">
-                        <h3 class="section-title">
-                            <i class="fas fa-user-circle"></i> Personal Information
-                        </h3>
-                        <div class="detail-item">
-                            <span class="detail-label">
-                                <i class="fas fa-envelope"></i> Email:
-                            </span>
-                            <span class="detail-value"><%= user.email %></span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">
-                                <i class="fas fa-phone"></i> Phone:
-                            </span>
-                            <span class="detail-value"><%= user.phone %></span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">
-                                <i class="fas fa-map-marker-alt"></i> Location:
-                            </span>
-                            <span class="detail-value">New York, USA</span>
-                        </div>
-                        
-                        <div class="profile-actions">
-                            <div class="action-row">
-                                <a href="#" class="btn-primary">
-                                    <i class="fas fa-briefcase"></i> View Job Listings
-                                </a>
-                                <a href="#" class="btn-primary">
-                                    <i class="fas fa-file-alt"></i> Apply to Jobs
-                                </a>
-                            </div>
-                            <div class="action-row">
-                                <a href="#" class="btn-secondary">
-                                    <i class="fas fa-plus-circle"></i> Post a Job
-                                </a>
-                                <a href="#" class="btn-secondary">
-                                    <i class="fas fa-users"></i> Browse Workers
-                                </a>
-                            </div>
-                        </div>
-                    </div> 		
-                </div>
-            </main>
-
-            <footer class="profile-footer">
-                <p>&copy; 2025 Helply. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Contact Us</a>
-                </div>
-            </footer>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-hands-helping logo-icon"></i>
+                HELPLY
+            </div>
+            <nav class="nav-links">
+                <a href="/index">Home</a>
+                <a href="/findwork">Jobs</a>
+                <a href="/hire">Post a Job</a>
+            </nav>
         </div>
-    </body>
+    </header>
+
+    <div class="job-request-container">
+        <a href="/findwork" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Jobs
+        </a>
+        
+        <h2>Campus Ambassador</h2>
+        
+        <div class="job-meta">
+            <div class="meta-item">
+                <i class="fas fa-map-marker-alt meta-icon"></i>
+                <strong>Location:</strong> MEC Thrikkakara, Kochi
+            </div>
+            <div class="meta-item">
+                <i class="fas fa-briefcase meta-icon"></i>
+                <strong>Type:</strong> Internship
+            </div>
+            <div class="meta-item">
+                <i class="fas fa-money-bill-wave meta-icon"></i>
+                <strong>Salary:</strong> ₹5,000/month
+            </div>
+        </div>
+
+        <h3><i class="fas fa-file-alt"></i> Job Description</h3>
+        <p>
+            We are looking for energetic campus ambassadors to promote Helply in your college.
+            Your responsibilities include organizing events, sharing Helply on social media,
+            and spreading awareness among students.
+        </p>
+
+        <h3><i class="fas fa-tasks"></i> Skills / Requirements</h3>
+        <ul>
+            <li>Currently enrolled in college</li>
+            <li>Good communication skills</li>
+            <li>Active on social media</li>
+            <li>Leadership qualities and ability to work independently</li>
+            <li>Interest in marketing and community building</li>
+        </ul>
+
+        <h3><i class="fas fa-award"></i> Benefits</h3>
+        <ul>
+            <li>Certificate of internship completion</li>
+            <li>Letter of recommendation for top performers</li>
+            <li>Networking opportunities with industry professionals</li>
+            <li>Potential for future employment with Helply</li>
+        </ul>
+
+        <div class="apply-btn-container">
+            <a href="/job-request">
+                <button class="apply-btn">
+                    <i class="fas fa-paper-plane"></i> Apply Now
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Helply. All rights reserved.</p>
+    </footer>
+
+</body>
 </html>
