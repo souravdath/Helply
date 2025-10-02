@@ -1,5 +1,5 @@
 // This file manages the connection to your MariaDB/MySQL database.
-const mysql = require('mysql');
+const mysql = require('mysql2');
 require('dotenv').config(); // Loads the database credentials from your .env file
 
 // Create a connection pool. This is more efficient than creating a new connection for every query.
