@@ -40,8 +40,9 @@ app.use(session({
 app.get('/', (req, res) => {
     res.render('index', { user: req.session.userId ? req.session : null });
 });
+// Fixed typo: 'es.render' changed to 'res.render'
 app.get('/index', (req, res) => {
-    es.render('index', { user: req.session.userId ? req.session : null });
+    res.render('index', { user: req.session.userId ? req.session : null });
 });
 
 // Route for the user profile page
@@ -97,8 +98,44 @@ app.get('/job-request/:jobId', (req, res) => {
         });
     });
 });
-app.get('/worker_dashboard', (req, res) => res.render('worker_dashboard'));
-app.get('/employer_dash', (req, res) => res.render('employer_dash'));
+
+// CORRECTED: Route for Employer Dashboard (Fetches user details)
+app.get('/employer_dash', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/signin'); 
+    }
+
+    // Fetch user details required by the dashboard template
+    const query = 'SELECT Name, username FROM user WHERE User_ID = ?';
+
+    pool.query(query, [req.session.userId], (error, results) => {
+        if (error || results.length === 0) {
+            console.error("Error fetching employer data:", error);
+            return res.status(500).send("Error fetching employer data for dashboard.");
+        }
+        
+        res.render('employer_dash', { 
+            user: results[0] // Pass the fetched user object
+        });
+    });
+});
+
+// CORRECTED: Route for Worker Dashboard (Fetches user details)
+app.get('/worker_dashboard', (req, res) => { 
+    if (!req.session.userId) {
+        return res.redirect('/signin');
+    }
+
+    // Fetch user details required by the dashboard template
+    const query = 'SELECT Name, username FROM user WHERE User_ID = ?';
+    pool.query(query, [req.session.userId], (error, results) => {
+        if (error || results.length === 0) {
+            console.error("Error fetching worker data:", error);
+            return res.status(500).send("Error fetching worker data for dashboard.");
+        }
+        res.render('worker_dashboard', { user: results[0] }); // Pass the fetched user object
+    });
+});
 
 
 // --- Authentication API Endpoints ---
@@ -222,10 +259,8 @@ app.get('/logout', (req, res) => {
 });
 
 
-
 // --- Server Initialization ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-

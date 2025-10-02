@@ -1,61 +1,290 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worker Dashboard | Helply</title>
-  <link rel="stylesheet" href="/css/worker-dashboard.css">
+  
+  <style>
+    /* ======================================================
+    WORKER DASHBOARD PAGE THEME
+    ------------------------------------------------------
+    Primary (Teal): #567c8d (Accent, Apply Button)
+    Secondary (Navy): #2f4156 (Navbar, Headings, Strong Text)
+    Light Background: Beige #f5efeb (Body Background)
+    Base Background: White #ffffff (Card Background)
+    Accent Colors: Themed for status indicators
+    ======================================================
+    */
+
+    :root {
+        --primary: #567c8d;           /* Teal (Accent, CTA) */
+        --primary-dark: #2f4156;      /* Navy (Navbar, Headings) */
+        --light: #f5efeb;             /* Beige (Body BG) */
+        --white: #ffffff;             /* Pure White (Card BG) */
+        --dark: #212529;              /* Near Black (General Text) */
+        
+        /* Themed Status Colors */
+        --status-pending: #ffb700;    /* Amber/Orange */
+        --status-accepted: #2a9d8f;   /* Themed Green (Success) */
+        --status-rejected: #e63946;   /* Red (Danger) */
+
+        --border-radius: 12px;
+        --box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        --transition: 0.3s;
+    }
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--light); /* Beige Background */
+      color: var(--dark);
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-dark); /* Navy Navbar */
+      padding: 1rem 2rem;
+      color: var(--white);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary); /* Teal Logo Accent */
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 500;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary); /* Teal Hover/Active Link */
+      border-color: var(--primary);
+    }
+
+    /* Dashboard */
+    .dashboard {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dashboard h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--primary-dark); /* Navy Heading */
+    }
+
+    /* Stats Section */
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 180px;
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      text-align: center;
+      border-top: 5px solid var(--primary); /* Teal Accent */
+    }
+
+    .stat-card h2 {
+      font-size: 2rem;
+      color: var(--primary-dark); /* Navy Stat Number */
+    }
+
+    .stat-card p {
+      margin-top: 0.5rem;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    /* Section Headers */
+    .section {
+      margin-top: 2rem;
+    }
+
+    .section h2 {
+      margin-bottom: 1rem;
+      color: var(--primary); /* Teal Section Title */
+      border-bottom: 2px solid var(--primary-dark);
+      padding-bottom: 5px;
+    }
+
+    /* Cards */
+    .jobs, .applications {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--white);
+      padding: 1.2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      border: 1px solid var(--light);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .card h3 {
+      color: var(--primary-dark); /* Navy Card Title */
+      margin-bottom: 0.5rem;
+    }
+    
+    .card p {
+        font-size: 0.95rem;
+        color: #555;
+    }
+
+    .status {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .status.pending { 
+        background: var(--status-pending); 
+        color: var(--dark);
+    }
+    .status.accepted { 
+        background: var(--status-accepted); 
+        color: var(--white); 
+    }
+    .status.rejected { 
+        background: var(--status-rejected); 
+        color: var(--white); 
+    }
+    
+    .card button {
+        margin-top: 10px;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 6px;
+        background: var(--primary); /* Teal Button */
+        color: var(--white);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .card button:hover {
+        background: var(--primary-dark);
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 600px) {
+        .navbar {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .nav-links {
+            justify-content: center;
+        }
+        .dashboard {
+            padding: 1rem;
+        }
+        .stats {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .card {
+            width: 100%;
+        }
+    }
+
+  </style>
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">Helply</div>
     <ul class="nav-links">
-      <li><a href="worker-dashboard.ejs" class="active">Dashboard</a></li>
-      <li><a href="findwork.ejs">Find Work</a></li>
-      <li><a href="applications.html">Applications</a></li>
-      <li><a href="worker-profile.html">Profile</a></li>
-      <li><a href="index.html">Logout</a></li>
+      <li><a href="/worker_dashboard" class="active">Dashboard</a></li>
+      <li><a href="/findwork">Find Work</a></li>
+      <li><a href="/applications">Applications</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
     </ul>
   </nav>
 
   <!-- Dashboard Content -->
   <section class="dashboard">
-    <h1>Welcome back, <span id="workerName">Rahul</span> 👋</h1>
+    <!-- Note: Assuming you pass workerName via EJS rendering or JS -->
+    <h1>Welcome back, <span id="workerName">Worker Name</span> 👋</h1> 
 
     <!-- Stats Section -->
     <div class="stats">
       <div class="stat-card">
-        <h2 id="appliedCount">5</h2>
+        <h2 id="appliedCount">0</h2>
         <p>Jobs Applied</p>
       </div>
       <div class="stat-card">
-        <h2 id="acceptedCount">2</h2>
+        <h2 id="acceptedCount">0</h2>
         <p>Jobs Accepted</p>
       </div>
       <div class="stat-card">
-        <h2 id="completedCount">1</h2>
+        <h2 id="completedCount">0</h2>
         <p>Jobs Completed</p>
       </div>
     </div>
 
-    <!-- Recent Applications -->
+    <!-- Recent Applications - Populated by JS -->
     <div class="section">
       <h2>Recent Applications</h2>
       <div class="applications" id="applicationsList">
-        <!-- Injected by JS -->
+        <p style="color: var(--gray);">Applications will load here using public/js/worker-dashboard.js.</p>
       </div>
     </div>
 
-    <!-- Recommended Jobs -->
+    <!-- Recommended Jobs - Populated by JS -->
     <div class="section">
       <h2>Recommended Jobs for You</h2>
       <div class="jobs" id="recommendedJobs">
-        <!-- Injected by JS -->
+        <p style="color: var(--gray);">Recommended jobs will load here using public/js/worker-dashboard.js.</p>
       </div>
     </div>
   </section>
 
+  <!-- IMPORTANT: Ensure your JS path is correct -->
   <script src="/js/worker-dashboard.js" defer></script>
 </body>
 </html>
