@@ -2,394 +2,683 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Job Details | Helply</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Google Fonts for better typography -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <title>Find Work | Helply</title>
+  <!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
   <style>
     /* ======================================================
-    JOB DETAILS PAGE THEME - ENHANCED
+    ENHANCED FIND WORK PAGE THEME
     ------------------------------------------------------
-    Primary (Teal): #567c8d (Button, Key Accent)
-    Secondary (Navy): #2f4156 (Header, Footer, Headings)
-    Light Background: Beige #f5efeb (Body Background)
-    Base Background: White #ffffff (Content Card)
-    Accent: Sky Blue #c8d9e6 (Subtle Links/Highlights)
+    Primary (Teal): #567c8d (Active/CTA)
+    Secondary (Navy): #2f4156 (Navbar/Buttons)
+    Light Background: Beige #f5efeb (Section Background)
+    Base Background: White #ffffff
     ======================================================
     */
 
     :root {
         --primary: #567c8d;           /* Teal */
         --primary-dark: #2f4156;      /* Navy */
+        --primary-light: #7a9cad;     /* Light Teal */
         --accent-light: #c8d9e6;      /* Sky Blue */
-        --light: #f5efeb;             /* Beige (Body BG) */
-        --white: #ffffff;             /* Pure White (Content Card) */
-        --dark: #212529;              /* Near Black (General Text) */
+        --light: #f5efeb;             /* Beige */
+        --white: #ffffff;             /* Pure White */
+        --dark: #212529;              /* Near Black */
+        --gray: #6c757d;
+        --border-radius: 8px;
         --transition: 0.3s;
-        --border-radius: 12px;
         --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
+        --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
-    
+
     /* General Reset */
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
-    
-    /* Body Styling */
+
     body {
-        font-family: 'Inter', Arial, sans-serif;
-        background-color: var(--light);
+        background: var(--light); /* Beige Background */
         color: var(--dark);
         line-height: 1.6;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
     }
-    
-    /* Header - Enhanced */
-    .header {
-        background-color: var(--primary-dark);
+
+    /* Navbar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--primary-dark); /* Navy Navbar */
+        padding: 15px 30px;
         color: var(--white);
-        padding: 18px 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         position: sticky;
         top: 0;
         z-index: 100;
     }
-    
-    .header-container {
-        width: 90%;
-        max-width: 1200px;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .logo {
-        font-size: 26px;
-        font-weight: 700;
+
+    .navbar .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
         color: var(--white);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
     }
-    
+
     .logo-icon {
-        color: var(--primary);
+        font-size: 1.5rem;
     }
-    
-    .nav-links {
+
+    .navbar .nav-links {
+        list-style: none;
         display: flex;
         gap: 25px;
     }
-    
-    .nav-links a {
+
+    .navbar .nav-links a {
+        text-decoration: none;
+        color: var(--white);
+        font-weight: 500;
+        transition: var(--transition);
+        padding: 8px 12px;
+        border-radius: var(--border-radius);
+    }
+
+    .navbar .nav-links a:hover,
+    .navbar .nav-links a.active {
+        background-color: rgba(255, 255, 255, 0.1);
         color: var(--white);
         text-decoration: none;
-        font-weight: 500;
-        transition: var(--transition);
-        padding: 8px 0;
-        position: relative;
     }
-    
-    .nav-links a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: var(--primary);
-        transition: width 0.3s ease;
+
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        color: var(--white);
+        padding: 60px 30px;
+        text-align: center;
+        margin-bottom: 30px;
     }
-    
-    .nav-links a:hover {
-        color: var(--accent-light);
-    }
-    
-    .nav-links a:hover::after {
-        width: 100%;
-    }
-    
-    /* Job Details Container - Enhanced */
-    .job-request-container {
-        background-color: var(--white);
-        width: 90%;
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 40px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
-        flex-grow: 1;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .job-request-container:hover {
-        box-shadow: var(--shadow-hover);
-        transform: translateY(-5px);
-    }
-    
-    .job-request-container h2 {
-        color: var(--primary-dark);
-        font-size: 28px;
+
+    .hero h1 {
+        font-size: 2.5rem;
         margin-bottom: 15px;
-        padding-bottom: 10px;
-        border-bottom: 3px solid var(--primary);
+        font-weight: 700;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 25px;
+        opacity: 0.9;
+    }
+
+    .search-box {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        box-shadow: var(--shadow);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+
+    .search-box input {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .search-box button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0 25px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .search-box button:hover {
+        background: var(--primary-light);
+    }
+
+    /* Filters Section */
+    .filters {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 20px;
+        background: var(--white);
+        box-shadow: var(--shadow);
+        margin: 0 30px 30px;
+        border-radius: var(--border-radius);
         position: relative;
+        top: -15px;
     }
-    
-    .job-request-container h2::after {
-        content: '';
-        position: absolute;
-        bottom: -3px;
-        left: 0;
-        width: 80px;
-        height: 3px;
-        background-color: var(--accent-light);
+
+    .filters input,
+    .filters select {
+        padding: 12px 15px;
+        border: 1px solid var(--accent-light);
+        border-radius: var(--border-radius);
+        min-width: 180px;
+        outline: none;
+        background-color: var(--white);
+        color: var(--dark);
+        transition: var(--transition);
     }
-    
-    /* Job Meta Information */
+
+    .filters input:focus,
+    .filters select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(86, 124, 141, 0.2);
+    }
+
+    /* Section Header */
+    .section-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 0 30px;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+        color: var(--primary-dark);
+        margin-bottom: 10px;
+    }
+
+    .section-header p {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* Jobs Container */
+    .jobs-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+        padding: 0 30px 30px;
+    }
+
+    /* Job Card */
+    .job-card {
+        background: var(--white);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-top: 4px solid var(--primary);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .job-card h3 {
+        color: var(--primary-dark);
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+    }
+
+    .job-card p {
+        margin: 8px 0;
+        font-size: 0.95rem;
+        flex-grow: 1;
+    }
+
     .job-meta {
         display: flex;
+        gap: 15px;
+        margin: 15px 0;
         flex-wrap: wrap;
-        gap: 20px;
-        margin-bottom: 25px;
-        padding: 15px;
-        background-color: rgba(200, 217, 230, 0.2);
-        border-radius: var(--border-radius);
-    }
-    
-    .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 15px;
-    }
-    
-    .meta-icon {
-        color: var(--primary);
-        width: 18px;
-        text-align: center;
-    }
-    
-    .job-request-container p {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: #444;
     }
 
-    .job-request-container strong {
+    .job-tag {
+        background: var(--accent-light);
         color: var(--primary-dark);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
     }
-    
-    .job-request-container h3 {
+
+    .job-pay {
+        font-size: 1.2rem;
+        font-weight: 700;
         color: var(--primary);
-        font-size: 22px;
-        margin-top: 30px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        margin: 10px 0;
     }
-    
-    .job-request-container h3 i {
-        font-size: 20px;
-    }
-    
-    .job-request-container ul {
-        padding-left: 20px;
-        margin-bottom: 20px;
-    }
-    
-    .job-request-container li {
-        margin-bottom: 10px;
-        position: relative;
-        padding-left: 10px;
-    }
-    
-    .job-request-container li::before {
-        content: '•';
-        color: var(--primary);
-        font-weight: bold;
-        position: absolute;
-        left: -15px;
-    }
-    
-    /* Apply Now Button - Enhanced */
-    .apply-btn-container {
-        margin-top: 35px;
-        text-align: center;
-    }
-    
-    .job-request-container .apply-btn {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        color: white;
-        padding: 14px 32px;
-        font-size: 16px;
-        font-weight: 600;
+
+    .job-card button {
+        margin-top: auto;
+        padding: 12px 20px;
         border: none;
+        background: var(--primary);
+        color: var(--white);
         border-radius: var(--border-radius);
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(86, 124, 141, 0.3);
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .job-request-container .apply-btn:hover {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(86, 124, 141, 0.4);
-    }
-    
-    .job-request-container .apply-btn:active {
-        transform: translateY(0);
-    }
-    
-    /* Footer - Enhanced */
-    .footer {
-        background-color: var(--primary-dark);
-        color: var(--accent-light);
-        text-align: center;
-        padding: 25px;
-        margin-top: auto;
-    }
-    
-    .footer p {
-        font-size: 15px;
+        transition: background 0.3s;
+        font-weight: 600;
+        width: 100%;
     }
 
-    /* Back to Jobs Link */
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--primary);
-        text-decoration: none;
-        font-weight: 500;
-        margin-bottom: 20px;
-        transition: var(--transition);
+    .job-card button:hover {
+        background: var(--primary-dark);
     }
-    
-    .back-link:hover {
+
+    /* No Jobs Found */
+    .jobs-container p {
+        grid-column: 1/-1;
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--gray);
+        padding: 40px 0;
+    }
+
+    /* Modal Styling */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        overflow: auto;
+        backdrop-filter: blur(2px);
+    }
+
+    .modal-content {
+        background: var(--white);
+        margin: 8% auto;
+        padding: 30px;
+        border-radius: 12px;
+        width: 80%;
+        max-width: 600px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 0.3s ease;
+        position: relative;
+    }
+
+    .modal-content h2 {
         color: var(--primary-dark);
-        gap: 12px;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+    }
+
+    .modal-content p {
+        margin: 12px 0;
+        line-height: 1.7;
+    }
+
+    .modal-content strong {
+        color: var(--primary);
+    }
+
+    .modal-content button#applyBtn {
+        margin-top: 20px;
+        padding: 14px 25px;
+        background: var(--primary);
+        border: none;
+        border-radius: var(--border-radius);
+        color: var(--white);
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 600;
+        width: 100%;
+        transition: background 0.3s;
+    }
+
+    .modal-content button#applyBtn:hover {
+        background: var(--primary-dark);
+    }
+
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-size: 1.8rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: var(--dark);
+        transition: color 0.3s;
+    }
+
+    .close:hover {
+        color: var(--primary-dark);
+    }
+
+    /* Footer */
+    .footer {
+        background: var(--primary-dark);
+        color: var(--white);
+        padding: 40px 30px;
+        margin-top: 50px;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .footer-section h3 {
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+        color: var(--accent-light);
+    }
+
+    .footer-section p, .footer-section a {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 10px;
+        display: block;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+        color: var(--white);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
-        .header-container {
+        .navbar {
             flex-direction: column;
             gap: 15px;
-            text-align: center;
+            padding: 15px;
         }
 
-        .nav-links {
-            flex-wrap: wrap;
-            justify-content: center;
+        .navbar .nav-links {
             gap: 15px;
         }
 
-        .job-request-container {
-            margin: 20px auto;
+        .hero {
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .filters {
+            flex-direction: column;
+            align-items: stretch;
+            margin: 0 20px 30px;
+        }
+
+        .jobs-container {
+            grid-template-columns: 1fr;
+            padding: 0 20px 30px;
+        }
+
+        .footer-content {
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .modal-content {
+            width: 90%;
+            margin: 15% auto;
             padding: 25px;
-        }
-        
-        .job-meta {
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .job-request-container h2 {
-            font-size: 24px;
         }
     }
   </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="header-container">
-            <div class="logo">
+    <nav class="navbar">
+       <div class="logo">
                 <i class="fas fa-hands-helping logo-icon"></i>
                 HELPLY
             </div>
-            <nav class="nav-links">
-                <a href="/index">Home</a>
-                <a href="/findwork">Jobs</a>
-                <a href="/hire">Post a Job</a>
-            </nav>
-        </div>
-    </header>
-
-    <div class="job-request-container">
-        <a href="/findwork" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Jobs
-        </a>
-        
-        <h2>Campus Ambassador</h2>
-        
-        <div class="job-meta">
-            <div class="meta-item">
-                <i class="fas fa-map-marker-alt meta-icon"></i>
-                <strong>Location:</strong> MEC Thrikkakara, Kochi
-            </div>
-            <div class="meta-item">
-                <i class="fas fa-briefcase meta-icon"></i>
-                <strong>Type:</strong> Internship
-            </div>
-            <div class="meta-item">
-                <i class="fas fa-money-bill-wave meta-icon"></i>
-                <strong>Salary:</strong> ₹5,000/month
-            </div>
-        </div>
-
-        <h3><i class="fas fa-file-alt"></i> Job Description</h3>
-        <p>
-            We are looking for energetic campus ambassadors to promote Helply in your college.
-            Your responsibilities include organizing events, sharing Helply on social media,
-            and spreading awareness among students.
-        </p>
-
-        <h3><i class="fas fa-tasks"></i> Skills / Requirements</h3>
-        <ul>
-            <li>Currently enrolled in college</li>
-            <li>Good communication skills</li>
-            <li>Active on social media</li>
-            <li>Leadership qualities and ability to work independently</li>
-            <li>Interest in marketing and community building</li>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="post-job.html">Post a Job</a></li>
+            <li><a href="login.html">Login</a></li>
         </ul>
+    </nav>
 
-        <h3><i class="fas fa-award"></i> Benefits</h3>
-        <ul>
-            <li>Certificate of internship completion</li>
-            <li>Letter of recommendation for top performers</li>
-            <li>Networking opportunities with industry professionals</li>
-            <li>Potential for future employment with Helply</li>
-        </ul>
+    <section class="hero">
+        <h1>Find Your Perfect Job Match</h1>
+        <p>Connect with local opportunities that fit your skills and schedule. Browse hundreds of jobs in your area.</p>
+        
+    </section>
 
-        <div class="apply-btn-container">
-            <a href="/job-request">
-                <button class="apply-btn">
-                    <i class="fas fa-paper-plane"></i> Apply Now
-                </button>
-            </a>
+    <section class="filters">
+        <input type="text" id="searchInput" placeholder="Search jobs..." aria-label="Search jobs">
+        <select id="categoryFilter" aria-label="Filter by category">
+            <option value="">All Categories</option>
+            <option value="Babysitting">Babysitting</option>
+            <option value="Tuition">Tuition</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Electrical">Electrical</option>
+        </select>
+        <select id="locationFilter" aria-label="Filter by location">
+            <option value="">All Locations</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+        </select>
+    </section>
+
+    <div class="section-header">
+        <h2>Available Jobs</h2>
+        <p>Browse through our curated list of opportunities and find the perfect match for your skills</p>
+    </div>
+
+    <section class="jobs-container" id="jobsContainer">
+        <!-- Jobs will be rendered here by JavaScript -->
+    </section>
+
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="jobTitle"></h2>
+            <p id="jobDescription"></p>
+            <div class="job-meta">
+                <span class="job-tag" id="jobCategory"></span>
+                <span class="job-tag" id="jobLocation"></span>
+            </div>
+            <p class="job-pay">₹<span id="jobPay"></span></p>
+            <button id="applyBtn">Apply Now</button>
         </div>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2025 Helply. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Helply</h3>
+                <p>Connecting skilled professionals with local opportunities. Our platform makes it easy to find work or hire help for various services.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="post-job.html">Post a Job</a>
+                <a href="login.html">Login</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@helply.com</p>
+                <p>Phone: +91 98765 43210</p>
+                <p>Address: 123 Service Lane, Mumbai</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Helply. All rights reserved.</p>
+        </div>
     </footer>
 
+    <script>
+        // Dummy job data
+        const jobs = [
+            {
+                title: "Babysitter Needed",
+                description: "Looking for a responsible babysitter for 2 kids (ages 4 and 7) in the evening from 6 PM to 9 PM, Monday to Friday. Must have experience with children and references. Light meal preparation required.",
+                category: "Babysitting",
+                location: "Delhi",
+                pay: 500
+            },
+            {
+                title: "Math Tuition Teacher",
+                description: "Require a qualified tutor for 10th grade Mathematics. Student is struggling with algebra and geometry concepts. Classes needed 3 times a week for 1.5 hours each session. Must have teaching experience and strong subject knowledge.",
+                category: "Tuition",
+                location: "Mumbai",
+                pay: 800
+            },
+            {
+                title: "House Cleaning Help",
+                description: "Need thorough cleaning help for a 2BHK flat. Tasks include dusting, mopping, bathroom cleaning, and kitchen deep cleaning. All cleaning supplies will be provided. Previous experience preferred.",
+                category: "Cleaning",
+                location: "Bangalore",
+                pay: 400
+            },
+            {
+                title: "Electrician Required",
+                description: "Fix wiring issue in living room and install new ceiling fan. Must have proper tools and safety equipment. Licensed electricians preferred. Job expected to take 2-3 hours.",
+                category: "Electrical",
+                location: "Chennai",
+                pay: 1000
+            },
+            {
+                title: "Part-time Tutor for Science",
+                description: "Looking for a science tutor for 8th grade student. Focus on Physics and Chemistry concepts. Classes needed twice a week for 1 hour each. Flexible timing available.",
+                category: "Tuition",
+                location: "Delhi",
+                pay: 600
+            },
+            {
+                title: "Weekend Childcare",
+                description: "Need babysitter for 3-year-old on Saturdays from 10 AM to 4 PM. Must be comfortable with toddlers and have CPR certification. Light meal preparation and play activities required.",
+                category: "Babysitting",
+                location: "Mumbai",
+                pay: 700
+            }
+        ];
+
+        // Get elements
+        const jobsContainer = document.getElementById("jobsContainer");
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const locationFilter = document.getElementById("locationFilter");
+        const jobModal = document.getElementById("jobModal");
+        const closeModal = document.querySelector(".close");
+        const applyBtn = document.getElementById("applyBtn");
+
+        // Render jobs
+        function renderJobs(filteredJobs) {
+            jobsContainer.innerHTML = "";
+
+            if (filteredJobs.length === 0) {
+                jobsContainer.innerHTML = "<p>No jobs found matching your criteria. Try adjusting your filters.</p>";
+                return;
+            }
+
+            filteredJobs.forEach((job, index) => {
+                const jobCard = document.createElement("div");
+                jobCard.classList.add("job-card");
+                jobCard.innerHTML = `
+                    <h3>${job.title}</h3>
+                    <p>${job.description.length > 120 ? job.description.slice(0, 120) + "..." : job.description}</p>
+                    <div class="job-meta">
+                        <span class="job-tag">${job.category}</span>
+                        <span class="job-tag">${job.location}</span>
+                    </div>
+                    <p class="job-pay">₹${job.pay}</p>
+                    <button onclick="openJobModal(${index})" aria-label="View details for ${job.title}">View Details</button>
+                `;
+                jobsContainer.appendChild(jobCard);
+            });
+        }
+
+        // Open job modal
+        function openJobModal(index) {
+            const job = jobs[index];
+            document.getElementById("jobTitle").innerText = job.title;
+            document.getElementById("jobDescription").innerText = job.description;
+            document.getElementById("jobCategory").innerText = job.category;
+            document.getElementById("jobLocation").innerText = job.location;
+            document.getElementById("jobPay").innerText = job.pay;
+            jobModal.style.display = "block";
+        }
+
+        // Close modal
+        closeModal.onclick = () => {
+            jobModal.style.display = "none";
+        };
+        window.onclick = (event) => {
+            if (event.target === jobModal) {
+                jobModal.style.display = "none";
+            }
+        };
+
+        // Apply button action
+        applyBtn.onclick = () => {
+            alert("Your application has been submitted successfully! The employer will contact you soon.");
+            jobModal.style.display = "none";
+        };
+
+        // Filtering logic
+        function filterJobs() {
+            const searchText = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const location = locationFilter.value;
+
+            const filtered = jobs.filter(job =>
+                job.title.toLowerCase().includes(searchText) &&
+                (category === "" || job.category === category) &&
+                (location === "" || job.location === location)
+            );
+
+            renderJobs(filtered);
+        }
+
+        // Event listeners
+        searchInput.addEventListener("input", filterJobs);
+        categoryFilter.addEventListener("change", filterJobs);
+        locationFilter.addEventListener("change", filterJobs);
+
+        // Initial render
+        renderJobs(jobs);
+    </script>
 </body>
 </html>
