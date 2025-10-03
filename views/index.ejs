@@ -727,8 +727,7 @@
                 <ul class="nav-links">
                     <li><a href="/">Home</a></li>
                     <li><a href="#how-it-works">How it Works</a></li>
-                    <li><a href="/findwork">Browse Jobs</a></li>
-                    <li><a href="/hire">Post/Find Work</a></li>
+                    <li><a href="/job-details">Browse Jobs</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <div class="nav-buttons">
@@ -752,15 +751,12 @@
         <div class="container hero-content">
             <h1>Find Trusted Help for Your Daily Tasks</h1>
             <p>Connect with local workers for babysitting, cleaning, tutoring, and more.</p>
-            <div class="search-container">
-                <input type="text" placeholder="What service do you need?">
-                <button><i class="fas fa-search"></i></button>
-            </div>
+
             <div class="hero-buttons">
                 <!-- Buttons link to Hire/Find Work based on login status -->
                 <% if (user) { %>
                     <a href="/hire" class="btn btn-secondary">Start Hiring</a>
-                    <a href="/findwork" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
+                    <a href="/job-details" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
                 <% } else { %>
                     <a href="/signup" class="btn btn-secondary">Start Hiring</a>
                     <a href="/signin" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
@@ -956,7 +952,7 @@
                 <!-- Buttons link to Hire/Find Work based on login status -->
                 <% if (user) { %>
                     <a href="/hire" class="btn btn-secondary">Start Hiring</a>
-                    <a href="/findwork" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
+                    <a href="/job-details" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
                 <% } else { %>
                     <a href="/signup" class="btn btn-secondary">Start Hiring</a>
                     <a href="/signin" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
@@ -984,8 +980,7 @@
                     <ul class="footer-links">
                         <li><a href="/">Home</a></li>
                         <li><a href="#how-it-works">How it Works</a></li>
-                        <li><a href="/findwork">Browse Jobs</a></li>
-                        <li><a href="/hire">Post/Find Work</a></li>
+                        <li><a href="/job-details">Browse Jobs</a></li>
                         <li><a href="#contact">Contact Us</a></li>
                     </ul>
                 </div>
