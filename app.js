@@ -50,9 +50,11 @@ app.get('/profile', (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/signin');
     }
-    const query = 'SELECT Name, email, phone, location FROM user WHERE User_ID = ?';
+    // Updated query to include Skills
+    const query = 'SELECT Name, email, phone, location, Skills FROM user WHERE User_ID = ?';
     pool.query(query, [req.session.userId], (error, results) => {
         if (error || results.length === 0) {
+            console.error("Error fetching user data:", error);
             return res.status(500).send("Error fetching user data.");
         }
         res.render('profile', { user: results[0] });
@@ -205,6 +207,33 @@ app.get('/api/jobs', (req, res) => {
             return res.status(500).json({ error: 'Failed to fetch jobs.' });
         }
         res.json(results);
+    });
+});
+
+// API Endpoint to update user profile
+app.post('/api/profile', (req, res) => {
+    if (!req.session.userId) {
+        return res.status(403).json({ error: 'You must be logged in to update your profile.' });
+    }
+
+    const { name, phone, location, skills } = req.body;
+    const userId = req.session.userId;
+
+    const query = 'UPDATE user SET Name = ?, phone = ?, location = ?, Skills = ? WHERE User_ID = ?';
+    pool.query(query, [name, phone, location, skills, userId], (error, results) => {
+        if (error) {
+            console.error("Database update error:", error);
+            return res.status(500).json({ error: 'Failed to update profile.' });
+        }
+
+        // After updating, fetch the updated user data to send back to the client
+        const selectQuery = 'SELECT Name, email, phone, location, Skills FROM user WHERE User_ID = ?';
+        pool.query(selectQuery, [userId], (err, userResult) => {
+            if (err || userResult.length === 0) {
+                return res.status(500).json({ error: 'Could not retrieve updated profile.' });
+            }
+            res.status(200).json({ message: 'Profile updated successfully!', user: userResult[0] });
+        });
     });
 });
 

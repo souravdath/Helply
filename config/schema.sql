@@ -19,6 +19,7 @@ CREATE TABLE `user` (
   `phone` VARCHAR(20),
   `location` VARCHAR(255),
   `password` VARCHAR(255) NOT NULL COMMENT 'Password is hashed by bcrypt in app.js'
+  `Skills` TEXT COMMENT 'User-defined skills, comma-separated'
 );
 
 --

@@ -31,57 +31,96 @@
                 font-family: 'Inter', sans-serif;
                 line-height: 1.6;
                 color: var(--dark);
-                background-color: var(--white);
+                background-color: var(--light);
                 min-height: 100vh;
             }
 
-            .profile-container {
-                
-                margin: 0 auto;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-            }
-
-            /* Header */
-            .profile-header {
-                background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-                color: var(--white);
-                padding: 2rem 0;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .profile-header::before {
-                content: "";
-                position: absolute;
+            /* Site Header */
+            .site-header {
+                background: var(--white);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                position: sticky;
                 top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><path fill="white" d="M30,30 Q50,10 70,30 T90,50 Q70,70 50,90 T30,70 Q10,50 30,30 Z"/></svg>');
-                background-size: 200px;
+                z-index: 1000;
+                padding: 1rem 0;
             }
 
-            .header-content {
+            .header-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 max-width: 1200px;
                 margin: 0 auto;
                 padding: 0 20px;
-                position: relative;
-                z-index: 1;
             }
 
+            .logo {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--primary);
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+            }
+
+             .logo i {
+                margin-right: 0.5rem;
+                color: var(--primary-dark);
+            }
+
+            .nav-buttons {
+                display: flex;
+                gap: 1rem;
+            }
+            
+            .btn {
+                display: inline-block;
+                padding: 0.5rem 1.5rem;
+                border-radius: 6px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: var(--transition);
+                border: 2px solid transparent;
+                text-align: center;
+                font-size: 0.9rem;
+                cursor: pointer;
+            }
+            .btn-outline {
+                background: transparent;
+                color: var(--primary-dark);
+                border-color: var(--primary);
+            }
+            .btn-outline:hover {
+                background: var(--primary);
+                color: var(--white);
+            }
+            .btn-primary {
+                background: var(--primary-dark);
+                color: var(--white);
+                border-color: var(--primary-dark);
+            }
+            .btn-primary:hover {
+                background: var(--primary);
+                border-color: var(--primary);
+            }
+
+            /* Profile Title Header */
+            .profile-header {
+                background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+                color: var(--white);
+                padding: 2.5rem 0;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+            
             .profile-header h1 {
                 font-size: 2.5rem;
                 font-weight: 700;
-                color: var(--white);
-                text-align: center;
                 margin-bottom: 0.5rem;
             }
 
             .profile-subtitle {
-                text-align: center;
                 font-weight: 400;
                 color: var(--accent);
                 font-size: 1.1rem;
@@ -91,7 +130,6 @@
             .profile-main {
                 flex-grow: 1;
                 padding: 3rem 20px;
-                background-color: var(--light);
             }
 
             .profile-card {
@@ -102,126 +140,48 @@
                 max-width: 1000px;
                 margin: 0 auto;
                 overflow: hidden;
-                position: relative;
-                z-index: 1;
-            }
-
-            .profile-card::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 4px;
-                background: linear-gradient(90deg, var(--primary), var(--primary-dark));
             }
 
             /* Left Section */
             .profile-avatar-section {
                 flex: 0 0 300px;
-                padding: 3rem 2rem;
-                background: var(--white);
-                color: var(--dark);
+                padding: 2rem;
                 text-align: center;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: flex-start;
-                border-right: 1px solid var(--accent);
+                justify-content: center;
+                border-right: 1px solid #e0e0e0;
             }
 
             .profile-avatar {
-                width: 160px;
-                height: 160px;
+                width: 140px;
+                height: 140px;
                 border-radius: 50%;
                 object-fit: cover;
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 border: 4px solid var(--primary);
-                background-color: var(--accent);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                transition: var(--transition);
-            }
-
-            .profile-avatar:hover {
-                transform: scale(1.03);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
             }
 
             .profile-name {
-                font-size: 1.8rem;
-                font-weight: 700;
-                margin-bottom: 0.5rem;
-                color: var(--primary-dark);
-            }
-
-            .profile-role {
-                color: var(--primary);
-                font-weight: 500;
-                margin-bottom: 1rem;
-                font-size: 1.1rem;
-            }
-
-            .profile-stats {
-                display: flex;
-                justify-content: space-around;
-                width: 100%;
-                margin: 1.5rem 0;
-                padding: 1rem 0;
-                border-top: 1px solid var(--accent);
-                border-bottom: 1px solid var(--accent);
-            }
-
-            .stat {
-                text-align: center;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
                 font-weight: 700;
                 color: var(--primary-dark);
-            }
-
-            .stat-label {
-                font-size: 0.85rem;
-                color: var(--gray);
-            }
-
-            .edit-profile-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                padding: 0.7rem 1.5rem;
-                background: var(--primary);
-                color: var(--white);
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                text-decoration: none;
-                margin-top: 1.5rem;
-                transition: var(--transition);
-                cursor: pointer;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .edit-profile-btn:hover {
-                background: var(--primary-dark);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
             }
 
             /* Right Section */
             .profile-details-section {
                 flex-grow: 1;
-                padding: 3rem;
+                padding: 2rem 2.5rem;
             }
 
             .section-title {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 font-weight: 600;
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 color: var(--primary-dark);
                 padding-bottom: 0.5rem;
                 border-bottom: 2px solid var(--accent);
@@ -232,20 +192,15 @@
             }
 
             .detail-item {
-                margin-bottom: 1.2rem;
+                margin-bottom: 1rem;
                 display: flex;
-                font-size: 1.05rem;
-                padding: 0.5rem 0;
-                border-bottom: 1px solid rgba(200, 217, 230, 0.5);
+                font-size: 1rem;
             }
 
             .detail-label {
                 font-weight: 600;
                 color: var(--gray);
-                width: 120px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
+                width: 100px;
             }
 
             .detail-value {
@@ -253,139 +208,125 @@
                 flex: 1;
             }
 
-            /* Action Buttons */
-            .profile-actions {
-                margin-top: 2.5rem;
-                padding-top: 1.5rem;
-                border-top: 1px solid var(--accent);
+            .edit-profile-btn {
+                margin-top: 1.5rem;
+            }
+            
+            /* Modal Styles */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1001;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.5);
+                backdrop-filter: blur(3px);
             }
 
-            .action-row {
+            .modal-content {
+                background-color: #fefefe;
+                margin: 10% auto;
+                padding: 2rem;
+                border-radius: var(--border-radius);
+                width: 90%;
+                max-width: 500px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                animation: fadeIn 0.3s;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .modal-header {
                 display: flex;
-                gap: 1rem;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #e0e0e0;
+                padding-bottom: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .modal-header h2 {
+                color: var(--primary-dark);
+            }
+
+            .close-btn {
+                color: #aaa;
+                font-size: 1.8rem;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .close-btn:hover { color: var(--dark); }
+            
+            .form-group {
                 margin-bottom: 1rem;
             }
-
-            .btn-primary, .btn-secondary {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 0.8rem 1.5rem;
-                border-radius: 6px;
+            
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
                 font-weight: 600;
-                text-align: center;
-                transition: var(--transition);
-                border: none;
-                text-decoration: none;
-                cursor: pointer;
-                flex: 1;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                color: var(--gray);
             }
 
-            .btn-primary {
-                background: var(--primary);
-                color: var(--white);
+            .form-group input, .form-group textarea {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 1rem;
+                font-family: 'Inter', sans-serif;
             }
-
-            .btn-primary:hover {
-                background: var(--primary-dark);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            .btn-secondary {
-                background: var(--primary-dark);
-                color: var(--white);
-            }
-
-            .btn-secondary:hover {
-                background: var(--primary);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            /* Footer */
-            .profile-footer {
-                background: var(--primary-dark);
-                color: var(--accent);
-                padding: 1.5rem 20px;
-                text-align: center;
-                font-size: 0.9rem;
-            }
-
-            .footer-links {
+            
+            .modal-footer {
                 display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                margin-top: 0.5rem;
+                justify-content: flex-end;
+                gap: 1rem;
+                margin-top: 2rem;
             }
-
-            .footer-links a {
-                color: var(--accent);
-                text-decoration: none;
-                transition: var(--transition);
-            }
-
-            .footer-links a:hover {
-                color: var(--white);
-            }
-
+            
             /* Responsive adjustments */
             @media (max-width: 800px) {
                 .profile-card {
                     flex-direction: column;
-                    max-width: 600px;
                 }
-
                 .profile-avatar-section {
-                    flex: auto;
-                    padding: 2rem;
                     border-right: none;
-                    border-bottom: 1px solid var(--accent);
-                }
-
-                .profile-details-section {
-                    padding: 2rem;
-                }
-
-                .action-row {
-                    flex-direction: column;
-                }
-
-                .btn-primary, .btn-secondary {
-                    width: 100%;
-                    max-width: none;
-                }
-                
-                .footer-links {
-                    flex-direction: column;
-                    gap: 0.5rem;
+                    border-bottom: 1px solid #e0e0e0;
                 }
             }
         </style>
     </head>
     <body>
-        <div class="profile-container">
-            <header class="profile-header">
-                <div class="header-content">
-                    <h1>Your Profile</h1>
-                    <p class="profile-subtitle">Manage your account and professional information</p>
+        <header class="site-header">
+            <div class="header-container">
+                <a href="/" class="logo">
+                    <i class="fas fa-hands-helping"></i>
+                    Helply
+                </a>
+                <div class="nav-buttons">
+                    <a href="/" class="btn btn-outline">Home</a>
+                    <a href="/logout" class="btn btn-primary">Logout</a>
                 </div>
-            </header> 	
+            </div>
+        </header>
+
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1>User Profile</h1>
+                <p class="profile-subtitle">Your personal dashboard on Helply</p>
+            </div> 	
             <main class="profile-main">
                 <div class="profile-card">
                     <div class="profile-avatar-section">
-                        <img src="https://avatar.iran.liara.run/public" alt="Profile Avatar" class="profile-avatar">
-                        
+                        <img src="https://avatar.iran.liara.run/public/girl" alt="Profile Avatar" class="profile-avatar">
                         <h2 class="profile-name"><%= user.Name %></h2>
-                      
-                        
-                       
-
-                        <a href="#" class="edit-profile-btn">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </a>
                     </div>
 
                     <div class="profile-details-section">
@@ -393,54 +334,126 @@
                             <i class="fas fa-user-circle"></i> Personal Information
                         </h3>
                         <div class="detail-item">
-                            <span class="detail-label">
-                                <i class="fas fa-envelope"></i> Email:
-                            </span>
+                            <span class="detail-label">Email:</span>
                             <span class="detail-value"><%= user.email %></span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">
-                                <i class="fas fa-phone"></i> Phone:
-                            </span>
-                            <span class="detail-value"><%= user.phone %></span>
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value" id="profile-phone"><%= user.phone || 'Not Provided' %></span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">
-                                <i class="fas fa-map-marker-alt"></i> Location:
-                            </span>
-                            <span class="detail-value">New York, USA</span>
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value" id="profile-location"><%= user.location %></span>
                         </div>
-                        
-                        <div class="profile-actions">
-                            <div class="action-row">
-                                <a href="#" class="btn-primary">
-                                    <i class="fas fa-briefcase"></i> View Job Listings
-                                </a>
-                                <a href="#" class="btn-primary">
-                                    <i class="fas fa-file-alt"></i> Apply to Jobs
-                                </a>
-                            </div>
-                            <div class="action-row">
-                                <a href="#" class="btn-secondary">
-                                    <i class="fas fa-plus-circle"></i> Post a Job
-                                </a>
-                                <a href="#" class="btn-secondary">
-                                    <i class="fas fa-users"></i> Browse Workers
-                                </a>
-                            </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Skills:</span>
+                            <span class="detail-value" id="profile-skills"><%= user.Skills || 'Not Provided' %></span>
                         </div>
+                        <button class="btn btn-primary edit-profile-btn" id="editProfileBtn">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
                     </div> 		
                 </div>
             </main>
-
-            <footer class="profile-footer">
-                <p>&copy; 2025 Helply. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Contact Us</a>
-                </div>
-            </footer>
         </div>
+
+        <!-- Edit Profile Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Edit Profile</h2>
+                    <span class="close-btn">&times;</span>
+                </div>
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" value="<%= user.Name %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" name="phone" value="<%= user.phone || '' %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" value="<%= user.location %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="skills">Skills</label>
+                        <textarea id="skills" name="skills" rows="3" placeholder="Enter your skills, separated by commas (e.g., Babysitting, Tutoring, Cleaning)"><%= user.Skills || '' %></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const modal = document.getElementById('editModal');
+            const openBtn = document.getElementById('editProfileBtn');
+            const closeBtn = document.querySelector('.close-btn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            openBtn.addEventListener('click', () => {
+                modal.style.display = 'block';
+            });
+
+            const closeModal = () => {
+                modal.style.display = 'none';
+            }
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', (e) => {
+                if (e.target == modal) {
+                    closeModal();
+                }
+            });
+
+            const editForm = document.getElementById('editProfileForm');
+            editForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    location: document.getElementById('location').value,
+                    skills: document.getElementById('skills').value,
+                };
+
+                try {
+                    const response = await fetch('/api/profile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        document.querySelector('.profile-name').textContent = result.user.Name;
+                        document.getElementById('profile-phone').textContent = result.user.phone || 'Not Provided';
+                        document.getElementById('profile-location').textContent = result.user.location;
+                        document.getElementById('profile-skills').textContent = result.user.Skills || 'Not Provided';
+                        
+                        document.getElementById('name').value = result.user.Name;
+                        document.getElementById('phone').value = result.user.phone || '';
+                        document.getElementById('location').value = result.user.location;
+                        document.getElementById('skills').value = result.user.Skills || '';
+
+                        alert('Profile updated successfully!');
+                        closeModal();
+                    } else {
+                        alert('Error updating profile: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Failed to submit form:', error);
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        </script>
     </body>
 </html>
+
