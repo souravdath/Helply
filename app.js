@@ -210,6 +210,101 @@ app.get('/api/jobs', (req, res) => {
     });
 });
 
+// API to get applications for jobs posted by the logged-in employer
+app.get('/api/employer/applications', (req, res) => {
+    // 1. Check if user is logged in
+    if (!req.session.userId) {
+        return res.status(403).json({ error: 'You must be logged in to view applications.' });
+    }
+
+    const employerId = req.session.userId;
+
+    // 2. SQL Query: Joins three tables (application, job, user) and filters by employerId
+    const query = `
+        SELECT
+            a.Application_ID AS id,
+            a.Status AS status,
+            j.Title AS jobTitle,
+            u.Name AS workerName,
+            u.phone AS workerPhone,
+            a.Cover_letter AS coverLetter
+        FROM application a
+        JOIN job j ON a.job_id_FK = j.Job_ID
+        JOIN user u ON a.user_id_FK = u.User_ID
+        WHERE j.User_id_FK = ?
+    `;
+
+    // 3. Run the query
+    pool.query(query, [employerId], (error, results) => {
+        if (error) {
+            console.error("Database query error:", error);
+            return res.status(500).json({ error: 'Failed to fetch applications.' });
+        }
+        // 4. Send the result back as JSON
+        res.json(results);
+    });
+});
+
+// API to update the status of a specific application
+app.put('/api/applications/:id/status', (req, res) => {
+    // 1. Check if user is logged in (optional, but good practice for server-side checks)
+    if (!req.session.userId) {
+        return res.status(403).json({ error: 'You must be logged in.' });
+    }
+
+    const appId = req.params.id;
+    const { status } = req.body; // status will be 'accepted' or 'rejected'
+
+    // First Query: Update the status of the application
+    const updateQuery = 'UPDATE application SET Status = ? WHERE Application_ID = ?';
+    
+    pool.query(updateQuery, [status, appId], (error, results) => {
+        if (error || results.affectedRows === 0) {
+            console.error("Database update error:", error);
+            return res.status(500).json({ error: 'Failed to update application status.' });
+        }
+
+        // If updated to 'rejected', we are done.
+        if (status === 'rejected') {
+            return res.status(200).json({ message: 'Application rejected.', status: 'rejected' });
+        }
+
+        // --- Logic for ACCEPTED Status (Requires fetching employer contact info) ---
+        if (status === 'accepted') {
+            const contactQuery = `
+                SELECT 
+                    j.Title AS jobTitle,
+                    j.ContactInfo AS employerContact, 
+                    u.Name AS employerName
+                FROM application a
+                JOIN job j ON a.job_id_FK = j.Job_ID
+                JOIN user u ON j.User_id_FK = u.User_ID
+                WHERE a.Application_ID = ?
+            `;
+
+            pool.query(contactQuery, [appId], (err, contactResults) => {
+                if (err || contactResults.length === 0) {
+                    console.error("Database contact fetch error:", err);
+                    // Still return success, but alert of missing data
+                    return res.status(200).json({ 
+                        message: 'Application accepted, but failed to fetch contact info.', 
+                        status: 'accepted', 
+                        contact: null 
+                    });
+                }
+
+                // Success: Send back acceptance message and employer contact details
+                res.status(200).json({ 
+                    message: 'Application accepted successfully!', 
+                    status: 'accepted',
+                    contact: contactResults[0]
+                });
+            });
+        }
+    });
+});
+
+
 // API Endpoint to update user profile
 app.post('/api/profile', (req, res) => {
     if (!req.session.userId) {
