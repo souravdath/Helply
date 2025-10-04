@@ -81,7 +81,8 @@ app.get('/hire', (req, res) => res.render('hire'));
 
 // Already using async/await
 app.get('/job-details', async(req, res) => {
-    const [jobs] = await db.query('SELECT * FROM job WHERE JobStatus = "Open"');
+    // Fetch only 'Open' jobs to display on the worker's job board
+    const [jobs] = await db.query('SELECT Job_ID, Title, Description, Location, Salary, Type FROM job WHERE JobStatus = "Open"');
     res.render('job-details', { jobs });
 });
 
@@ -94,7 +95,9 @@ app.get('/job-request/:jobId', async (req, res) => {
     const jobId = req.params.jobId;
     const userId = req.session.userId;
 
+    // Fetch Job details
     const jobQuery = 'SELECT Job_ID, Title FROM job WHERE Job_ID = ?';
+    // Fetch Worker details (Name, email, phone)
     const userQuery = 'SELECT Name, email FROM user WHERE User_ID = ?';
     
     try {
@@ -250,6 +253,7 @@ app.get('/api/employer/applications', async (req, res) => {
     const employerId = req.session.userId;
 
     // 2. SQL Query: Joins three tables (application, job, user) and filters by employerId
+    // IMPORTANT: Includes worker's phone number (u.phone)
     const query = `
         SELECT
             a.Application_ID AS id,
@@ -262,6 +266,7 @@ app.get('/api/employer/applications', async (req, res) => {
         JOIN job j ON a.job_id_FK = j.Job_ID
         JOIN user u ON a.user_id_FK = u.User_ID
         WHERE j.User_id_FK = ?
+        ORDER BY a.applied_date DESC
     `;
 
     try {
@@ -272,6 +277,37 @@ app.get('/api/employer/applications', async (req, res) => {
     } catch (error) {
         console.error("Database query error:", error);
         return res.status(500).json({ error: 'Failed to fetch applications.' });
+    }
+});
+
+// **NEW API ROUTE**: Fetch all applications made by the worker
+app.get('/api/worker/applications', async (req, res) => {
+    if (!req.session.userId) {
+        return res.status(403).json({ error: 'You must be logged in to view your applications.' });
+    }
+
+    const workerId = req.session.userId;
+
+    // SQL Query: Joins two tables (application, job) and filters by workerId
+    const query = `
+        SELECT
+            a.Application_ID AS id,
+            a.Status AS status,
+            j.Title AS jobTitle,
+            j.Location AS jobLocation,
+            j.Salary AS jobSalary
+        FROM application a
+        JOIN job j ON a.job_id_FK = j.Job_ID
+        WHERE a.user_id_FK = ?
+        ORDER BY a.applied_date DESC
+    `;
+
+    try {
+        const [results] = await db.query(query, [workerId]);
+        res.json(results);
+    } catch (error) {
+        console.error("Database query error:", error);
+        return res.status(500).json({ error: 'Failed to fetch worker applications.' });
     }
 });
 
@@ -301,6 +337,7 @@ app.put('/api/applications/:id/status', async (req, res) => {
 
         // --- Logic for ACCEPTED Status (Requires fetching employer contact info) ---
         if (status === 'accepted') {
+            // IMPORTANT: Fetch the contact info provided by the employer in the job posting
             const contactQuery = `
                 SELECT 
                     j.Title AS jobTitle,
@@ -325,7 +362,7 @@ app.put('/api/applications/:id/status', async (req, res) => {
 
             // Success: Send back acceptance message and employer contact details
             res.status(200).json({ 
-                message: 'Application accepted successfully!', 
+                message: 'Application accepted successfully! Worker will be notified.', 
                 status: 'accepted',
                 contact: contactResults[0]
             });
@@ -369,6 +406,10 @@ app.post('/api/jobs', async (req, res) => {
   try {
     const { title, description, location, salary, type, requirements, contactInfo } = req.body;
 
+    // Temporary logic to map 'type' (category name) to a Service_id_FK
+    // For simplicity, we are assuming Service_id_FK is 1 unless a proper lookup is implemented
+    const Service_id_FK = 1;
+
     const [result] = await db.query(
       `INSERT INTO job 
       (Title, Description, Location, Salary, Type, Requirements, ContactInfo, JobStatus, User_id_FK, Service_id_FK) 
@@ -383,7 +424,7 @@ app.post('/api/jobs', async (req, res) => {
         contactInfo,
         'Open',                  // default JobStatus
         req.session.userId,     // logged-in user
-        1                        // temporary Service_id_FK (adjust later if needed)
+        Service_id_FK           // temporary Service_id_FK (based on the initial seed file)
       ]
     );
 
@@ -394,7 +435,7 @@ app.post('/api/jobs', async (req, res) => {
   }
 });
 
-// FIXED: Converted to async/await
+// FIXED: Application submission to database
 app.post('/api/applications', async (req, res) => {
     if (!req.session.userId) {
         return res.status(403).json({ error: 'You must be logged in to apply for a job.' });
@@ -404,6 +445,8 @@ app.post('/api/applications', async (req, res) => {
     const userId = req.session.userId;
 
     try {
+        // The phone number is deliberately NOT collected here. It is stored 
+        // in the 'user' table and retrieved by the employer using JOIN in /api/employer/applications
         const query = 'INSERT INTO application (Cover_letter, user_id_FK, job_id_FK) VALUES (?, ?, ?)';
         await db.query(query, [coverLetter, userId, jobId]);
         
