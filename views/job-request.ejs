@@ -14,7 +14,7 @@
       <div class="logo">HELPLY</div>
       <nav class="nav-links">
         <a href="/index">Home</a>
-        <a href="/findwork">Jobs</a>
+        <a href="/job-details">Jobs</a>
         <a href="/hire">Post a Job</a>
       </nav>
     </div>
@@ -22,16 +22,20 @@
 
   <!-- Job Request Form -->
   <div class="job-request-container">
-    <h2>Apply for: Campus Ambassador</h2>
+    <h2>Apply for: <%= job.Title %></h2>
     
     <div class="user-info">
       <p>You are applying as:</p>
-      <p><strong>Full Name:</strong> Jessica Doe</p>
-      <p><strong>Email:</strong> jessica.doe@email.com</p>
-      <p><small>Not you? <a href="/signin">Log in with a different account</a>.</small></p>
+      <p><strong>Full Name:</strong> <%= user.Name %></p>
+      <p><strong>Email:</strong> <%= user.email %></p>
+      <!-- NOTE: Worker's phone number is retrieved by the employer via DB JOIN on acceptance -->
+      <p><small>Not you? <a href="/signin">Log in with a different account</a> or <a href="/profile">edit your profile (e.g., add phone number)</a>.</small></p>
     </div>
 
     <form id="jobRequestForm" enctype="multipart/form-data">
+      <!-- Hidden input to send job ID to the API -->
+      <input type="hidden" id="jobId" name="jobId" value="<%= job.Job_ID %>">
+      
       <label for="resume">Upload Resume (Optional)</label>
       <p>Your resume from your profile will be used if you don't upload a new one.</p>
       <input type="file" id="resume" name="resume">
@@ -51,14 +55,50 @@
   <script>
     document.getElementById('jobRequestForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      // This is where you would add a fetch() call to POST the application to the backend
+      
+      const jobId = document.getElementById('jobId').value;
+      const coverLetter = document.getElementById('message').value;
+
+      // Prepare submission data
+      const applicationData = {
+          jobId: jobId,
+          coverLetter: coverLetter
+      };
+
       const btn = e.target.querySelector('button');
-      btn.textContent = 'Application Submitted!';
-      btn.style.backgroundColor = '#28a745';
-      setTimeout(() => {
-        alert("Your application has been sent!");
-        window.location.href = '/job-details'; // Redirect back to jobs list
-      }, 1000);
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+
+      // Fetch call to POST the application to the backend
+      fetch('/api/applications', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(applicationData)
+      })
+      .then(response => {
+          if (!response.ok) {
+              return response.json().then(err => { throw new Error(err.error || 'Failed to submit application.') });
+          }
+          return response.json();
+      })
+      .then(result => {
+          btn.textContent = 'Application Submitted!';
+          btn.style.backgroundColor = '#2a9d8f'; // Success color
+          // IMPORTANT: Use custom UI or redirect instead of alert
+          setTimeout(() => {
+              window.location.href = '/worker_dashboard'; // Redirect to worker dashboard
+          }, 1000);
+      })
+      .catch(error => {
+          console.error("Application submission failed:", error);
+          btn.textContent = 'Error! Try Again.';
+          btn.style.backgroundColor = '#e63946'; // Error color
+          btn.disabled = false;
+          // IMPORTANT: Use custom UI alert instead of native alert()
+          alert(`Submission failed: ${error.message}`);
+      });
     });
   </script>
 
