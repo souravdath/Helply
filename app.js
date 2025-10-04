@@ -1,3 +1,5 @@
+// app.js
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -75,7 +77,6 @@ app.get('/signup', (req, res) => {
 });
 
 // Other page rendering routes
-app.get('/findwork', (req, res) => res.render('findwork'));
 app.get('/hire', (req, res) => res.render('hire'));
 
 // Already using async/await
