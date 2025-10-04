@@ -2,7 +2,7 @@
 const mysql = require('mysql2');
 require('dotenv').config(); // Loads the database credentials from your .env file
 
-// Create a connection pool. This is more efficient than creating a new connection for every query.
+// Create a promise-based connection pool
 const pool = mysql.createPool({
   connectionLimit: 10,
   host: process.env.DB_HOST,
@@ -11,5 +11,5 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME
 });
 
-// Export the pool so that other files (like app.js) can use it to query the database.
-module.exports = pool;
+// Export the promise-enabled pool
+module.exports = pool.promise();

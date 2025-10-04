@@ -508,6 +508,23 @@
 
     <section class="jobs-container" id="jobsContainer">
         <!-- Jobs will be rendered here by JavaScript -->
+         <% if (jobs.length === 0) { %>
+    <p>No jobs found.</p>
+  <% } else { %>
+    <% jobs.forEach(job => { %>
+      <div class="job-card">
+        <h3><%= job.Title %></h3>
+        <p><%= job.Description.substring(0, 120) %>...</p>
+        <div class="job-meta">
+          <span class="job-tag"><%= job.Category %></span>
+          <span class="job-tag"><%= job.Location %></span>
+        </div>
+        <p class="job-pay">₹<%= job.Pay %></p>
+        <button onclick="openJobModal('<%= job.Job_ID %>')">View Details</button>
+      </div>
+    <% }) %>
+  <% } %>
+
     </section>
 
     <div id="jobModal" class="modal">

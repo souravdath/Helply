@@ -325,11 +325,29 @@
     <h1>Welcome back, <span id="employerName"><%= user.username %></span> 👋</h1> 
 
     <!-- Stats Section - Populated by JS -->
-    <div class="stats">
-      <div class="stat-card">
-        <h2 id="jobsPosted">3</h2>
-        <p>Jobs Posted</p>
+<div class="stats">
+    <div class="stat-card">
+      <h2 id="jobsPosted"><%= stats && stats.jobsPosted ? stats.jobsPosted : 0 %></h2>
+      <p>Jobs Posted</p>
+
+      <div class="jobs" id="jobList">
+        <% if (jobs && jobs.length > 0) { %>
+          <% jobs.forEach(job => { %>
+            <div class="card">
+              <h3><%= job.Title %></h3>
+              <p><%= job.Description ? job.Description.substring(0,100) : '' %>...</p>
+              <p><strong>Location:</strong> <%= job.Location %></p>
+              <p class="status <%= job.JobStatus ? job.JobStatus.toLowerCase() : 'unknown' %>">
+                <%= job.JobStatus || 'Unknown' %>
+              </p>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p>No jobs posted yet.</p>
+        <% } %>
       </div>
+    </div>
+  </div>
       <div class="stat-card">
         <h2 id="applicationsReceived">8</h2>
         <p>Applications Received</p>
