@@ -513,7 +513,19 @@
               <p class="status <%= job.JobStatus ? job.JobStatus.toLowerCase() : 'unknown' %>">
                 <%= job.JobStatus || 'Unknown' %>
               </p>
-              <button class="viewBtn" data-index="<%= index %>">View Details</button>
+              <button class="viewBtn" 
+              data-id="<%= job.Job_ID %>"
+              data-title="<%= job.Title %>"
+              data-description="<%= job.Description %>"
+              data-location="<%= job.Location %>"
+              data-status="<%= job.JobStatus %>"
+              >View Details</button>
+
+              <button class="deleteBtn" 
+              data-id="<%= job.Job_ID %>" 
+              style="background:#e63946; color:#fff;">
+              Delete
+            </button>
             </div>
           <% }) %>
         <% } else { %>
@@ -561,5 +573,72 @@
   </div>
 
   <script src="/js/employer-dashboard.js"></script>
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("jobModal");
+  const closeBtn = modal.querySelector(".close");
+
+  // ------------------------
+  // VIEW DETAILS FUNCTIONALITY
+  // ------------------------
+  document.querySelectorAll(".viewBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const title = btn.dataset.title;
+      const description = btn.dataset.description;
+      const location = btn.dataset.location;
+      const status = btn.dataset.status;
+
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalDescription").textContent = description;
+      document.getElementById("modalLocation").textContent = location;
+      document.getElementById("modalStatus").textContent = status;
+
+      modal.style.display = "block";
+    });
+  });
+
+  closeBtn.addEventListener("click", () => modal.style.display = "none");
+
+  window.addEventListener("click", e => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  // ------------------------
+  // DELETE JOB FUNCTIONALITY
+  // ------------------------
+  document.querySelectorAll(".deleteBtn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const jobId = btn.dataset.id;
+
+      if (!confirm("Are you sure you want to delete this job?")) return;
+
+      try {
+        const res = await fetch(`/job/${jobId}`, { method: "DELETE" });
+        const data = await res.json();
+
+        if (data.success) {
+          alert("✅ Job deleted successfully!");
+
+          // Remove card from DOM without reloading
+          btn.closest(".card").remove();
+
+          // Optional: update the “Jobs Posted” count
+          const jobsPostedEl = document.getElementById("jobsPosted");
+          if (jobsPostedEl) {
+            const currentCount = parseInt(jobsPostedEl.textContent, 10) || 1;
+            jobsPostedEl.textContent = Math.max(0, currentCount - 1);
+          }
+        } else {
+          alert("❌ Failed to delete job: " + (data.message || "Unknown error"));
+        }
+      } catch (err) {
+        console.error("Error deleting job:", err);
+        alert("Server error while deleting job.");
+      }
+    });
+  });
+});
+</script>
+
 </body>
 </html>

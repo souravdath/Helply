@@ -149,6 +149,25 @@ app.get('/employer_dash', async (req, res) => {
   }
 });
 
+app.delete('/job/:id', (req, res) => {
+  const jobId = req.params.id;
+  const query = "DELETE FROM job WHERE Job_ID = ?";
+
+  db.query(query, [jobId], (err, result) => {
+    if (err) {
+      console.error("Error deleting job:", err);
+      return res.status(500).json({ success: false, message: "Error deleting job" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    console.log(`✅ Job ${jobId} deleted successfully`);
+    res.json({ success: true });
+  });
+});
+
 
 // FIXED: Converted to async/await
 app.get('/worker_dashboard', async (req, res) => { 
@@ -456,6 +475,7 @@ app.post('/api/applications', async (req, res) => {
         return res.status(500).json({ error: 'Failed to submit application.' });
     }
 });
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
