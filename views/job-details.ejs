@@ -567,8 +567,8 @@
 
     <script>
         // Use the data passed from the server-side EJS rendering
-        const jobs = <%- JSON.stringify(jobs.map(j => ({ Job_ID: j.Job_ID, Title: j.Title, Description: j.Description, Category: j.Type, Location: j.Location, Pay: j.Salary }))) %>;
-        
+        //eslint-disable-next-line no-undef
+        const jobs = <%- JSON.stringify(jobs.map(j => ({ Job_ID: j.Job_ID, Title: j.Title, Description: j.Description, Category: j.Type, Location: j.Location, Pay: j.Salary }))) %>;        
         // Get elements
         const jobsContainer = document.getElementById("jobsContainer");
         const searchInput = document.getElementById("searchInput");
