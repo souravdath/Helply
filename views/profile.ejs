@@ -290,6 +290,11 @@
                 gap: 1rem;
                 margin-top: 2rem;
             }
+
+            .emp_dash, .worker_dash {
+                color: white;
+                text-decoration: none;
+            }
             
             /* Responsive adjustments */
             @media (max-width: 800px) {
@@ -351,6 +356,12 @@
                         </div>
                         <button class="btn btn-primary edit-profile-btn" id="editProfileBtn">
                             <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="btn btn-primary edit-profile-btn" id="editProfileBtn">
+                            <a href="/employer_dash" class="emp_dash">My Listings</a> 
+                        </button>
+                        <button class="btn btn-primary edit-profile-btn" id="editProfileBtn">
+                            <a href="/worker_dashboard" class="worker_dash"> My Applications</a>
                         </button>
                     </div> 		
                 </div>
