@@ -472,7 +472,6 @@
   </style>
 </head>
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">Helply</div>
     <ul class="nav-links">
@@ -484,40 +483,14 @@
     </ul>
   </nav>
 
-  <!-- Dashboard Content -->
   <section class="dashboard">
-    <!-- EJS: Assuming 'user' is passed to render the name -->
     <h1>Welcome back, <span id="employerName"><%= user.username %></span></h1> 
 
-    <!-- Stats Section - Populated by JS -->
-
-<div class="stats">
-    <div class="stat-card">
-      <h2 id="jobsPosted"><%= stats && stats.jobsPosted ? stats.jobsPosted : 0 %></h2>
-      <p>Jobs Posted</p>
-
-      <div class="jobs" id="jobList">
-        <% if (jobs && jobs.length > 0) { %>
-          <% jobs.forEach(job => { %>
-            <div class="card">
-              <h3><%= job.Title %></h3>
-              <p><%= job.Description ? job.Description.substring(0,100) : '' %>...</p>
-              <p><strong>Location:</strong> <%= job.Location %></p>
-              <p class="status <%= job.JobStatus ? job.JobStatus.toLowerCase() : 'unknown' %>">
-                <%= job.JobStatus || 'Unknown' %>
-              </p>
-            </div>
-          <% }) %>
-        <% } else { %>
-          <p>No jobs posted yet.</p>
-        <% } %>
     <div class="stats">
       <div class="stat-card">
-        <h2 id="jobsPosted">0</h2>
+        <h2 id="jobsPosted"><%= stats && stats.jobsPosted ? stats.jobsPosted : 0 %></h2>
         <p>Jobs Posted</p>
       </div>
-    </div>
-  </div>
       <div class="stat-card">
         <h2 id="applicationsReceived">0</h2>
         <p>Applications Received</p>
@@ -528,24 +501,41 @@
       </div>
     </div>
 
-    <!-- Recent Job Postings - Populated by JS -->
     <div class="section">
       <h2>Recent Job Postings</h2>
       <div class="jobs" id="jobList">
-        <!-- Placeholder: Jobs will be dynamically loaded via JS -->
+        <% if (jobs && jobs.length > 0) { %>
+          <% jobs.forEach((job, index) => { %>
+            <div class="card">
+              <h3><%= job.Title %></h3>
+              <p><%= job.Description ? job.Description.substring(0,100) : '' %>...</p>
+              <p><strong>Location:</strong> <%= job.Location %></p>
+              <p class="status <%= job.JobStatus ? job.JobStatus.toLowerCase() : 'unknown' %>">
+                <%= job.JobStatus || 'Unknown' %>
+              </p>
+              <button class="viewBtn" data-index="<%= index %>">View Details</button>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="empty-state">
+            <h3>No Jobs Posted Yet</h3>
+            <p>Get started by posting your first job to see it here.</p>
+          </div>
+        <% } %>
       </div>
     </div>
 
-    <!-- Applications Received - Populated by JS -->
     <div class="section">
       <h2>Applications Received</h2>
       <div class="applications" id="applicationsList">
-        <!-- Placeholder: Applications will be dynamically loaded via JS -->
+        <div class="empty-state" style="display: none;">
+          <h3>No Applications Yet</h3>
+          <p>Applications will appear here when candidates apply to your jobs.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Job Details Modal - Controlled by public/js/employer-dashboard.js -->
   <div id="jobModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -556,7 +546,6 @@
     </div>
   </div>
 
-  <!-- Manage Application Modal - Controlled by public/js/employer-dashboard.js -->
   <div id="manageModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -571,139 +560,6 @@
     </div>
   </div>
 
-  <script>
-    // Mock Data
-    const jobs = [
-      { 
-        title: "House Cleaning Help", 
-        location: "Mumbai", 
-        status: "Open", 
-        description: "Looking for someone reliable to help with daily cleaning tasks for a family of 4. Approx 3-4 hours/day. Must be punctual and have good references." 
-      },
-      { 
-        title: "Math Tutor", 
-        location: "Delhi", 
-        status: "Closed", 
-        description: "Need an experienced math tutor for class 10 student. Evening classes, 1 hour daily. Should have at least 2 years of teaching experience." 
-      },
-      { 
-        title: "Electrician Needed", 
-        location: "Chennai", 
-        status: "Open", 
-        description: "Require electrician for fixing wiring and maintenance work. One-day urgent job. Must be certified and have own tools." 
-      }
-    ];
-
-    const applications = [
-      { worker: "Rahul Sharma", job: "House Cleaning Help", status: "pending" },
-      { worker: "Sneha Patel", job: "Math Tutor", status: "accepted" },
-      { worker: "Arjun Mehta", job: "Electrician Needed", status: "pending" },
-      { worker: "Priya Singh", job: "House Cleaning Help", status: "pending" }
-    ];
-
-    // Load Job Postings
-    const jobList = document.getElementById("jobList");
-    
-    if (jobs.length === 0) {
-      jobList.innerHTML = `
-        <div class="empty-state">
-          <h3>No Jobs Posted Yet</h3>
-          <p>Get started by posting your first job!</p>
-        </div>
-      `;
-    } else {
-      jobs.forEach((job, index) => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = `
-          <h3>${job.title}</h3>
-          <p><strong>Location:</strong> ${job.location}</p>
-          <p><strong>Status:</strong> ${job.status}</p>
-          <button class="viewBtn" data-index="${index}">View Details</button>
-        `;
-        jobList.appendChild(card);
-      });
-    }
-
-    // Load Applications
-    const applicationsList = document.getElementById("applicationsList");
-    
-    if (applications.length === 0) {
-      applicationsList.innerHTML = `
-        <div class="empty-state">
-          <h3>No Applications Yet</h3>
-          <p>Applications will appear here when candidates apply to your jobs.</p>
-        </div>
-      `;
-    } else {
-      applications.forEach((app, index) => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = `
-          <h3>${app.worker}</h3>
-          <p><strong>Applied for:</strong> ${app.job}</p>
-          <p class="status ${app.status}">${app.status.toUpperCase()}</p>
-          <button class="manageBtn" data-index="${index}">Manage</button>
-        `;
-        applicationsList.appendChild(card);
-      });
-    }
-
-    // Update pending applications count
-    const pendingCount = applications.filter(app => app.status === 'pending').length;
-    document.getElementById('pendingApplications').textContent = pendingCount;
-
-    // Modal functionality
-    const jobModal = document.getElementById("jobModal");
-    const manageModal = document.getElementById("manageModal");
-    const closeBtns = document.querySelectorAll(".close");
-
-    document.addEventListener("click", e => {
-      // Open Job Modal
-      if (e.target.classList.contains("viewBtn")) {
-        const jobIndex = e.target.getAttribute("data-index");
-        const job = jobs[jobIndex];
-
-        document.getElementById("modalTitle").innerText = job.title;
-        document.getElementById("modalLocation").innerText = job.location;
-        document.getElementById("modalStatus").innerText = job.status;
-        document.getElementById("modalDescription").innerText = job.description;
-
-        jobModal.style.display = "block";
-      }
-
-      // Open Manage Modal
-      if (e.target.classList.contains("manageBtn")) {
-        const appIndex = e.target.getAttribute("data-index");
-        const app = applications[appIndex];
-
-        document.getElementById("applicantName").innerText = app.worker;
-        document.getElementById("appliedJob").innerText = app.job;
-        document.getElementById("applicationStatus").innerText = app.status;
-
-        manageModal.style.display = "block";
-
-        // Handle Accept/Reject
-        document.getElementById("acceptBtn").onclick = () => {
-          app.status = "accepted";
-          alert(`${app.worker}'s application has been accepted.`);
-          manageModal.style.display = "none";
-          location.reload(); // refresh UI
-        };
-        document.getElementById("rejectBtn").onclick = () => {
-          app.status = "rejected";
-          alert(`${app.worker}'s application has been rejected.`);
-          manageModal.style.display = "none";
-          location.reload(); // refresh UI
-        };
-      }
-
-      // Close Modals
-      if ([...closeBtns].includes(e.target) || e.target === jobModal || e.target === manageModal) {
-        jobModal.style.display = "none";
-        manageModal.style.display = "none";
-      }
-    });
-  </script>
+  <script src="/js/employer-dashboard.js"></script>
 </body>
 </html>

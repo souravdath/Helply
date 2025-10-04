@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const db = require('./config/db'); // Your database connection
+const db = require('./config/db'); // Your promise-enabled database connection
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
@@ -23,12 +23,12 @@ app.use(express.json());
 
 // Session Middleware
 app.use(session({
-    store: new FileStore(), // Stores sessions in a local file, good for development
-    secret: 'a secret key to sign the cookie', // CHANGE THIS to a long, random string in production
+    store: new FileStore(),
+    secret: 'a secret key to sign the cookie', 
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set to true if you are using HTTPS
+        secure: false,
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 // Cookie expires in 1 day
     }
@@ -37,29 +37,32 @@ app.use(session({
 
 // --- Page Rendering Routes ---
 
-// Route for the main landing page
 app.get('/', (req, res) => {
     res.render('index', { user: req.session.userId ? req.session : null });
 });
-// Fixed typo: 'es.render' changed to 'res.render'
+
 app.get('/index', (req, res) => {
     res.render('index', { user: req.session.userId ? req.session : null });
 });
 
-// Route for the user profile page
-app.get('/profile', (req, res) => {
+// FIXED: Converted to async/await
+app.get('/profile', async (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/signin');
     }
-    // Updated query to include Skills
-    const query = 'SELECT Name, email, phone, location FROM user WHERE User_ID = ?';
-    db.query(query, [req.session.userId], (error, results) => {
-        if (error || results.length === 0) {
-            console.error("Error fetching user data:", error);
-            return res.status(500).send("Error fetching user data.");
+    try {
+        const query = 'SELECT Name, email, phone, location, Skills FROM user WHERE User_ID = ?';
+        // db.query returns [rows, fields] when using await
+        const [results] = await db.query(query, [req.session.userId]);
+        
+        if (results.length === 0) {
+            return res.status(404).send("User not found.");
         }
         res.render('profile', { user: results[0] });
-    });
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        return res.status(500).send("Error fetching user data.");
+    }
 });
 
 // Routes for Sign In and Sign Up
@@ -74,11 +77,15 @@ app.get('/signup', (req, res) => {
 // Other page rendering routes
 app.get('/findwork', (req, res) => res.render('findwork'));
 app.get('/hire', (req, res) => res.render('hire'));
+
+// Already using async/await
 app.get('/job-details', async(req, res) => {
-    const [jobs] = await db.query('SELECT * FROM jobs WHERE JobStatus = "Open"');
+    const [jobs] = await db.query('SELECT * FROM job WHERE JobStatus = "Open"');
     res.render('job-details', { jobs });
 });
-app.get('/job-request/:jobId', (req, res) => {
+
+// FIXED: Converted to async/await
+app.get('/job-request/:jobId', async (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/signin');
     }
@@ -88,74 +95,82 @@ app.get('/job-request/:jobId', (req, res) => {
 
     const jobQuery = 'SELECT Job_ID, Title FROM job WHERE Job_ID = ?';
     const userQuery = 'SELECT Name, email FROM user WHERE User_ID = ?';
-
-    db.query(jobQuery, [jobId], (err, jobResults) => {
-        if (err || jobResults.length === 0) {
+    
+    try {
+        const [jobResults] = await db.query(jobQuery, [jobId]);
+        if (jobResults.length === 0) {
             return res.status(404).send('Job not found.');
         }
-        db.query(userQuery, [userId], (err, userResults) => {
-            if (err || userResults.length === 0) {
-                return res.status(500).send('Could not fetch user details.');
-            }
-            res.render('job-request', {
-                job: jobResults[0],
-                user: userResults[0]
-            });
+
+        const [userResults] = await db.query(userQuery, [userId]);
+        if (userResults.length === 0) {
+            return res.status(500).send('Could not fetch user details.');
+        }
+
+        res.render('job-request', {
+            job: jobResults[0],
+            user: userResults[0]
         });
-    });
+    } catch (err) {
+        console.error("Database query error:", err);
+        return res.status(500).send('Server error fetching job request details.');
+    }
 });
 
-// CORRECTED: Route for Employer Dashboard (Fetches user details)
-// 
-app.get('/employer_dash', (req, res) => {
+// **FIXED ROUTE (THE PRIMARY ISSUE)**: Converted to async/await for stability
+app.get('/employer_dash', async (req, res) => {
   if (!req.session.userId) {
     return res.redirect('/signin');
   }
 
   const employerId = req.session.userId;
 
-  const statsQuery = 'SELECT COUNT(*) AS jobsPosted FROM job WHERE User_id_FK = ?';
-  db.query(statsQuery, [employerId], (err, statsResult) => {
-    if (err) return res.status(500).send("Error fetching stats.");
-
+  try {
+    const statsQuery = 'SELECT COUNT(*) AS jobsPosted FROM job WHERE User_id_FK = ?';
+    const [statsResult] = await db.query(statsQuery, [employerId]);
     const stats = statsResult[0];
 
     const jobsQuery = 'SELECT * FROM job WHERE User_id_FK = ? ORDER BY Job_ID DESC LIMIT 5';
-    db.query(jobsQuery, [employerId], (err, jobsResult) => {
-      if (err) return res.status(500).send("Error fetching jobs.");
+    const [jobsResult] = await db.query(jobsQuery, [employerId]);
 
-      // ✅ Render employer dashboard EJS file
-      res.render('employer_dash', {
-        user: { id: req.session.userId, username: req.session.username },
-        stats,
-        jobs: jobsResult
-      });
+    // ✅ Render employer dashboard EJS file
+    res.render('employer_dash', {
+      user: { id: req.session.userId, username: req.session.username },
+      stats,
+      jobs: jobsResult
     });
-  });
+  } catch (err) {
+    console.error("Error fetching employer dashboard data:", err);
+    return res.status(500).send("Error fetching dashboard data.");
+  }
 });
 
 
-// CORRECTED: Route for Worker Dashboard (Fetches user details)
-app.get('/worker_dashboard', (req, res) => { 
+// FIXED: Converted to async/await
+app.get('/worker_dashboard', async (req, res) => { 
     if (!req.session.userId) {
         return res.redirect('/signin');
     }
 
-    // Fetch user details required by the dashboard template
-    const query = 'SELECT Name, username FROM user WHERE User_ID = ?';
-    db.query(query, [req.session.userId], (error, results) => {
-        if (error || results.length === 0) {
-            console.error("Error fetching worker data:", error);
-            return res.status(500).send("Error fetching worker data for dashboard.");
+    try {
+        // Fetch user details required by the dashboard template
+        const query = 'SELECT Name, username FROM user WHERE User_ID = ?';
+        const [results] = await db.query(query, [req.session.userId]);
+        
+        if (results.length === 0) {
+            return res.status(404).send("Worker not found.");
         }
         res.render('worker_dashboard', { user: results[0] }); // Pass the fetched user object
-    });
+    } catch (error) {
+        console.error("Error fetching worker data:", error);
+        return res.status(500).send("Error fetching worker data for dashboard.");
+    }
 });
 
 
 // --- Authentication API Endpoints ---
 
-// Handle Sign Up form submission
+// FIXED: Converted to async/await
 app.post('/signup', async (req, res) => {
     const { name, email, username, location, password } = req.body;
 
@@ -164,31 +179,29 @@ app.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const query = 'INSERT INTO user (Name, email, username, location, password) VALUES (?, ?, ?, ?, ?)';
 
-        db.query(query, [name, email, username, location, hashedPassword], (error, results) => {
-            if (error) {
-                console.error("Database insert error:", error);
-                // Handle specific errors like duplicate email/username
-                if (error.code === 'ER_DUP_ENTRY') {
-                    return res.status(409).send('Username or email already exists.');
-                }
-                return res.status(500).send('Server error during user creation.');
-            }
-            // On successful creation, redirect to the sign-in page
-            res.redirect('/signin');
-        });
+        await db.query(query, [name, email, username, location, hashedPassword]);
+        // On successful creation, redirect to the sign-in page
+        res.redirect('/signin');
+        
     } catch (error) {
-        console.error("Hashing error:", error);
-        res.status(500).send('Server error.');
+        console.error("Database insert error:", error);
+        // Handle specific errors like duplicate email/username
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(409).send('Username or email already exists.');
+        }
+        return res.status(500).send('Server error during user creation.');
     }
 });
 
-// Handle Sign In form submission
-app.post('/signin', (req, res) => {
+// FIXED: Converted to async/await
+app.post('/signin', async (req, res) => {
     const { username, password } = req.body;
     const query = 'SELECT User_ID, password FROM user WHERE username = ?';
 
-    db.query(query, [username], async (error, results) => {
-        if (error || results.length === 0) {
+    try {
+        const [results] = await db.query(query, [username]);
+
+        if (results.length === 0) {
             return res.status(401).send("Invalid username or password.");
         }
 
@@ -205,26 +218,29 @@ app.post('/signin', (req, res) => {
             // Passwords don't match
             res.status(401).send("Invalid username or password.");
         }
-    });
+    } catch (error) {
+        console.error("Sign-in error:", error);
+        res.status(500).send('Server error during sign-in.');
+    }
 });
 
 
 // --- General API Endpoints ---
 
-// API to get all jobs from the database
-app.get('/api/jobs', (req, res) => {
-    const query = 'SELECT `Job_ID` as id, `Title` as title, `Description` as description, `Location` as location, `Salary` as pay, `Type` as category FROM `job` WHERE `JobStatus` = "Open"';
-    db.query(query, (error, results) => {
-        if (error) {
-            console.error("Database query error:", error);
-            return res.status(500).json({ error: 'Failed to fetch jobs.' });
-        }
+// FIXED: Converted to async/await
+app.get('/api/jobs', async (req, res) => {
+    try {
+        const query = 'SELECT `Job_ID` as id, `Title` as title, `Description` as description, `Location` as location, `Salary` as pay, `Type` as category FROM `job` WHERE `JobStatus` = "Open"';
+        const [results] = await db.query(query);
         res.json(results);
-    });
+    } catch (error) {
+        console.error("Database query error:", error);
+        return res.status(500).json({ error: 'Failed to fetch jobs.' });
+    }
 });
 
-// API to get applications for jobs posted by the logged-in employer
-app.get('/api/employer/applications', (req, res) => {
+// **FIXED API ROUTE**: Converted to async/await
+app.get('/api/employer/applications', async (req, res) => {
     // 1. Check if user is logged in
     if (!req.session.userId) {
         return res.status(403).json({ error: 'You must be logged in to view applications.' });
@@ -247,20 +263,20 @@ app.get('/api/employer/applications', (req, res) => {
         WHERE j.User_id_FK = ?
     `;
 
-    // 3. Run the query
-    pool.query(query, [employerId], (error, results) => {
-        if (error) {
-            console.error("Database query error:", error);
-            return res.status(500).json({ error: 'Failed to fetch applications.' });
-        }
+    try {
+        // 3. Run the query
+        const [results] = await db.query(query, [employerId]);
         // 4. Send the result back as JSON
         res.json(results);
-    });
+    } catch (error) {
+        console.error("Database query error:", error);
+        return res.status(500).json({ error: 'Failed to fetch applications.' });
+    }
 });
 
-// API to update the status of a specific application
-app.put('/api/applications/:id/status', (req, res) => {
-    // 1. Check if user is logged in (optional, but good practice for server-side checks)
+// **FIXED API ROUTE**: Converted to async/await
+app.put('/api/applications/:id/status', async (req, res) => {
+    // 1. Check if user is logged in 
     if (!req.session.userId) {
         return res.status(403).json({ error: 'You must be logged in.' });
     }
@@ -268,13 +284,13 @@ app.put('/api/applications/:id/status', (req, res) => {
     const appId = req.params.id;
     const { status } = req.body; // status will be 'accepted' or 'rejected'
 
-    // First Query: Update the status of the application
-    const updateQuery = 'UPDATE application SET Status = ? WHERE Application_ID = ?';
-    
-    pool.query(updateQuery, [status, appId], (error, results) => {
-        if (error || results.affectedRows === 0) {
-            console.error("Database update error:", error);
-            return res.status(500).json({ error: 'Failed to update application status.' });
+    try {
+        // First Query: Update the status of the application
+        const updateQuery = 'UPDATE application SET Status = ? WHERE Application_ID = ?';
+        const [updateResults] = await db.query(updateQuery, [status, appId]);
+        
+        if (updateResults.affectedRows === 0) {
+            return res.status(404).json({ error: 'Application not found or update failed.' });
         }
 
         // If updated to 'rejected', we are done.
@@ -295,31 +311,33 @@ app.put('/api/applications/:id/status', (req, res) => {
                 WHERE a.Application_ID = ?
             `;
 
-            pool.query(contactQuery, [appId], (err, contactResults) => {
-                if (err || contactResults.length === 0) {
-                    console.error("Database contact fetch error:", err);
-                    // Still return success, but alert of missing data
-                    return res.status(200).json({ 
-                        message: 'Application accepted, but failed to fetch contact info.', 
-                        status: 'accepted', 
-                        contact: null 
-                    });
-                }
-
-                // Success: Send back acceptance message and employer contact details
-                res.status(200).json({ 
-                    message: 'Application accepted successfully!', 
-                    status: 'accepted',
-                    contact: contactResults[0]
+            const [contactResults] = await db.query(contactQuery, [appId]);
+            
+            if (contactResults.length === 0) {
+                // Still return success, but alert of missing data
+                return res.status(200).json({ 
+                    message: 'Application accepted, but failed to fetch contact info.', 
+                    status: 'accepted', 
+                    contact: null 
                 });
+            }
+
+            // Success: Send back acceptance message and employer contact details
+            res.status(200).json({ 
+                message: 'Application accepted successfully!', 
+                status: 'accepted',
+                contact: contactResults[0]
             });
         }
-    });
+    } catch (error) {
+        console.error("Database operation error:", error);
+        return res.status(500).json({ error: 'Failed to process application status change.' });
+    }
 });
 
 
-// API Endpoint to update user profile
-app.post('/api/profile', (req, res) => {
+// FIXED: Converted to async/await
+app.post('/api/profile', async (req, res) => {
     if (!req.session.userId) {
         return res.status(403).json({ error: 'You must be logged in to update your profile.' });
     }
@@ -327,25 +345,25 @@ app.post('/api/profile', (req, res) => {
     const { name, phone, location, skills } = req.body;
     const userId = req.session.userId;
 
-    const query = 'UPDATE user SET Name = ?, phone = ?, location = ?, Skills = ? WHERE User_ID = ?';
-    db.query(query, [name, phone, location, skills, userId], (error, results) => {
-        if (error) {
-            console.error("Database update error:", error);
-            return res.status(500).json({ error: 'Failed to update profile.' });
-        }
+    try {
+        const query = 'UPDATE user SET Name = ?, phone = ?, location = ?, Skills = ? WHERE User_ID = ?';
+        await db.query(query, [name, phone, location, skills, userId]);
 
         // After updating, fetch the updated user data to send back to the client
         const selectQuery = 'SELECT Name, email, phone, location, Skills FROM user WHERE User_ID = ?';
-        db.query(selectQuery, [userId], (err, userResult) => {
-            if (err || userResult.length === 0) {
-                return res.status(500).json({ error: 'Could not retrieve updated profile.' });
-            }
-            res.status(200).json({ message: 'Profile updated successfully!', user: userResult[0] });
-        });
-    });
+        const [userResult] = await db.query(selectQuery, [userId]);
+        
+        if (userResult.length === 0) {
+            return res.status(500).json({ error: 'Could not retrieve updated profile.' });
+        }
+        res.status(200).json({ message: 'Profile updated successfully!', user: userResult[0] });
+    } catch (error) {
+        console.error("Database update error:", error);
+        return res.status(500).json({ error: 'Failed to update profile.' });
+    }
 });
 
-// API to post a new job to the database
+// Already using async/await
 app.post('/api/jobs', async (req, res) => {
   try {
     const { title, description, location, salary, type, requirements, contactInfo } = req.body;
@@ -375,8 +393,8 @@ app.post('/api/jobs', async (req, res) => {
   }
 });
 
-// API to handle a new job application
-app.post('/api/applications', (req, res) => {
+// FIXED: Converted to async/await
+app.post('/api/applications', async (req, res) => {
     if (!req.session.userId) {
         return res.status(403).json({ error: 'You must be logged in to apply for a job.' });
     }
@@ -384,15 +402,15 @@ app.post('/api/applications', (req, res) => {
     const { jobId, coverLetter } = req.body;
     const userId = req.session.userId;
 
-    const query = 'INSERT INTO application (Cover_letter, user_id_FK, job_id_FK) VALUES (?, ?, ?)';
-
-    db.query(query, [coverLetter, userId, jobId], (error, results) => {
-        if (error) {
-            console.error("Database insert error:", error);
-            return res.status(500).json({ error: 'Failed to submit application.' });
-        }
+    try {
+        const query = 'INSERT INTO application (Cover_letter, user_id_FK, job_id_FK) VALUES (?, ?, ?)';
+        await db.query(query, [coverLetter, userId, jobId]);
+        
         res.status(201).json({ message: 'Application submitted successfully!' });
-    });
+    } catch (error) {
+        console.error("Database insert error:", error);
+        return res.status(500).json({ error: 'Failed to submit application.' });
+    }
 });
 
 app.get('/logout', (req, res) => {

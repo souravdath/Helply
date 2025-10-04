@@ -59,24 +59,6 @@ async function updateApplicationStatus(appId, status) {
     }
 }
 
-// Load Job Postings (Still using mock data for now, your partner will replace this)
-const jobList = document.getElementById("jobList");
-const mockJobs = [
-    { title: "House Cleaning Help", location: "Mumbai", status: "Open", description: "Mock Data: Looking for someone reliable to help with daily cleaning tasks." },
-];
-// This section should be replaced by your partner later
-mockJobs.forEach((job, index) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.innerHTML = `
-        <h3>${job.title}</h3>
-        <p><strong>Location:</strong> ${job.location}</p>
-        <p><strong>Status:</strong> ${job.status}</p>
-        <button class="viewBtn" data-index="${index}">View Details</button>
-    `;
-    jobList.appendChild(card);
-});
-
 
 // Load Applications (Updated to use fetch)
 async function loadDashboard() {
