@@ -424,14 +424,15 @@ app.post('/api/profile', async (req, res) => {
 app.post('/api/jobs', async (req, res) => {
   try {
     // ADD jobDate, jobTime to destructuring
-    const { title, description, location, salary, type, requirements, contactInfo, jobDate, jobTime } = req.body; // ADDED
+    const { title, description, location, salary, type, requirements, contactInfo, jobDate, jobTime } = req.body; 
 
     const Service_id_FK = 1;
 
+    // CORRECTED QUERY: Removed the comments from the SQL string
     const [result] = await db.query(
       `INSERT INTO job 
-      (Title, Description, Location, Salary, Type, Requirements, ContactInfo, JobStatus, User_id_FK, Service_id_FK, ScheduledDate, ScheduledTime) // UPDATED COLUMNS
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, // UPDATED PLACEHOLDERS
+      (Title, Description, Location, Salary, Type, Requirements, ContactInfo, JobStatus, User_id_FK, Service_id_FK, ScheduledDate, ScheduledTime) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         title,
         description,
@@ -443,8 +444,8 @@ app.post('/api/jobs', async (req, res) => {
         'Open',
         req.session.userId,
         Service_id_FK,
-        jobDate, // NEW VALUE
-        jobTime  // NEW VALUE
+        jobDate,
+        jobTime
       ]
     );
 
