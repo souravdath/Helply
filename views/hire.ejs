@@ -19,12 +19,12 @@
     */
 
     :root {
-        --primary: #567c8d;           /* Teal */
-        --primary-dark: #2f4156;      /* Navy */
-        --accent-light: #c8d9e6;      /* Sky Blue */
-        --light: #f5efeb;             /* Beige (Body BG) */
-        --white: #ffffff;             /* Pure White (Form BG) */
-        --dark: #212529;              /* Near Black (General Text) */
+        --primary: #567c8d; /* Teal */
+        --primary-dark: #2f4156; /* Navy */
+        --accent-light: #c8d9e6; /* Sky Blue */
+        --light: #f5efeb; /* Beige (Body BG) */
+        --white: #ffffff; /* Pure White (Form BG) */
+        --dark: #212529; /* Near Black (General Text) */
         --transition: 0.3s;
         --border-radius: 8px;
         --shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -429,6 +429,16 @@
             </div>
 
             <div class="form-group">
+                <label for="jobDate">Date</label>
+                <input type="date" id="jobDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jobTime">Time</label>
+                <input type="time" id="jobTime" required>
+            </div>
+
+            <div class="form-group">
                 <label for="jobDescription">Job Description</label>
                 <textarea id="jobDescription" rows="5" placeholder="Describe the job in detail..." required></textarea>
             </div>
@@ -465,7 +475,6 @@
 
     <script>
         const form = document.getElementById("jobForm");
-
         form.addEventListener("submit", function(e) {
             e.preventDefault();
 
@@ -475,6 +484,8 @@
                 category: document.getElementById("jobCategory").value,
                 location: document.getElementById("jobLocation").value,
                 pay: document.getElementById("jobPay").value,
+                jobDate: document.getElementById("jobDate").value,
+                jobTime: document.getElementById("jobTime").value,
                 description: document.getElementById("jobDescription").value,
                 contactInfo: document.getElementById("contactInfo").value,
             };
