@@ -371,6 +371,7 @@
             <li><a href="/hire" class="active">Start Hiring</a></li>
             <li><a href="/signin">Login</a></li>
         </ul>
+ 
     </nav>
 
     <section class="hero">
@@ -383,13 +384,14 @@
         
         <div class="form-steps">
             <div class="step active">
-                <div class="step-number">1</div>
+                 <div class="step-number">1</div>
                 <span>Job Details</span>
             </div>
             <div class="step-divider"></div>
             <div class="step">
                 <div class="step-number">2</div>
                 <span>Review & Post</span>
+  
             </div>
         </div>
         
@@ -403,10 +405,12 @@
                 <label for="jobCategory">Category</label>
                 <select id="jobCategory" required>
                     <option value="">Select Category</option>
+    
                     <option value="Babysitting">Babysitting</option>
                     <option value="Tuition">Tuition</option>
                     <option value="Cleaning">Cleaning</option>
                     <option value="Electrical">Electrical</option>
+                    
                     <option value="Cooking">Cooking</option>
                     <option value="Gardening">Gardening</option>
                 </select>
@@ -415,10 +419,12 @@
             <div class="form-group">
                 <label for="jobLocation">Location</label>
                 <select id="jobLocation" required>
+  
                     <option value="">Select Location</option>
                     <option value="Kochi">Kochi</option>
                     <option value="Thiruvananthapuram">Thiruvananthapuram</option>
                     <option value="Kozhikode">Kozhikode</option>
+                 
                     <option value="Thrissur">Thrissur</option>
                 </select>
             </div>
@@ -444,6 +450,7 @@
             </div>
 
             <div class="form-group">
+      
                 <label for="contactInfo">Contact Information</label>
                 <input type="text" id="contactInfo" placeholder="Your Phone or Email" required>
             </div>
@@ -451,7 +458,8 @@
             <button type="submit" class="btn">
                 <i class="fas fa-paper-plane"></i> Post Job
             </button>
-        </form>
+       
+         </form>
     </section>
 
     <footer class="footer">
@@ -483,6 +491,7 @@
                 title: document.getElementById("jobTitle").value,
                 category: document.getElementById("jobCategory").value,
                 location: document.getElementById("jobLocation").value,
+  
                 pay: document.getElementById("jobPay").value,
                 jobDate: document.getElementById("jobDate").value,
                 jobTime: document.getElementById("jobTime").value,
@@ -492,12 +501,14 @@
 
             // Send the data to the backend API endpoint
             fetch('/api/jobs', {
+      
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(jobData)
             })
+      
             .then(response => {
                 if (!response.ok) {
                     // If server responds with an error, throw it to the catch block
@@ -506,11 +517,11 @@
                 return response.json();
             })
             .then(data => {
-                alert('Job posted successfully!');
-                form.reset(); // Clear the form
+                window.location.href = '/employer_dash';
             })
             .catch(error => {
                 console.error('Error posting job:', error);
+   
                 alert(`Failed to post job: ${error.message}`);
             });
         });
@@ -522,11 +533,13 @@
             inputs.forEach(input => {
                 // Add focus effect
                 input.addEventListener('focus', function() {
+     
                     this.parentElement.classList.add('focused');
                 });
                 
                 input.addEventListener('blur', function() {
                     if (this.value === '') {
+           
                         this.parentElement.classList.remove('focused');
                     }
                 });
