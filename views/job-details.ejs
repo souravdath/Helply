@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Work | Helply</title>
-  <!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
   <style>
     /* ======================================================
@@ -19,13 +18,13 @@
     */
 
     :root {
-        --primary: #567c8d;           /* Teal */
-        --primary-dark: #2f4156;      /* Navy */
-        --primary-light: #7a9cad;     /* Light Teal */
-        --accent-light: #c8d9e6;      /* Sky Blue */
-        --light: #f5efeb;             /* Beige */
-        --white: #ffffff;             /* Pure White */
-        --dark: #212529;              /* Near Black */
+        --primary: #567c8d; /* Teal */
+        --primary-dark: #2f4156; /* Navy */
+        --primary-light: #7a9cad; /* Light Teal */
+        --accent-light: #c8d9e6; /* Sky Blue */
+        --light: #f5efeb; /* Beige */
+        --white: #ffffff; /* Pure White */
+        --dark: #212529; /* Near Black */
         --gray: #6c757d;
         --border-radius: 8px;
         --transition: 0.3s;
@@ -507,8 +506,7 @@
     </div>
 
     <section class="jobs-container" id="jobsContainer">
-        <!-- Jobs will be rendered here by JavaScript -->
-         <% if (jobs.length === 0) { %>
+        <% if (jobs.length === 0) { %>
     <p class="no-jobs">No jobs found.</p>
   <% } else { %>
     <% jobs.forEach(job => { %>
@@ -519,6 +517,8 @@
           <span class="job-tag"><%= job.Type %></span>
           <span class="job-tag"><%= job.Location %></span>
         </div>
+        <p><strong>Date:</strong> <%= new Date(job.ScheduledDate).toLocaleDateString() %></p>
+        <p><strong>Time:</strong> <%= job.ScheduledTime %></p>
         <p class="job-pay">₹<%= job.Salary %></p>
         <button onclick="openJobModal('<%= job.Job_ID %>')">View Details</button>
       </div>
@@ -536,6 +536,8 @@
                 <span class="job-tag" id="jobCategory"></span>
                 <span class="job-tag" id="jobLocation"></span>
             </div>
+            <p><strong>Date:</strong> <span id="jobDate"></span></p>
+            <p><strong>Time:</strong> <span id="jobTime"></span></p>
             <p class="job-pay">₹<span id="jobPay"></span></p>
             <button id="applyBtn" data-jobid="">Apply Now</button>
         </div>
@@ -568,7 +570,8 @@
     <script>
         // Use the data passed from the server-side EJS rendering
         //eslint-disable-next-line no-undef
-        const jobs = <%- JSON.stringify(jobs.map(j => ({ Job_ID: j.Job_ID, Title: j.Title, Description: j.Description, Category: j.Type, Location: j.Location, Pay: j.Salary }))) %>;        
+        const jobs = <%- JSON.stringify(jobs.map(j => ({ Job_ID: j.Job_ID, Title: j.Title, Description: j.Description, Category: j.Type, Location: j.Location, Pay: j.Salary, ScheduledDate: j.ScheduledDate, ScheduledTime: j.ScheduledTime }))) %>;
+
         // Get elements
         const jobsContainer = document.getElementById("jobsContainer");
         const searchInput = document.getElementById("searchInput");
@@ -581,7 +584,7 @@
         // Find job by ID helper function
         function findJobById(jobId) {
             // Convert jobId from string to number since server-side IDs are often numbers
-            return jobs.find(job => job.Job_ID == jobId); 
+            return jobs.find(job => job.Job_ID == jobId);
         }
 
         // Open job modal (Updated to use Job_ID instead of index and link apply button)
@@ -593,11 +596,12 @@
             document.getElementById("jobDescription").innerText = job.Description;
             document.getElementById("jobCategory").innerText = job.Category;
             document.getElementById("jobLocation").innerText = job.Location;
+            document.getElementById("jobDate").innerText = new Date(job.ScheduledDate).toLocaleDateString();
+            document.getElementById("jobTime").innerText = job.ScheduledTime;
             document.getElementById("jobPay").innerText = job.Pay;
             
             // Set the Apply button to link to the job-request route with the correct Job ID
             applyBtn.setAttribute("data-jobid", job.Job_ID);
-            
             jobModal.style.display = "block";
         }
 
@@ -630,9 +634,11 @@
             description: job.Description,
             category: job.Category,
             location: job.Location,
-            pay: job.Pay
+            pay: job.Pay,
+            jobDate: job.ScheduledDate,
+            jobTime: job.ScheduledTime
         }));
-        
+
         // Filtering logic 
         function filterJobs() {
             const searchText = searchInput.value.toLowerCase();
@@ -650,7 +656,6 @@
         // Renders the list dynamically based on filtering
         function renderJobs(filteredJobs) {
             jobsContainer.innerHTML = "";
-
             if (filteredJobs.length === 0) {
                 jobsContainer.innerHTML = "<p class='no-jobs'>No jobs found matching your criteria. Try adjusting your filters.</p>";
                 return;
@@ -666,6 +671,8 @@
                         <span class="job-tag">${job.category}</span>
                         <span class="job-tag">${job.location}</span>
                     </div>
+                    <p><strong>Date:</strong> ${new Date(job.jobDate).toLocaleDateString()}</p>
+                    <p><strong>Time:</strong> ${job.jobTime}</p>
                     <p class="job-pay">₹${job.pay}</p>
                     <button onclick="openJobModal('${job.Job_ID}')" aria-label="View details for ${job.title}">View Details</button>
                 `;

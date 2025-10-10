@@ -435,6 +435,16 @@
             </div>
 
             <div class="form-group">
+                <label for="jobDate">Date</label>
+                <input type="date" id="jobDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jobTime">Time</label>
+                <input type="time" id="jobTime" required>
+            </div>
+
+            <div class="form-group">
                 <label for="jobDescription">Job Description</label>
                 <textarea id="jobDescription" rows="5" placeholder="Describe the job in detail..." required></textarea>
             </div>
@@ -483,6 +493,8 @@
                 location: document.getElementById("jobLocation").value,
   
                 pay: document.getElementById("jobPay").value,
+                jobDate: document.getElementById("jobDate").value,
+                jobTime: document.getElementById("jobTime").value,
                 description: document.getElementById("jobDescription").value,
                 contactInfo: document.getElementById("contactInfo").value,
             };

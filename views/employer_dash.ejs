@@ -17,22 +17,22 @@
     */
 
     :root {
-        --primary: #567c8d;           /* Teal (Accent, CTA) */
-        --primary-light: #7aa1b5;     /* Lighter Teal for hover effects */
-        --primary-dark: #2f4156;      /* Navy (Navbar, Headings, Stats) */
+        --primary: #567c8d; /* Teal (Accent, CTA) */
+        --primary-light: #7aa1b5; /* Lighter Teal for hover effects */
+        --primary-dark: #2f4156; /* Navy (Navbar, Headings, Stats) */
         --primary-dark-hover: #1e3146; /* Darker Navy for hover */
-        --light: #f5efeb;             /* Beige (Body BG) */
-        --white: #ffffff;             /* Pure White (Card BG) */
-        --dark: #212529;              /* Near Black (General Text) */
-        --gray: #666;                 /* Darker gray for subtle text */
-        --light-gray: #e9ecef;        /* Light gray for borders */
+        --light: #f5efeb; /* Beige (Body BG) */
+        --white: #ffffff; /* Pure White (Card BG) */
+        --dark: #212529; /* Near Black (General Text) */
+        --gray: #666; /* Darker gray for subtle text */
+        --light-gray: #e9ecef; /* Light gray for borders */
         
         /* Status Colors - Enhanced with better contrast */
-        --status-pending: #ffb703;    /* Amber/Orange */
+        --status-pending: #ffb703; /* Amber/Orange */
         --status-pending-light: #ffd166; /* Lighter Amber */
-        --status-accepted: #2a9d8f;   /* Themed Success Green */
+        --status-accepted: #2a9d8f; /* Themed Success Green */
         --status-accepted-light: #4db6ac; /* Lighter Green */
-        --status-rejected: #e63946;   /* Red (Danger) */
+        --status-rejected: #e63946; /* Red (Danger) */
         --status-rejected-light: #ef5350; /* Lighter Red */
 
         --border-radius: 12px;
@@ -510,6 +510,8 @@
               <h3><%= job.Title %></h3>
               <p><%= job.Description ? job.Description.substring(0,100) : '' %>...</p>
               <p><strong>Location:</strong> <%= job.Location %></p>
+              <p><strong>Date:</strong> <%= new Date(job.ScheduledDate).toLocaleDateString() %></p>
+              <p><strong>Time:</strong> <%= job.ScheduledTime %></p>
               <p class="status <%= job.JobStatus ? job.JobStatus.toLowerCase() : 'unknown' %>">
                 <%= job.JobStatus || 'Unknown' %>
               </p>
@@ -519,6 +521,8 @@
               data-description="<%= job.Description %>"
               data-location="<%= job.Location %>"
               data-status="<%= job.JobStatus %>"
+              data-date="<%= new Date(job.ScheduledDate).toLocaleDateString() %>"
+              data-time="<%= job.ScheduledTime %>"
               >View Details</button>
 
               <button class="deleteBtn" 
@@ -554,6 +558,8 @@
       <h2 id="modalTitle"></h2>
       <p><strong>Location:</strong> <span id="modalLocation"></span></p>
       <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+      <p><strong>Date:</strong> <span id="modalDate"></span></p>
+      <p><strong>Time:</strong> <span id="modalTime"></span></p>
       <p id="modalDescription"></p>
     </div>
   </div>
@@ -587,18 +593,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const description = btn.dataset.description;
       const location = btn.dataset.location;
       const status = btn.dataset.status;
+      const date = btn.dataset.date;
+      const time = btn.dataset.time;
 
       document.getElementById("modalTitle").textContent = title;
       document.getElementById("modalDescription").textContent = description;
       document.getElementById("modalLocation").textContent = location;
       document.getElementById("modalStatus").textContent = status;
+      document.getElementById("modalDate").textContent = date;
+      document.getElementById("modalTime").textContent = time;
 
       modal.style.display = "block";
     });
   });
 
   closeBtn.addEventListener("click", () => modal.style.display = "none");
-
   window.addEventListener("click", e => {
     if (e.target === modal) modal.style.display = "none";
   });
