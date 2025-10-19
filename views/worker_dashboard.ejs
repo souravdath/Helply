@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worker Dashboard | Helply</title>
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* ======================================================
     WORKER DASHBOARD PAGE THEME
@@ -55,13 +55,24 @@
       background: var(--primary-dark); /* Navy Navbar */
       padding: 1rem 2rem;
       color: var(--white);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo::before {
+      
       font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary); /* Teal Logo Accent */
     }
 
     .nav-links {
@@ -76,15 +87,27 @@
       font-weight: 500;
       transition: var(--transition);
       border-bottom: 2px solid transparent;
-      padding-bottom: 2px;
+      padding: 0.5rem 0;
+      position: relative;
     }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--primary); /* Teal Hover/Active Link */
-      border-color: var(--primary);
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: var(--transition);
     }
 
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    
     /* Dashboard */
     .dashboard {
       padding: 2rem;
@@ -236,7 +259,8 @@
   <!-- Navbar -->
   
   <nav class="navbar">
-    <div class="logo">Helply</div>
+    <div class="logo"><i class="fas fa-hands-helping"></i>Helply</div>
+
     <ul class="nav-links">
       <li><a href="/worker_dashboard" class="active">Dashboard</a></li>
       <li><a href="/job-details">Find Work</a></li>
@@ -249,7 +273,7 @@
   <!-- Dashboard Content -->
   <section class="dashboard">
     <!-- Note: Assuming you pass workerName via EJS rendering or JS -->
-    <h1>Welcome back, <span id="workerName"><%= user.Name || user.username %></span> 👋</h1> 
+    <h1>Welcome back, <span id="workerName"><%= user.Name || user.username %></span> </h1> 
 
     <!-- Stats Section -->
     <div class="stats">
