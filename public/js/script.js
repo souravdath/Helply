@@ -34,3 +34,36 @@ menuToggle.addEventListener('click', () => {
   nav.classList.toggle('active');
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.querySelector(".testimonial-track");
+    const slides = document.querySelectorAll(".testimonial-slide");
+    const dots = document.querySelectorAll(".slider-dot");
+    let currentIndex = 0;
+
+    function goToSlide(index) {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach(dot => dot.classList.remove("active"));
+        dots[index].classList.add("active");
+        currentIndex = index;
+    }
+
+    function nextSlide() {
+        let nextIndex = (currentIndex + 1) % slides.length;
+        goToSlide(nextIndex);
+    }
+
+    // Auto slide every 5 seconds
+    let autoSlide = setInterval(nextSlide, 5000);
+
+    // Optional: allow clicking on dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            clearInterval(autoSlide);
+            goToSlide(index);
+            autoSlide = setInterval(nextSlide, 5000);
+        });
+    });
+
+    // Initialize
+    goToSlide(0);
+});
