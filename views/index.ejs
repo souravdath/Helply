@@ -316,6 +316,9 @@
 
     .categories-grid {
         display: grid;
+        justify-content: center;
+        width: 60%;
+        margin-left: 20%;
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 1.5rem;
         margin-top: 2rem;
@@ -754,7 +757,7 @@
 
             <div class="hero-buttons">
                 <% if (user) { %>
-                    <a href="/hire" class="btn btn-secondary">Start Hiring</a>
+                    <a href="/hire"  style="background: rgba(30, 19, 19, 0.316); color: white; border-color: white;" class="btn btn-secondary" >Start Hiring</a>
                     <a href="/job-details" class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">Find Work</a>
                 <% } else { %>
                     <a href="/signup" class="btn btn-secondary">Start Hiring</a>
@@ -797,7 +800,7 @@
     <!-- Categories -->
     <section class="categories">
         <div class="container">
-            <h2 class="section-title">Browse Categories</h2>
+            <h2 class="section-title">Our Services</h2>
             <div class="categories-grid">
                 <div class="category">
                     <i class="fas fa-baby"></i>
@@ -823,10 +826,7 @@
                     <i class="fas fa-truck"></i>
                     <h3>Delivery</h3>
                 </div>
-                <div class="category">
-                    <i class="fas fa-plus-circle"></i>
-                    <h3>Others</h3>
-                </div>
+                
             </div>
         </div>
     </section>
@@ -943,7 +943,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta" id="contact">
+    <section class="cta" >
         <div class="container">
             <h2>Ready to Get Started?</h2>
             <p>Join thousands of users who are already finding help or earning extra income with Helply.</p>
@@ -992,7 +992,7 @@
                         <li><a href="#">Gardening</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
+                <div class="footer-column" id="contact">
                     <h3>Contact</h3>
                     <ul class="footer-links">
                         <li><i class="fas fa-map-marker-alt"></i> 123 Help Street, City</li>
