@@ -3,53 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <title>Confirm Your Application | Helply</title>
-  <link rel="stylesheet" href="/css/styles.css"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+        --primary: #567c8d; /* Teal */
+        --primary-dark: #2f4156; /* Navy */
+        --accent-light: #c8d9e6; /* Sky Blue */
+        --light: #f5efeb; /* Beige (Body BG) */
+        --white: #ffffff; /* Pure White (Form BG) */
+        --dark: #212529; /* Near Black (General Text) */
+        --transition: 0.3s;
+        --border-radius: 8px;
+        --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        --shadow-hover: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    /* General */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", "Inter", sans-serif;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", "Inter", sans-serif;
+        background: var(--light); /* Beige Background */
+        color: var(--dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--primary-dark); /* Navy Navbar */
+        padding: 18px 30px;
+        color: var(--white);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .navbar .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .navbar .logo i {
+        color: var(--primary);
+    }
+
+    .navbar .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+    }
+
+    .navbar .nav-links a {
+        color: var(--white);
+        text-decoration: none;
+        transition: var(--transition);
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .navbar .nav-links a.active,
+    .navbar .nav-links a:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: var(--accent-light);
+    }
+
+    /* Form Container */
+    .job-request-container {
+        width: 100%;
+        max-width: 700px;
+        margin: 40px auto;
+        background: var(--white);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        flex-grow: 1;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .job-request-container:hover {
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-5px);
+    }
+
+    .job-request-container h2 {
+        text-align: center;
+        color: var(--primary-dark);
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--primary);
+        font-size: 1.8rem;
+        position: relative;
+    }
+
+    .job-request-container h2:after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: var(--primary);
+    }
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+    .user-info {
+      background-color: #eef2f7;
+      border: 1px solid #d1dce8;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+    }
+    .user-info p {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    .user-info strong {
+      color: #333;
+    }
+    .user-info a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+    .user-info a:hover {
+      text-decoration: underline;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--primary-dark);
+        transition: var(--transition);
+    }
+    input,
+    textarea {
+        width: 100%;
+        padding: 14px;
+        border: 1.5px solid var(--accent-light);
+        background: var(--white);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        color: var(--dark);
+        transition: var(--transition);
+    }
+    input:focus,
+    textarea:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(86, 124, 141, 0.2);
+    }
+    button {
+        margin-top: 20px;
+        padding: 14px;
+        background: var(--primary);
+        color: var(--white);
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+    button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    /* Footer */
+    .footer {
+        background: var(--primary-dark);
+        color: var(--accent-light);
+        padding: 30px 20px;
+        margin-top: 60px;
+        width: 100%;
+    }
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <div class="logo">HELPLY</div>
-      <nav class="nav-links">
+  <header class="navbar">
+    <div class="logo"><i class="fas fa-hands-helping"></i> Helply</div>
+    <nav class="nav-links">
         <a href="/index">Home</a>
         <a href="/job-details">Jobs</a>
         <a href="/hire">Post a Job</a>
-      </nav>
-    </div>
+    </nav>
   </header>
 
-  <!-- Job Request Form -->
   <div class="job-request-container">
     <h2>Apply for: <%= job.Title %></h2>
-    
     <div class="user-info">
       <p>You are applying as:</p>
       <p><strong>Full Name:</strong> <%= user.Name %></p>
       <p><strong>Email:</strong> <%= user.email %></p>
-      <!-- NOTE: Worker's phone number is retrieved by the employer via DB JOIN on acceptance -->
       <p><small>Not you? <a href="/signin">Log in with a different account</a> or <a href="/profile">edit your profile (e.g., add phone number)</a>.</small></p>
     </div>
 
     <form id="jobRequestForm" enctype="multipart/form-data">
-      <!-- Hidden input to send job ID to the API -->
       <input type="hidden" id="jobId" name="jobId" value="<%= job.Job_ID %>">
-      
-      <label for="resume">Upload Resume (Optional)</label>
-      <p>Your resume from your profile will be used if you don't upload a new one.</p>
-      <input type="file" id="resume" name="resume">
-
-      <label for="message">Cover Letter / Message</label>
-      <textarea id="message" name="message" rows="6" placeholder="Why are you a great fit for this role?" required></textarea>
-
+      <div class="form-group">
+        <label for="resume">Upload Resume (Optional)</label>
+        <p>Your resume from your profile will be used if you don't upload a new one.</p>
+        <input type="file" id="resume" name="resume">
+      </div>
+      <div class="form-group">
+        <label for="message">Cover Letter / Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Why are you a great fit for this role?" required></textarea>
+      </div>
       <button type="submit">Confirm and Submit Application</button>
     </form>
   </div>
 
-  <!-- Footer -->
   <footer class="footer">
-    <p>&copy; 2025 Helply. All rights reserved.</p>
+    <div class="footer-content">
+        <p>&copy; 2025 Helply. All rights reserved.</p>
+    </div>
   </footer>
 
   <script>
