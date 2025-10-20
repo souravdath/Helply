@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const fs = require('fs'); // Import the 'fs' module
 const db = require('./config/db'); // Your promise-enabled database connection
 const bcrypt = require('bcrypt');
 const session = require('express-session');
@@ -10,6 +11,12 @@ const FileStore = require('session-file-store')(session);
 
 const app = express();
 const saltRounds = 10; // For password hashing
+
+// --- Create sessions directory if it doesn't exist ---
+const sessionsDir = path.join(__dirname, 'sessions');
+if (!fs.existsSync(sessionsDir)) {
+    fs.mkdirSync(sessionsDir);
+}
 
 // --- Template Engine Setup ---
 // Set EJS as the view engine and specify the views directory
@@ -25,7 +32,7 @@ app.use(express.json());
 
 // Session Middleware
 app.use(session({
-    store: new FileStore(),
+    store: new FileStore({ path: sessionsDir }), // Specify the path to the sessions directory
     secret: 'a secret key to sign the cookie', 
     resave: false,
     saveUninitialized: false,
@@ -368,7 +375,7 @@ app.post('/api/jobs', async (req, res) => {
         const [result] = await db.query(
             `INSERT INTO job 
             (Title, Description, Location, Salary, Type, Requirements, ContactInfo, JobStatus, User_id_FK, Service_id_FK, ScheduledDate, ScheduledTime) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 title,
                 description,
