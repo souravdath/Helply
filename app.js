@@ -437,7 +437,7 @@ app.post('/api/jobs', async (req, res) => {
         title,
         description,
         location,
-        salary,
+        pay,
         type,
         requirements,
         contactInfo,
