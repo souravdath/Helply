@@ -279,20 +279,23 @@
         gap: 20px;
     }
 
+
+     
     .footer-links {
-        display: flex;
-        gap: 20px;
-        margin: 10px 0;
+        list-style: none;
     }
 
+    .footer-links li {
+        margin-bottom: 0.8rem;
+    }
     .footer-links a {
-        color: var(--accent-light);
-        text-decoration: none;
+        color: var(--accent); /* Sky Blue links */
         transition: var(--transition);
     }
 
     .footer-links a:hover {
-        color: var(--white);
+        color: white;
+        padding-left: 5px;
     }
 
     .social-icons {
@@ -384,15 +387,11 @@
         
         <div class="form-steps">
             <div class="step active">
-                 <div class="step-number">1</div>
+               
                 <span>Job Details</span>
             </div>
-            <div class="step-divider"></div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <span>Review & Post</span>
-  
-            </div>
+           
+
         </div>
         
         <form id="jobForm">
@@ -491,8 +490,7 @@
                 title: document.getElementById("jobTitle").value,
                 category: document.getElementById("jobCategory").value,
                 location: document.getElementById("jobLocation").value,
-  
-                pay: document.getElementById("jobPay").value,
+                salary: document.getElementById("jobPay").value,
                 jobDate: document.getElementById("jobDate").value,
                 jobTime: document.getElementById("jobTime").value,
                 description: document.getElementById("jobDescription").value,

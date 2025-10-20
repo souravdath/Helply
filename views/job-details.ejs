@@ -406,6 +406,26 @@
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         color: rgba(255, 255, 255, 0.7);
     }
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+  list-style: none;
+}
+
+.footer-links a {
+  color: var(--accent); /* Sky Blue links */
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: white;
+  padding-left: 5px;
+}
 
     /* Animations */
     @keyframes fadeIn {
@@ -454,7 +474,7 @@
             flex-direction: column;
             gap: 30px;
         }
-
+ 
         .modal-content {
             width: 90%;
             margin: 15% auto;
@@ -551,16 +571,18 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="index.html">Home</a>
-                <a href="post-job.html">Post a Job</a>
-                <a href="login.html">Login</a>
+                <a href="\">Home</a>
+                <a href="\hire">Post a Job</a>
+                
             </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p>Email: support@helply.com</p>
-                <p>Phone: +91 98765 43210</p>
-                <p>Address: 123 Service Lane, Mumbai</p>
-            </div>
+                <div class="footer-column" id="contact">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Model Engineering College,Thrikakkara,Ernankulam</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> contact@helply.com</li>
+                    </ul>
+                </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2023 Helply. All rights reserved.</p>
