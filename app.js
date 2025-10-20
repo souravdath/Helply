@@ -82,7 +82,7 @@ app.get('/hire', (req, res) => res.render('hire'));
 // Already using async/await
 app.get('/job-details', async(req, res) => {
     // Fetch only 'Open' jobs to display on the worker's job board
-    const [jobs] = await db.query('SELECT Job_ID, Title, Description, Location, Salary, Type, ScheduledDate, ScheduledTime FROM job WHERE JobStatus = "Open"');
+    const [jobs] = await db.query('SELECT Job_ID, Title, Description, Location, Salary, Type FROM job WHERE JobStatus = "Open"');
     res.render('job-details', { jobs });
 });
 
@@ -253,7 +253,7 @@ app.post('/signin', async (req, res) => {
 // FIXED: Converted to async/await
 app.get('/api/jobs', async (req, res) => {
     try {
-        const query = 'SELECT `Job_ID` as id, `Title` as title, `Description` as description, `Location` as location, `Salary` as pay, `Type` as category, `ScheduledDate` as jobDate, `ScheduledTime` as jobTime FROM `job` WHERE `JobStatus` = "Open"';
+        const query = 'SELECT `Job_ID` as id, `Title` as title, `Description` as description, `Location` as location, `Salary` as pay, `Type` as category FROM `job` WHERE `JobStatus` = "Open"';
         const [results] = await db.query(query);
         res.json(results);
     } catch (error) {
@@ -315,8 +315,12 @@ app.get('/api/worker/applications', async (req, res) => {
             j.Title AS jobTitle,
             j.Location AS jobLocation,
             j.Salary AS jobSalary
+            e.Name AS employerName,
+            e.phone AS employerPhone,
+            a.Cover_letter AS coverLetter
         FROM application a
         JOIN job j ON a.job_id_FK = j.Job_ID
+        JOIN user e ON j.User_id_FK = e.User_ID 
         WHERE a.user_id_FK = ?
         ORDER BY a.applied_date DESC
     `;
@@ -423,16 +427,16 @@ app.post('/api/profile', async (req, res) => {
 // Already using async/await
 app.post('/api/jobs', async (req, res) => {
   try {
-    // ADD jobDate, jobTime to destructuring
-    const { title, description, location, salary, type, requirements, contactInfo, jobDate, jobTime } = req.body; 
+    const { title, description, location, salary, type, requirements, contactInfo } = req.body;
 
+    // Temporary logic to map 'type' (category name) to a Service_id_FK
+    // For simplicity, we are assuming Service_id_FK is 1 unless a proper lookup is implemented
     const Service_id_FK = 1;
 
-    // CORRECTED QUERY: Removed the comments from the SQL string
     const [result] = await db.query(
       `INSERT INTO job 
-      (Title, Description, Location, Salary, Type, Requirements, ContactInfo, JobStatus, User_id_FK, Service_id_FK, ScheduledDate, ScheduledTime) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (Title, Description, Location, Salary, Type, Requirements, ContactInfo, JobStatus, User_id_FK, Service_id_FK) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         title,
         description,
@@ -441,11 +445,9 @@ app.post('/api/jobs', async (req, res) => {
         type,
         requirements,
         contactInfo,
-        'Open',
-        req.session.userId,
-        Service_id_FK,
-        jobDate,
-        jobTime
+        'Open',                  // default JobStatus
+        req.session.userId,     // logged-in user
+        Service_id_FK           // temporary Service_id_FK (based on the initial seed file)
       ]
     );
 

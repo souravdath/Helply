@@ -40,6 +40,8 @@ async function loadDashboard() {
                 card.classList.add("card");
                 card.innerHTML = `
                     <h3>${app.jobTitle}</h3>
+                    <p><strong>Employer:</strong> ${app.employerName}</p>
+                <p><strong>Employer Phone:</strong> ${app.employerPhone || 'Not Provided'}</p>
                     <p><strong>Location:</strong> ${app.jobLocation}</p>
                     <p><strong>Salary:</strong> ₹${app.jobSalary}</p>
                     <p class="status ${app.status.toLowerCase()}">${app.status.toUpperCase()}</p>

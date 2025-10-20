@@ -121,6 +121,7 @@ document.addEventListener("click", e => {
                 document.getElementById("applicantName").innerText = app.workerName;
                 document.getElementById("appliedJob").innerText = app.jobTitle;
                 document.getElementById("applicationStatus").innerText = app.status.toUpperCase();
+                document.getElementById("workerPhone").innerText = app.workerPhone || 'Not Provided';
                 
                 manageModal.style.display = "block";
 
