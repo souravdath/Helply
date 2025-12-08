@@ -3,46 +3,38 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const fs = require('fs'); // Import the 'fs' module
 const db = require('./config/db'); // Your promise-enabled database connection
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
-
+const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const saltRounds = 10; // For password hashing
 
-// --- Create sessions directory if it doesn't exist ---
-const sessionsDir = path.join(__dirname, 'sessions');
-if (!fs.existsSync(sessionsDir)) {
-    fs.mkdirSync(sessionsDir);
-}
+// --- Database Session Setup ---
+// Configure session store using your existing database connection
+const sessionStore = new MySQLStore({}, db); // 'db' is your existing pool from ./config/db
+
+app.use(session({
+    key: 'helply_session', // Name of the session cookie
+    secret: 'your_secret_key', // Change this to a strong secret in production
+    store: sessionStore, // Saves sessions to MySQL database
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // Set to true if/when you enable HTTPS
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+}));
 
 // --- Template Engine Setup ---
-// Set EJS as the view engine and specify the views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // --- Middleware Setup ---
-// Serve static files (CSS, images, client-side JS) from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-// Middleware to parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Session Middleware
-app.use(session({
-    store: new FileStore({ path: sessionsDir }), // Specify the path to the sessions directory
-    secret: 'a secret key to sign the cookie', 
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 // Cookie expires in 1 day
-    }
-}));
-
 
 // --- Page Rendering Routes ---
 
