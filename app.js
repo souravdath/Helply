@@ -10,18 +10,24 @@ const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const saltRounds = 10; // For password hashing
 
+// Render (and most PaaS hosts) sit behind a reverse proxy that terminates HTTPS.
+// This tells Express to trust the X-Forwarded-Proto header so secure cookies work.
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+}
+
 // --- Database Session Setup ---
 // Configure session store using your existing database connection
 const sessionStore = new MySQLStore({}, db); // 'db' is your existing pool from ./config/db
 
 app.use(session({
     key: 'helply_session', // Name of the session cookie
-    secret: 'your_secret_key', // Change this to a strong secret in production
+    secret: process.env.SESSION_SECRET || 'dev_only_insecure_secret', // Set SESSION_SECRET in production
     store: sessionStore, // Saves sessions to MySQL database
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set to true if/when you enable HTTPS
+        secure: process.env.NODE_ENV === 'production', // true on Render (HTTPS), false locally
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
